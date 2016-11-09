@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-
+using RudeFox.Views;
 namespace RudeFox.FrontEnd
 {
     /// <summary>
@@ -13,5 +13,11 @@ namespace RudeFox.FrontEnd
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var window = new MainWindow();
+            this.MainWindow = window;
+            window.Show();
+        }
     }
 }
