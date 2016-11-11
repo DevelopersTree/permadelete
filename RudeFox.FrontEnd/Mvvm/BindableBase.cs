@@ -22,7 +22,7 @@ namespace RudeFox.Mvvm
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));

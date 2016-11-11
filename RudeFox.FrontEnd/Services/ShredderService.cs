@@ -64,6 +64,25 @@ namespace RudeFox.Services
             return false;
         }
 
+        public async Task<long> GetFolderSize(DirectoryInfo folder)
+        {
+            long length = 0;
+            await Task.Run(async () =>
+            {
+                foreach (var item in folder.EnumerateFiles())
+                {
+                    length += item.Length;
+                }
+
+                foreach (var item in folder.EnumerateDirectories())
+                {
+                    length += await GetFolderSize(item);
+                }
+            });
+
+            return length;
+        }
+
         public async Task<bool> ShredFileAsync(FileInfo file)
         {
             if (!file.Exists) return false;

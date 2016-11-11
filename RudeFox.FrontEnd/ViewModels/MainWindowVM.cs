@@ -79,12 +79,14 @@ namespace RudeFox.ViewModels
             foreach (var path in paths)
             {
                 var item = new WorkItemVM();
-                item.Name = path;
+                item.Path = path;
 
                 if (File.Exists(path))
                 {
                     item.Type = ItemType.File;
-                    newItems.Add(new FileInfo(path));
+                    var info = new FileInfo(path);
+                    item.Bytes = info.Length;
+                    newItems.Add(info);
                 }
                 else if (Directory.Exists(path))
                 {
@@ -96,7 +98,7 @@ namespace RudeFox.ViewModels
                 WorkItems.Add(item);
             }
 
-            await ShredderService.Instance.ShredItemsAsync(newItems);
+            //     await ShredderService.Instance.ShredItemsAsync(newItems);
         }
         #endregion
     }
