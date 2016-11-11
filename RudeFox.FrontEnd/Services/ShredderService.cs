@@ -32,11 +32,21 @@ namespace RudeFox.Services
         }
         #endregion
 
-        #region Public Methods
-        public async Task<bool> ShredEntityAsync(FileSystemInfo entity)
+        #region Methods
+        public async Task<bool> ShredItemsAsync(IEnumerable<FileSystemInfo> items)
         {
-            var file = entity as FileInfo;
-            var folder = entity as DirectoryInfo;
+            foreach (var item in items)
+            {
+                var result = await ShredItemAsync(item);
+                if (!result) return result;
+            }
+
+            return true;
+        }
+        public async Task<bool> ShredItemAsync(FileSystemInfo item)
+        {
+            var file = item as FileInfo;
+            var folder = item as DirectoryInfo;
 
             if (file != null)
             {

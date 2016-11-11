@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RudeFox.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+        xmlns:vm="clr-namespace:RudeFox.ViewModels"
+        xmlns:gong="urn:gong-wpf-dragdrop"
+        Title="Rude Fox" Height="300" Width="300">
+    <Window.DataContext>
+        <vm:MainWindowVM />
+    </Window.DataContext>
+
+    <ListView gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding WorkItems}">
+        <ListView.ItemTemplate>
+            <DataTemplate DataType="vm:WorkItemVM">
+                <StackPanel>
+                    <TextBlock FontSize="16" FontWeight="Light" Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Type}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </Window>

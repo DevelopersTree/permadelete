@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RudeFox.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,6 @@ namespace RudeFox.Views
         {
             InitializeComponent();
         }
+
     }
 }
