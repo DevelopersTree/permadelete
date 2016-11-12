@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -21,6 +22,9 @@ namespace RudeFox.ViewModels
             {
                 OnDeleteRequested(true);
             });
+            CancellationTokenSource = new CancellationTokenSource();
+            TaskProgress = new Progress<double>();
+            TaskProgress.ProgressChanged += (sender, percent) => Progress = percent * 100;
         }
         #endregion
 
@@ -111,6 +115,10 @@ namespace RudeFox.ViewModels
                 }
             }
         }
+
+        public CancellationTokenSource CancellationTokenSource { get; set; }
+        public Progress<double> TaskProgress { get; set; }
+
         #endregion
 
         #region Events
@@ -133,6 +141,7 @@ namespace RudeFox.ViewModels
         {
             var handler = DeleteRequested;
             handler?.Invoke(this, canceled);
+            if (canceled) CancellationTokenSource.Cancel();
         }
         #endregion
     }

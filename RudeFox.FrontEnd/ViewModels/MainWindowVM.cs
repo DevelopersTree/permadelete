@@ -66,25 +66,31 @@ namespace RudeFox.ViewModels
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                DeleteItems(paths);
+                DeleteItems(paths.ToList());
             }
         }
         #endregion
 
         #region Methods
-        private async void DeleteItems(string[] paths)
+        private async void DeleteItems(List<string> paths)
         {
             string message;
-            if (paths.Length == 1)
+            if (paths.Count == 1)
                 message = "Are you sure you want to delete this item?";
             else
-                message = $"Are you sure you want to delete {paths.Length} items?";
+                message = $"Are you sure you want to delete {paths.Count} items?";
 
             var response = MessageBox.Show(message, "Deleting items", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (response != MessageBoxResult.Yes) return;
 
             var newItems = new List<WorkItemVM>();
             var cts = new CancellationTokenSource();
+
+            var duplicates = from i in WorkItems
+                             join p in paths
+                             on i.Path equals p
+                             select p;
+            paths.RemoveAll(p => duplicates.Contains(p));
 
             foreach (var path in paths)
             {
@@ -93,6 +99,11 @@ namespace RudeFox.ViewModels
 
                 if (File.Exists(path))
                 {
+                    if (ShredderService.Instance.IsFileLocked(new FileInfo(path)))
+                    {
+                        MessageBox.Show($"Can't access file, it's being used by another application: {path}");
+                        continue;
+                    }
                     item.Type = ItemType.File;
                     newItems.Add(item);
                 }
@@ -105,29 +116,42 @@ namespace RudeFox.ViewModels
 
                 item.DeleteRequested += (sender, canceled) =>
                 {
-                    if (canceled) cts.Cancel();
                     WorkItems.Remove(sender as WorkItemVM);
                     sender = null;
                 };
 
+                item.CancellationTokenSource = new CancellationTokenSource();
                 WorkItems.Add(item);
             }
 
-            foreach (var item in newItems)
+            var tasks = newItems.Select(item =>
             {
-                try
-                {
-                    var progress = new Progress<double>();
-                    progress.ProgressChanged += (sender, percent) =>
-                    {
-                        item.Progress = percent * 100;
-                    };
-                    await ShredderService.Instance.ShredItemAsync(item.Path, cts.Token, progress);
-                }
-                catch (OperationCanceledException)
-                {
+                return ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
+            });
 
+            try
+            {
+                await Task.WhenAll(tasks);
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+            catch (AggregateException exc)
+            {
+                var msg = $"{exc.InnerExceptions.Count()} error(s) occured: ";
+                foreach(var ex in exc.InnerExceptions)
+                {
+                    msg += "\n---------------------------";
+                    msg += Environment.NewLine;
+                    msg += ex.ToString();
                 }
+                MessageBox.Show(msg);
+            }
+            catch( Exception exc)
+            {
+                var failed = tasks.Where(t => t.IsFaulted);
+                MessageBox.Show(exc.ToString());
             }
         }
         #endregion
