@@ -1,8 +1,10 @@
-﻿using System;
+﻿using RudeFox.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RudeFox.Services
@@ -17,9 +19,7 @@ namespace RudeFox.Services
         #endregion
 
         #region Fields
-        private const int KILOBYTE = 1024;
-        private const int MEGABYTE = KILOBYTE * KILOBYTE;
-        private const int MAX_BUFFER_SIZE = 64 * MEGABYTE;
+        private const int MAX_BUFFER_SIZE = 1 * Constants.MEGABYTE;
 
         Random _random = new Random();
         #endregion
@@ -33,18 +33,17 @@ namespace RudeFox.Services
         #endregion
 
         #region Methods
-        public async Task<bool> ShredItemsAsync(IEnumerable<FileSystemInfo> items)
+        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<double> progress)
         {
-            foreach (var item in items)
-            {
-                var result = await ShredItemAsync(item);
-                if (!result) return result;
-            }
+            FileSystemInfo item;
 
-            return true;
-        }
-        public async Task<bool> ShredItemAsync(FileSystemInfo item)
-        {
+            if (File.Exists(path))
+                item = new FileInfo(path);
+            else if (Directory.Exists(path))
+                item = new DirectoryInfo(path);
+            else
+                throw new ArgumentException($"This path does not exist: {path}");
+
             var file = item as FileInfo;
             var folder = item as DirectoryInfo;
 
@@ -52,13 +51,17 @@ namespace RudeFox.Services
             {
                 if (!file.Exists) return false;
 
-                return await ShredFileAsync(file).ConfigureAwait(false);
+                return await ShredFileAsync(file, cancellationToken, progress).ConfigureAwait(false);
             }
-            else if (folder != null)
+
+            if (cancellationToken != null)
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if (folder != null)
             {
                 if (!folder.Exists) return false;
 
-                return await ShredFolderAsync(folder).ConfigureAwait(false);
+                return await ShredFolderAsync(folder, cancellationToken, progress).ConfigureAwait(false);
             }
 
             return false;
@@ -83,49 +86,90 @@ namespace RudeFox.Services
             return length;
         }
 
-        public async Task<bool> ShredFileAsync(FileInfo file)
+        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
         {
+            var writeProgress = new Progress<double>();
+            writeProgress.ProgressChanged += (sender, percent) =>
+            {
+                if (progress != null) progress.Report(percent - (percent * 0.001));
+            };
+
             if (!file.Exists) return false;
 
-            var result = await OverWriteFileAsync(file).ConfigureAwait(false);
+            if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
             if (!result) return result;
 
-            await Task.Factory.StartNew(() =>
+            if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
+
+            await Task.Run(() =>
             {
                 var newPath = Path.Combine(Path.GetDirectoryName(file.FullName), _random.NextDouble().ToString().Substring(2));
                 file.MoveTo(Path.GetRandomFileName());
                 file.Delete();
             }).ConfigureAwait(false);
 
+            if (progress != null) progress.Report(1.0);
+
             return true;
         }
 
-        public async Task<bool> ShredFolderAsync(DirectoryInfo folder)
+        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<double> progress)
         {
             if (!folder.Exists) return false;
 
+            var totalLength = await GetFolderSize(folder);
+            var bytesComplete = 0.0;
+
+            Progress<double> itemProgress;
             foreach (var info in folder.EnumerateFileSystemInfos())
             {
-                var file = (FileInfo)info;
-                var dir = (DirectoryInfo)info;
+                itemProgress = new Progress<double>();
+
+                if (cancellationToken != null)
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                var file = info as FileInfo;
+                var dir = info as DirectoryInfo;
 
                 if (file != null)
                 {
-                    var result = await ShredFileAsync(file).ConfigureAwait(false);
+                    var length = file.Length;
+
+                    itemProgress.ProgressChanged += (sender, percent) =>
+                    {
+                        var totalProgress = (bytesComplete + (percent * length)) / totalLength;
+                        progress.Report(totalProgress);
+
+                        if (percent == 1.0)
+                            bytesComplete += length;
+                    };
+                    var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
                     if (!result) return result;
                 }
 
                 if (dir != null)
                 {
-                    var result = await ShredFolderAsync(dir).ConfigureAwait(false);
+                    var length = await GetFolderSize(dir);
+                    itemProgress.ProgressChanged += (sender, percent) =>
+                    {
+                        var totalProgress = (bytesComplete + (percent * length)) / totalLength;
+                        progress.Report(totalProgress);
+
+                        if (percent == 1.0)
+                            bytesComplete += length;
+                    };
+                    var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
                     if (!result) return result;
                 }
             }
 
+            folder.Delete();
             return true;
         }
 
-        private async Task<bool> OverWriteFileAsync(FileInfo file)
+        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
         {
             if (!file.Exists) return false;
 
@@ -133,6 +177,7 @@ namespace RudeFox.Services
             {
                 for (var length = file.Length; length > 0; length -= MAX_BUFFER_SIZE)
                 {
+
                     int bufferSize = (length > MAX_BUFFER_SIZE) ? MAX_BUFFER_SIZE : (int)length;
                     var buffer = new byte[bufferSize];
 
@@ -145,10 +190,17 @@ namespace RudeFox.Services
 
                     await stream.WriteAsync(buffer, 0, bufferSize).ConfigureAwait(false);
                     await stream.FlushAsync().ConfigureAwait(false);
+
+                    if (cancellationToken != null)
+                        cancellationToken.ThrowIfCancellationRequested();
+                    if (progress != null)
+                    {
+                        var percent = 1.0 - (length / (double)file.Length);
+                        progress.Report(percent);
+                    }
                 }
 
-
-                await Task.Factory.StartNew(() =>
+                await Task.Run(() =>
                 {
                     stream.SetLength(0);
                 }).ConfigureAwait(false);

@@ -4,6 +4,7 @@ using RudeFox.Mvvm;
 using RudeFox.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace RudeFox.ViewModels
             {
                 if (SetProperty(ref _progress, value))
                 {
-                    if (_progress == 1.0)
+                    if (_progress == 100)
                         OnDeleteRequested();
                 }
             }
@@ -81,8 +82,13 @@ namespace RudeFox.ViewModels
             {
                 if (Bytes == -1)
                 {
-                    CalculateBytes();
-                    return "Calculating...";
+                    if (File.Exists(Path))
+                        Bytes = new FileInfo(Path).Length;
+                    else
+                    {
+                        CalculateBytes();
+                        return "Calculating";
+                    }
                 }
                 if (Bytes >= Constants.GIGABYTE)
                 {
@@ -108,7 +114,7 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Events
-        public event EventHandler DeleteRequested;
+        public event EventHandler<bool> DeleteRequested;
         #endregion
 
         #region Commands
@@ -118,13 +124,15 @@ namespace RudeFox.ViewModels
         #region Methods
         private async void CalculateBytes()
         {
-            var result = await ShredderService.Instance.GetFolderSize(new System.IO.DirectoryInfo(Path));
-            Bytes = result;
+            if (File.Exists(Path))
+                Bytes = new FileInfo(Path).Length;
+            else
+                Bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
         }
         private void OnDeleteRequested(bool canceled = false)
         {
             var handler = DeleteRequested;
-            handler?.Invoke(this, new DeleteRequestedEventArgs(canceled));
+            handler?.Invoke(this, canceled);
         }
         #endregion
     }

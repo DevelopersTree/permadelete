@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using RudeFox.Models;
 using RudeFox.Services;
+using System.Threading;
 
 namespace RudeFox.ViewModels
 {
@@ -74,7 +75,8 @@ namespace RudeFox.ViewModels
             var response = MessageBox.Show(message, "Deleting items", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (response != MessageBoxResult.Yes) return;
 
-            var newItems = new List<FileSystemInfo>();
+            var newItems = new List<WorkItemVM>();
+            var cts = new CancellationTokenSource();
 
             foreach (var path in paths)
             {
@@ -84,21 +86,41 @@ namespace RudeFox.ViewModels
                 if (File.Exists(path))
                 {
                     item.Type = ItemType.File;
-                    var info = new FileInfo(path);
-                    item.Bytes = info.Length;
-                    newItems.Add(info);
+                    newItems.Add(item);
                 }
                 else if (Directory.Exists(path))
                 {
                     item.Type = ItemType.Folder;
-                    newItems.Add(new DirectoryInfo(path));
+                    newItems.Add(item);
                 }
                 else return;
+
+                item.DeleteRequested += (sender, canceled) =>
+                {
+                    if (canceled) cts.Cancel();
+                    WorkItems.Remove(sender as WorkItemVM);
+                    sender = null;
+                };
 
                 WorkItems.Add(item);
             }
 
-            //     await ShredderService.Instance.ShredItemsAsync(newItems);
+            foreach (var item in newItems)
+            {
+                try
+                {
+                    var progress = new Progress<double>();
+                    progress.ProgressChanged += (sender, percent) =>
+                    {
+                        item.Progress = percent * 100;
+                    };
+                    await ShredderService.Instance.ShredItemAsync(item.Path, cts.Token, progress);
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+            }
         }
         #endregion
     }

@@ -31,8 +31,8 @@
 
                     <TextBlock FontSize="14" FontWeight="Light" Text="{Binding Path}" Grid.Column="1" />
                     <DockPanel LastChildFill="True"  Grid.Column="1" Grid.Row="2" >
-                        <TextBlock Foreground="Gray" Text="{Binding Size}" Margin="0,0, 10,0"/>
-                        <TextBlock Foreground="Gray" Text="{Binding Progress, StringFormat='{}{0:N1}% Complete', FallbackValue=0.0}" Margin="0,0, 10,0"/>
+                        <TextBlock Foreground="Gray" Text="{Binding Size, StringFormat='{}{0}  —'}" Margin="0,0, 10,0"/>
+                        <TextBlock Foreground="Gray" Text="{Binding Progress, StringFormat='{}{0:N1}%', FallbackValue=0.0}" Margin="0,0, 10,0"/>
                         <ProgressBar Value="{Binding Progress}" HorizontalAlignment="Stretch" DockPanel.Dock="Right" />
                     </DockPanel>
 
