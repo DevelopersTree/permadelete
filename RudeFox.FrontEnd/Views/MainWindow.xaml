@@ -5,40 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RudeFox.Views"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:RudeFox.ViewModels"
-        xmlns:gong="urn:gong-wpf-dragdrop"
-        Title="Rude Fox" Height="300" Width="300">
+        xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
+        Title="{Binding Title}" Height="600" Width="800">
     <Window.DataContext>
         <vm:MainWindowVM />
     </Window.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding ShowAboutCommand}"/>
+            </MenuItem>
+        </Menu>
+        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding WorkItems}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="vm:WorkItemVM">
+                    <Grid Margin="0, 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="8" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-    <ListView gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding WorkItems}" HorizontalContentAlignment="Stretch">
-        <ListBox.ItemTemplate>
-            <DataTemplate DataType="vm:WorkItemVM">
-                <Grid Margin="0, 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="8" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+                        <Image Width="32" VerticalAlignment="Center" Grid.RowSpan="3" Source="{Binding Image}" Margin="10, 0" />
 
-                    <Image Width="32" VerticalAlignment="Center" Grid.RowSpan="3" Source="{Binding Image}" Margin="10, 0" />
+                        <TextBlock FontSize="14" FontWeight="Light" Text="{Binding Path}" Grid.Column="1" />
+                        <DockPanel LastChildFill="True"  Grid.Column="1" Grid.Row="2" >
+                            <TextBlock Foreground="Gray" Text="{Binding Size, StringFormat='{}{0}  —'}" Margin="0,0, 10,0"/>
+                            <TextBlock Foreground="Gray" Text="{Binding Progress, StringFormat='{}{0:00.0}%', FallbackValue=0.0}" Margin="0,0, 10,0"/>
+                            <ProgressBar Value="{Binding Progress}" HorizontalAlignment="Stretch" DockPanel.Dock="Right" />
+                        </DockPanel>
 
-                    <TextBlock FontSize="14" FontWeight="Light" Text="{Binding Path}" Grid.Column="1" />
-                    <DockPanel LastChildFill="True"  Grid.Column="1" Grid.Row="2" >
-                        <TextBlock Foreground="Gray" Text="{Binding Size, StringFormat='{}{0}  —'}" Margin="0,0, 10,0"/>
-                        <TextBlock Foreground="Gray" Text="{Binding Progress, StringFormat='{}{0:N1}%', FallbackValue=0.0}" Margin="0,0, 10,0"/>
-                        <ProgressBar Value="{Binding Progress}" HorizontalAlignment="Stretch" DockPanel.Dock="Right" />
-                    </DockPanel>
-
-                    <Button Content="X" Grid.Column="2" Grid.Row="2" Margin="10, 0" Padding="10,0" VerticalAlignment="Center" Command="{Binding CancelCommand}"/>
-                </Grid>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListView>
+                        <Button Content="X" Grid.Column="2" Grid.Row="2" Margin="10, 0" Padding="10,0" VerticalAlignment="Center" Command="{Binding CancelCommand}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.Style>
+                <Style TargetType="{x:Type ListBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}"  Value="0">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border BorderThickness="1" Background="Transparent" BorderBrush="DarkGray">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="256"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="2*" />
+                                                </Grid.RowDefinitions>
+                                                <Image Height="128" Width="128" Grid.Row="1" Source="/Images/icon_128.png"/>
+                                                <StackPanel Orientation="Horizontal" Grid.Row="2"  HorizontalAlignment="Center" Margin="0,0,0,20">
+                                                    <TextBlock Text="Nothing to delete" FontSize="28" Margin="0,0,10,0" FontWeight="Light" />
+                                                    <!--<Image Width="32" Height="32" Source="/Images/sad_32.png"/>-->
+                                                </StackPanel>
+                                                <TextBlock HorizontalAlignment="Center" Grid.Row="3" FontSize="18">Drop some files and folders here to be deleted.</TextBlock>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+        </ListBox>
+    </DockPanel>
 </Window>

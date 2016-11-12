@@ -72,7 +72,7 @@ namespace RudeFox.ViewModels
 
         public string Image
         {
-            get { return "pack://application:,,,/images/" + Type.ToString().ToLower() + ".png"; }
+            get { return "pack://application:,,,/Images/" + Type.ToString().ToLower() + ".png"; }
         }
 
         public string Size

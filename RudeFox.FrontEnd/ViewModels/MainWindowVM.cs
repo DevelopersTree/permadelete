@@ -21,7 +21,8 @@ namespace RudeFox.ViewModels
         #region Constructor
         public MainWindowVM()
         {
-
+            ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.OpenAboutDialog());
+            ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
         }
         #endregion
 
@@ -36,6 +37,13 @@ namespace RudeFox.ViewModels
             get { return _workItems; }
             set { SetProperty(ref _workItems, value); }
         }
+
+        public string Title { get { return "Rude Fox"; } }
+        #endregion
+
+        #region Commands
+        public ICommand ShowAboutCommand { get; private set; }
+        public ICommand ExitCommand { get; private set; }
         #endregion
 
         #region Drag and drop

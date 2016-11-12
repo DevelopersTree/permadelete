@@ -7,8 +7,8 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RudeFox.FrontEnd")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Rude Fox")]
+[assembly: AssemblyDescription("A simple file sanitizer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RudeFox.FrontEnd")]
