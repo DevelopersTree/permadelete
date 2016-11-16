@@ -63,13 +63,13 @@ namespace RudeFox.ViewModels
             }
         }
 
-        private long _length = -1;
+        private long _bytes = -1;
         public long Bytes
         {
-            get { return _length; }
+            get { return _bytes; }
             set
             {
-                if (SetProperty(ref _length, value))
+                if (SetProperty(ref _bytes, value))
                     RaisePropertyChanged(nameof(Size));
             }
         }
@@ -116,6 +116,13 @@ namespace RudeFox.ViewModels
             }
         }
 
+        private Task _task;
+        public Task Task
+        {
+            get { return _task; }
+            set { SetProperty(ref _task, value); }
+        }
+
         public CancellationTokenSource CancellationTokenSource { get; set; }
         public Progress<double> TaskProgress { get; set; }
 
@@ -134,8 +141,10 @@ namespace RudeFox.ViewModels
         {
             if (File.Exists(Path))
                 Bytes = new FileInfo(Path).Length;
-            else
+            else if (Directory.Exists(Path))
                 Bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
+            else
+                Bytes = -1;
         }
         private void OnDeleteRequested(bool canceled = false)
         {

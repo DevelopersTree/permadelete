@@ -1,4 +1,5 @@
 ﻿using RudeFox.Helpers;
+using RudeFox.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,8 @@ namespace RudeFox.Services
         #endregion
 
         #region Fields
-        private const int MAX_BUFFER_SIZE = 1 * Constants.MEGABYTE;
+        private const int MAX_BUFFER_SIZE = Constants.MEGABYTE;
+        private const int OBFUSCATE_ROUNDS = 5;
 
         Random _random = new Random();
         #endregion
@@ -95,8 +97,7 @@ namespace RudeFox.Services
             };
 
             if (!file.Exists) return false;
-
-            if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
+            file.IsReadOnly = false;
 
             var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
             if (!result) return result;
@@ -109,6 +110,8 @@ namespace RudeFox.Services
                 file.MoveTo(Path.GetRandomFileName());
                 file.Delete();
             }).ConfigureAwait(false);
+
+            await DestroyEntityMetaData(file);
 
             if (progress != null) progress.Report(1.0);
 
@@ -160,15 +163,41 @@ namespace RudeFox.Services
                         if (percent == 1.0)
                             bytesComplete += length;
                     };
+
                     var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
                     if (!result) return result;
                 }
             }
 
+            // BUG: Don't know why this causes issues.
+            // await DestroyEntityMetaData(folder);
             folder.Delete();
+
             return true;
         }
 
+        public bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region Private Methods
         private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
         {
             if (!file.Exists) return false;
@@ -208,25 +237,44 @@ namespace RudeFox.Services
 
             return true;
         }
-
-        public bool IsFileLocked(FileInfo file)
+        private async Task<bool> DestroyEntityMetaData(FileSystemInfo entity, FileSystemType fileSystemType = FileSystemType.Unknown)
         {
-            FileStream stream = null;
+            if (!entity.Exists)
+                return false;
 
             try
             {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+                // prevent the indexing service from locking the file
+                entity.Attributes = FileAttributes.NotContentIndexed;
             }
-            catch (IOException)
+            catch (ArgumentException e)
             {
-                return true;
-            }
-            finally
-            {
-                if (stream != null) stream.Close();
+                throw new UnauthorizedAccessException(e.Message, e);
             }
 
-            return false;
+            await Task.Run(() =>
+            {
+                // rename the file a few times to remove it from the file system table.
+                for (var round = 0; round < OBFUSCATE_ROUNDS; round++)
+                {
+                    var newPath = Path.Combine(Path.GetDirectoryName(entity.FullName), Path.GetRandomFileName());
+
+                    var file = entity as FileInfo;
+                    var folder = entity as DirectoryInfo;
+
+                    if (file != null)
+                        file.MoveTo(newPath);
+                    else
+                        folder.MoveTo(newPath);
+                }
+
+                var newTime = new DateTime(1981, 1, 1, 0, 0, 1);
+                entity.LastAccessTime = newTime;
+                entity.LastWriteTime = newTime;
+                entity.CreationTime = newTime;
+            });
+
+            return true;
         }
         #endregion
     }

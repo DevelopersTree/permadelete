@@ -47,7 +47,6 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Drag and drop
-
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
             var data = dropInfo.Data as IDataObject;
@@ -90,6 +89,7 @@ namespace RudeFox.ViewModels
                              join p in paths
                              on i.Path equals p
                              select p;
+
             paths.RemoveAll(p => duplicates.Contains(p));
 
             foreach (var path in paths)
@@ -126,8 +126,9 @@ namespace RudeFox.ViewModels
 
             var tasks = newItems.Select(item =>
             {
-                return ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
-            });
+                item.Task = ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
+                return item.Task;
+            }).ToList();
 
             try
             {
@@ -139,18 +140,40 @@ namespace RudeFox.ViewModels
             }
             catch (AggregateException exc)
             {
-                var msg = $"{exc.InnerExceptions.Count()} error(s) occured: ";
-                foreach(var ex in exc.InnerExceptions)
+                var failedTasks = tasks.Where(t => t.IsFaulted);
+                tasks.RemoveAll(t => failedTasks.Contains(t));
+
+                var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
+
+                for (int i = 0; i < WorkItems.Count; i++)
                 {
-                    msg += "\n---------------------------";
-                    msg += Environment.NewLine;
-                    msg += ex.ToString();
+                    if (failedItems.Contains(WorkItems[i]))
+                    {
+                        WorkItems.RemoveAt(i);
+                        i--;
+                    }
                 }
-                MessageBox.Show(msg);
+
+                var exception = exc.Flatten();
+                MessageBox.Show(exception.ToString());
+
             }
             catch( Exception exc)
             {
-                var failed = tasks.Where(t => t.IsFaulted);
+                var failedTasks = tasks.Where(t => t.IsFaulted);
+                tasks.RemoveAll(t => failedTasks.Contains(t));
+
+                var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
+
+                for (int i = 0; i < WorkItems.Count; i++)
+                {
+                    if (failedItems.Contains(WorkItems[i]))
+                    {
+                        WorkItems.RemoveAt(i);
+                        i--;
+                    }      
+                }
+
                 MessageBox.Show(exc.ToString());
             }
         }

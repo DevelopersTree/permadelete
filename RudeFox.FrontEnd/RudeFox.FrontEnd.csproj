@@ -68,6 +68,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Models\FileSystemType.cs" />
     <Compile Include="Models\ItemType.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ShredderService.cs" />
