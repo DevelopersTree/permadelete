@@ -37,34 +37,24 @@ namespace RudeFox.Services
         #region Methods
         public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<double> progress)
         {
-            FileSystemInfo item;
+            FileInfo file = null;
+            DirectoryInfo folder = null;
 
             if (File.Exists(path))
-                item = new FileInfo(path);
+                file = new FileInfo(path);
             else if (Directory.Exists(path))
-                item = new DirectoryInfo(path);
+                folder = new DirectoryInfo(path);
             else
                 throw new ArgumentException($"This path does not exist: {path}");
 
-            var file = item as FileInfo;
-            var folder = item as DirectoryInfo;
-
             if (file != null)
-            {
-                if (!file.Exists) return false;
-
                 return await ShredFileAsync(file, cancellationToken, progress).ConfigureAwait(false);
-            }
 
             if (cancellationToken != null)
                 cancellationToken.ThrowIfCancellationRequested();
 
             if (folder != null)
-            {
-                if (!folder.Exists) return false;
-
                 return await ShredFolderAsync(folder, cancellationToken, progress).ConfigureAwait(false);
-            }
 
             return false;
         }
@@ -90,40 +80,40 @@ namespace RudeFox.Services
 
         public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
         {
-            var writeProgress = new Progress<double>();
-            writeProgress.ProgressChanged += (sender, percent) =>
+            var bytesWritten = 0L;
+            var totalBytes = file.Length;
+
+            var writeProgress = new Progress<int>();
+            writeProgress.ProgressChanged += (sender, newBytes) =>
             {
-                if (progress != null) progress.Report(percent - (percent * 0.001));
+                if (progress == null) return;
+
+                bytesWritten += newBytes;
+                var percent = (double)bytesWritten / totalBytes;
+                progress.Report(percent - (percent * 0.001));
             };
 
-            if (!file.Exists) return false;
-            file.IsReadOnly = false;
+            file.Attributes = FileAttributes.Normal;
+            file.Attributes = FileAttributes.NotContentIndexed;
 
             var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
             if (!result) return result;
 
             if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
-
-            await Task.Run(() =>
-            {
-                var newPath = Path.Combine(Path.GetDirectoryName(file.FullName), _random.NextDouble().ToString().Substring(2));
-                file.MoveTo(Path.GetRandomFileName());
-                file.Delete();
-            }).ConfigureAwait(false);
-
             await DestroyEntityMetaData(file);
+            file.Delete();
 
             if (progress != null) progress.Report(1.0);
-
             return true;
         }
 
         public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<double> progress)
         {
-            if (!folder.Exists) return false;
-
             var totalLength = await GetFolderSize(folder);
             var bytesComplete = 0.0;
+
+            folder.Attributes = FileAttributes.Normal;
+            folder.Attributes = FileAttributes.NotContentIndexed;
 
             Progress<double> itemProgress;
             foreach (var info in folder.EnumerateFileSystemInfos())
@@ -198,35 +188,24 @@ namespace RudeFox.Services
         #endregion
 
         #region Private Methods
-        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
+        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<int> progress)
         {
-            if (!file.Exists) return false;
-
             using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Write, FileShare.None))
             {
+                var buffer = Enumerable.Repeat((byte)0, MAX_BUFFER_SIZE).ToArray();
+
                 for (var length = file.Length; length > 0; length -= MAX_BUFFER_SIZE)
                 {
+                    int bytesToWrite = (length > MAX_BUFFER_SIZE) ? MAX_BUFFER_SIZE : (int)length;
 
-                    int bufferSize = (length > MAX_BUFFER_SIZE) ? MAX_BUFFER_SIZE : (int)length;
-                    var buffer = new byte[bufferSize];
-
-                    for (var index = 0; index < bufferSize; index++)
-                    {
-                        // set the value to a random byte
-                        // buffer[index] = (byte)(_random.Next() % 256);
-                        buffer[index] = 0;
-                    }
-
-                    await stream.WriteAsync(buffer, 0, bufferSize).ConfigureAwait(false);
+                    await stream.WriteAsync(buffer, 0, bytesToWrite).ConfigureAwait(false);
                     await stream.FlushAsync().ConfigureAwait(false);
+
+                    if (progress != null)
+                        progress.Report(bytesToWrite);
 
                     if (cancellationToken != null)
                         cancellationToken.ThrowIfCancellationRequested();
-                    if (progress != null)
-                    {
-                        var percent = 1.0 - (length / (double)file.Length);
-                        progress.Report(percent);
-                    }
                 }
 
                 await Task.Run(() =>
@@ -242,33 +221,24 @@ namespace RudeFox.Services
             if (!entity.Exists)
                 return false;
 
-            try
-            {
-                // prevent the indexing service from locking the file
-                entity.Attributes = FileAttributes.NotContentIndexed;
-            }
-            catch (ArgumentException e)
-            {
-                throw new UnauthorizedAccessException(e.Message, e);
-            }
-
             await Task.Run(() =>
             {
+                var directoryName = Path.GetDirectoryName(entity.FullName);
                 // rename the file a few times to remove it from the file system table.
                 for (var round = 0; round < OBFUSCATE_ROUNDS; round++)
                 {
-                    var newPath = Path.Combine(Path.GetDirectoryName(entity.FullName), Path.GetRandomFileName());
+                    var newPath = Path.Combine(directoryName, Path.GetRandomFileName());
 
                     var file = entity as FileInfo;
                     var folder = entity as DirectoryInfo;
 
                     if (file != null)
                         file.MoveTo(newPath);
-                    else
+                    else if (folder != null)
                         folder.MoveTo(newPath);
                 }
 
-                var newTime = new DateTime(1981, 1, 1, 0, 0, 1);
+                var newTime = new DateTime(2000, 1, 1, 0, 0, 1);
                 entity.LastAccessTime = newTime;
                 entity.LastWriteTime = newTime;
                 entity.CreationTime = newTime;
