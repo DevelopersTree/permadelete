@@ -23,8 +23,15 @@ namespace RudeFox.ViewModels
                 OnDeleteRequested(true);
             });
             CancellationTokenSource = new CancellationTokenSource();
-            TaskProgress = new Progress<double>();
-            TaskProgress.ProgressChanged += (sender, percent) => Progress = percent * 100;
+            TaskProgress = new Progress<int>();
+            TaskProgress.ProgressChanged += (sender, newBytes) =>
+            {
+                BytesComplete += newBytes;
+
+                if (Bytes == -1) return;
+
+                Progress = ((double)BytesComplete / Bytes) * 100;
+            };
         }
         #endregion
 
@@ -62,6 +69,14 @@ namespace RudeFox.ViewModels
                 }
             }
         }
+
+        private long _bytesComplete;
+        public long BytesComplete
+        {
+            get { return _bytesComplete; }
+            set { SetProperty(ref _bytesComplete, value); }
+        }
+
 
         private long _bytes = -1;
         public long Bytes
@@ -124,7 +139,7 @@ namespace RudeFox.ViewModels
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; }
-        public Progress<double> TaskProgress { get; set; }
+        public Progress<int> TaskProgress { get; set; }
 
         #endregion
 

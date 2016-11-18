@@ -35,7 +35,7 @@ namespace RudeFox.Services
         #endregion
 
         #region Methods
-        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<double> progress)
+        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<int> progress)
         {
             FileInfo file = null;
             DirectoryInfo folder = null;
@@ -78,19 +78,15 @@ namespace RudeFox.Services
             return length;
         }
 
-        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<double> progress)
+        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<int> progress)
         {
-            var bytesWritten = 0L;
             var totalBytes = file.Length;
 
             var writeProgress = new Progress<int>();
             writeProgress.ProgressChanged += (sender, newBytes) =>
             {
                 if (progress == null) return;
-
-                bytesWritten += newBytes;
-                var percent = (double)bytesWritten / totalBytes;
-                progress.Report(percent - (percent * 0.001));
+                progress.Report(newBytes);
             };
 
             file.Attributes = FileAttributes.Normal;
@@ -103,22 +99,20 @@ namespace RudeFox.Services
             await DestroyEntityMetaData(file);
             file.Delete();
 
-            if (progress != null) progress.Report(1.0);
             return true;
         }
 
-        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<double> progress)
+        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<int> progress)
         {
             var totalLength = await GetFolderSize(folder);
-            var bytesComplete = 0.0;
 
             folder.Attributes = FileAttributes.Normal;
             folder.Attributes = FileAttributes.NotContentIndexed;
 
-            Progress<double> itemProgress;
+            Progress<int> itemProgress;
             foreach (var info in folder.EnumerateFileSystemInfos())
             {
-                itemProgress = new Progress<double>();
+                itemProgress = new Progress<int>();
 
                 if (cancellationToken != null)
                     cancellationToken.ThrowIfCancellationRequested();
@@ -130,14 +124,7 @@ namespace RudeFox.Services
                 {
                     var length = file.Length;
 
-                    itemProgress.ProgressChanged += (sender, percent) =>
-                    {
-                        var totalProgress = (bytesComplete + (percent * length)) / totalLength;
-                        progress.Report(totalProgress);
-
-                        if (percent == 1.0)
-                            bytesComplete += length;
-                    };
+                    itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
                     var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
                     if (!result) return result;
                 }
@@ -145,15 +132,8 @@ namespace RudeFox.Services
                 if (dir != null)
                 {
                     var length = await GetFolderSize(dir);
-                    itemProgress.ProgressChanged += (sender, percent) =>
-                    {
-                        var totalProgress = (bytesComplete + (percent * length)) / totalLength;
-                        progress.Report(totalProgress);
-
-                        if (percent == 1.0)
-                            bytesComplete += length;
-                    };
-
+                    itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
+ 
                     var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
                     if (!result) return result;
                 }
