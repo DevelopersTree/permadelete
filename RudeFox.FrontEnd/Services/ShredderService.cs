@@ -89,14 +89,19 @@ namespace RudeFox.Services
                 progress.Report(newBytes);
             };
 
-            file.Attributes = FileAttributes.Normal;
-            file.Attributes = FileAttributes.NotContentIndexed;
+            // if the file was a syslink then only remove the link not the contents.
+            if ((file.Attributes & FileAttributes.ReparsePoint) == 0)
+            {
+                file.Attributes = FileAttributes.Normal;
+                file.Attributes = FileAttributes.NotContentIndexed;
 
-            var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
-            if (!result) return result;
+                var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
+                if (!result) return result;
 
-            if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
-            await DestroyEntityMetaData(file);
+                if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
+                await DestroyEntityMetaData(file);
+            }
+
             file.Delete();
 
             return true;
@@ -106,36 +111,40 @@ namespace RudeFox.Services
         {
             var totalLength = await GetFolderSize(folder);
 
-            folder.Attributes = FileAttributes.Normal;
-            folder.Attributes = FileAttributes.NotContentIndexed;
-
-            Progress<int> itemProgress;
-            foreach (var info in folder.EnumerateFileSystemInfos())
+            // if the file was a syslink then only remove the link not the contents.
+            if ((folder.Attributes & FileAttributes.ReparsePoint) == 0)
             {
-                itemProgress = new Progress<int>();
+                folder.Attributes = FileAttributes.Normal;
+                folder.Attributes = FileAttributes.NotContentIndexed;
 
-                if (cancellationToken != null)
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                var file = info as FileInfo;
-                var dir = info as DirectoryInfo;
-
-                if (file != null)
+                Progress<int> itemProgress;
+                foreach (var info in folder.EnumerateFileSystemInfos())
                 {
-                    var length = file.Length;
+                    itemProgress = new Progress<int>();
 
-                    itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-                    var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
-                    if (!result) return result;
-                }
+                    if (cancellationToken != null)
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                if (dir != null)
-                {
-                    var length = await GetFolderSize(dir);
-                    itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
- 
-                    var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
-                    if (!result) return result;
+                    var file = info as FileInfo;
+                    var dir = info as DirectoryInfo;
+
+                    if (file != null)
+                    {
+                        var length = file.Length;
+
+                        itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
+                        var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
+                        if (!result) return result;
+                    }
+
+                    if (dir != null)
+                    {
+                        var length = await GetFolderSize(dir);
+                        itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
+
+                        var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
+                        if (!result) return result;
+                    }
                 }
             }
 

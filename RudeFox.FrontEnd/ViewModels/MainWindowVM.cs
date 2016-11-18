@@ -177,6 +177,18 @@ namespace RudeFox.ViewModels
 
                 MessageBox.Show(exc.ToString());
             }
+           
+            if (newItems.Count > 0)
+            {
+                for (int i = 0; i < WorkItems.Count; i++)
+                {
+                    if (newItems.Contains(WorkItems[i]))
+                    {
+                        WorkItems.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
         }
         #endregion
     }
