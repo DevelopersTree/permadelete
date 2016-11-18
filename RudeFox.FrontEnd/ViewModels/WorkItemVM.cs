@@ -40,7 +40,12 @@ namespace RudeFox.ViewModels
         public string Path
         {
             get { return _path; }
-            set { SetProperty(ref _path, value); }
+            set
+            {
+                if (SetProperty(ref _path, value))
+                    CalculateBytes();
+            }
+
         }
 
         private ItemType _type;
@@ -60,7 +65,7 @@ namespace RudeFox.ViewModels
         public double Progress
         {
             get { return _progress; }
-            set
+            private set
             {
                 if (SetProperty(ref _progress, value))
                 {
@@ -105,7 +110,6 @@ namespace RudeFox.ViewModels
                         Bytes = new FileInfo(Path).Length;
                     else
                     {
-                        CalculateBytes();
                         return "Calculating";
                     }
                 }
@@ -155,11 +159,15 @@ namespace RudeFox.ViewModels
         private async void CalculateBytes()
         {
             if (File.Exists(Path))
-                Bytes = new FileInfo(Path).Length;
+                _bytes = new FileInfo(Path).Length;
             else if (Directory.Exists(Path))
-                Bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
-            else
-                Bytes = -1;
+                _bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
+
+            RaisePropertyChanged(nameof(Bytes));
+            RaisePropertyChanged(nameof(Size));
+
+            if (_bytes == 0 || _bytes == -1)
+                OnDeleteRequested();
         }
         private void OnDeleteRequested(bool canceled = false)
         {

@@ -117,11 +117,12 @@ namespace RudeFox.ViewModels
                 item.DeleteRequested += (sender, canceled) =>
                 {
                     WorkItems.Remove(sender as WorkItemVM);
-                    sender = null;
                 };
 
                 item.CancellationTokenSource = new CancellationTokenSource();
-                WorkItems.Add(item);
+
+                // if the file was empty, delete it without showing it to the user
+                if (item.Bytes != 0) WorkItems.Add(item);
             }
 
             var tasks = newItems.Select(item =>
@@ -158,7 +159,7 @@ namespace RudeFox.ViewModels
                 MessageBox.Show(exception.ToString());
 
             }
-            catch( Exception exc)
+            catch (Exception exc)
             {
                 var failedTasks = tasks.Where(t => t.IsFaulted);
                 tasks.RemoveAll(t => failedTasks.Contains(t));
@@ -171,7 +172,7 @@ namespace RudeFox.ViewModels
                     {
                         WorkItems.RemoveAt(i);
                         i--;
-                    }      
+                    }
                 }
 
                 MessageBox.Show(exc.ToString());
