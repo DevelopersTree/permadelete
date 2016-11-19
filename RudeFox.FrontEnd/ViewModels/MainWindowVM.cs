@@ -21,7 +21,7 @@ namespace RudeFox.ViewModels
         #region Constructor
         public MainWindowVM()
         {
-            ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.OpenAboutDialog());
+            ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.GetAboutDialog().ShowDialog());
             ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
         }
         #endregion
@@ -74,13 +74,22 @@ namespace RudeFox.ViewModels
         private async void DeleteItems(List<string> paths)
         {
             string message;
+            string pronoun;
+            var itemName = File.Exists(paths[0]) ? "file" : "folder";
             if (paths.Count == 1)
-                message = "Are you sure you want to delete this item?";
+            {
+                message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
+                message += Path.GetFileName(paths[0]);
+                pronoun = "it";
+            }
             else
-                message = $"Are you sure you want to delete {paths.Count} items?";
+            {
+                message = $"Are you sure you want to delete these {paths.Count} items?";
+                pronoun = "them";
+            }
 
-            var response = MessageBox.Show(message, "Deleting items", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-            if (response != MessageBoxResult.Yes) return;
+            var response = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, "Delete " + pronoun, "Cancel", true).ShowDialog();
+            if (response != true) return;
 
             var newItems = new List<WorkItemVM>();
             var cts = new CancellationTokenSource();

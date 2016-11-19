@@ -1,4 +1,6 @@
-﻿using RudeFox.Views;
+﻿using RudeFox.Models;
+using RudeFox.ViewModels;
+using RudeFox.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +28,23 @@ namespace RudeFox.Services
         #endregion
 
         #region Methods
-        public bool? OpenAboutDialog()
+        public AboutDialog GetAboutDialog()
         {
             var window = new AboutDialog();
-            return window.ShowDialog();
+            return window;
+        }
+
+        public MessageDialog GetMessageDialog(string title, string message, string okButton)
+        {
+            return GetMessageDialog(title, message, MessageIcon.Information, okButton, null, false);
+        }
+
+        public MessageDialog GetMessageDialog(string title, string message, MessageIcon icon, string okButton, string cancelButton, bool isDestructive)
+        {
+            var dataContext = new MessageDialogVM(title, message, icon, okButton, cancelButton, isDestructive);
+            var window = new MessageDialog();
+            window.DataContext = dataContext;
+            return window;
         }
         #endregion
     }
