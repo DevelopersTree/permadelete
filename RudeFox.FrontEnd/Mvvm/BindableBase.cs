@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RudeFox.Mvvm
 {
-    class BindableBase : INotifyPropertyChanged
+    public class BindableBase : INotifyPropertyChanged
     {
         public bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {

@@ -28,6 +28,13 @@ namespace RudeFox.Services
         #endregion
 
         #region Methods
+        public ErrorDialog GetErrorDialog(string title, Exception exception)
+        {
+            var window = new ErrorDialog();
+            window.DataContext = new ErrorDialogVM(title, exception.Message, exception);
+            return window;
+        }
+
         public AboutDialog GetAboutDialog()
         {
             var window = new AboutDialog();

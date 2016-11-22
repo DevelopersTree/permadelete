@@ -150,43 +150,16 @@ namespace RudeFox.ViewModels
             }
             catch (AggregateException exc)
             {
-                var failedTasks = tasks.Where(t => t.IsFaulted);
-                tasks.RemoveAll(t => failedTasks.Contains(t));
-
-                var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
-
-                for (int i = 0; i < WorkItems.Count; i++)
-                {
-                    if (failedItems.Contains(WorkItems[i]))
-                    {
-                        WorkItems.RemoveAt(i);
-                        i--;
-                    }
-                }
-
+                RemoveFailedTasks(tasks);
                 var exception = exc.Flatten();
-                MessageBox.Show(exception.ToString());
-
+                DialogService.Instance.GetErrorDialog("Could not delete item", exception).ShowDialog();
             }
             catch (Exception exc)
             {
-                var failedTasks = tasks.Where(t => t.IsFaulted);
-                tasks.RemoveAll(t => failedTasks.Contains(t));
-
-                var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
-
-                for (int i = 0; i < WorkItems.Count; i++)
-                {
-                    if (failedItems.Contains(WorkItems[i]))
-                    {
-                        WorkItems.RemoveAt(i);
-                        i--;
-                    }
-                }
-
-                MessageBox.Show(exc.ToString());
+                RemoveFailedTasks(tasks);
+                DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
             }
-           
+
             if (newItems.Count > 0)
             {
                 for (int i = 0; i < WorkItems.Count; i++)
@@ -196,6 +169,23 @@ namespace RudeFox.ViewModels
                         WorkItems.RemoveAt(i);
                         i--;
                     }
+                }
+            }
+        }
+
+        private void RemoveFailedTasks(List<Task> tasks)
+        {
+            var failedTasks = tasks.Where(t => t.IsFaulted);
+            tasks.RemoveAll(t => failedTasks.Contains(t));
+
+            var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
+
+            for (int i = 0; i < WorkItems.Count; i++)
+            {
+                if (failedItems.Contains(WorkItems[i]))
+                {
+                    WorkItems.RemoveAt(i);
+                    i--;
                 }
             }
         }

@@ -1,18 +1,19 @@
-﻿<Window x:Class="RudeFox.Views.MessageDialog"
+﻿<Window x:Class="RudeFox.Views.ErrorDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RudeFox.Views" ShowInTaskbar="False"
+        xmlns:local="clr-namespace:RudeFox.Views"
         xmlns:controls="clr-namespace:RudeFox.Controls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Icon="/Images/icon_24.png"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Title="{Binding Title}" MinWidth="350" MinHeight="120" MaxHeight="300" MaxWidth="600"
+        Title="{Binding Title}" MinWidth="350" MinHeight="120" MaxHeight="350" MaxWidth="450"
         SizeToContent="WidthAndHeight" Loaded="Window_Loaded" SnapsToDevicePixels="True">
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="48" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -25,10 +26,15 @@
             <TextBlock x:Name="txtMessage" FontSize="14" Text="{Binding Message}" TextWrapping="Wrap" />
         </ScrollViewer>
 
-        <Grid Background="#efefef" Grid.ColumnSpan="2" Grid.Row="1">
+        <Expander Padding="5" FontWeight="SemiBold" Margin="0, 3" Header="Details" Grid.Row="1" Grid.Column="1">
+            <Grid Background="#FFE9ECEE">
+                <TextBox Text="{Binding Details}" VerticalScrollBarVisibility="Auto" MaxHeight="100" FontWeight="Normal" BorderThickness="0" IsReadOnly="True" Background="Transparent" TextWrapping="Wrap"/>
+            </Grid>
+        </Expander>
+        
+        <Grid Background="#efefef" Grid.ColumnSpan="2" Grid.Row="2">
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                <controls:FlatButton x:Name="okButton" IsDestructive="{Binding IsDestructive}" Content="{Binding OkButton}" IsDefault="True" Margin="10,0,0,0" Padding="10,5" TabIndex="0" Click="okButton_Click"/>
-                <controls:FlatButton x:Name="cancelButton" Content="{Binding CancelButton}" IsCancel="True" Margin="10,0,0,0" Padding="10,5" TabIndex="1" Click="cancelButton_Click"/>
+                <controls:FlatButton x:Name="okButton" Content="{Binding OkButton}" Margin="10,0,0,0" Padding="10,5" TabIndex="0" Click="okButton_Click" IsCancel="True"/>
             </StackPanel>
         </Grid>
     </Grid>

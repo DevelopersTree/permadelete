@@ -75,11 +75,15 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ShredderService.cs" />
     <Compile Include="ViewModels\AboutDialogVM.cs" />
+    <Compile Include="ViewModels\ErrorDialogVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\MessageDialogVM.cs" />
     <Compile Include="ViewModels\WorkItemVM.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorDialog.xaml.cs">
+      <DependentUpon>ErrorDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -124,6 +128,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
