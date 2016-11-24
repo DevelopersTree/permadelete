@@ -20,10 +20,12 @@ namespace RudeFox.Services
         #endregion
 
         #region Properties
-        private static DialogService _instance;
+        // using Lazy<T> here makes the the field both lazy and thread safe
+        // more info: http://csharpindepth.com/Articles/General/Singleton.aspx
+        private static readonly Lazy<DialogService> _instance = new Lazy<DialogService>(() => new DialogService());
         public static DialogService Instance
         {
-            get { return _instance ?? (_instance = new DialogService()); }
+            get { return _instance.Value; }
         }
         #endregion
 

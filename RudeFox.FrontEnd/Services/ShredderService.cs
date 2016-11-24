@@ -27,10 +27,12 @@ namespace RudeFox.Services
         #endregion
 
         #region Properties
-        private static ShredderService _instance;
+        // using Lazy<T> here makes the the field both lazy and thread safe
+        // more info: http://csharpindepth.com/Articles/General/Singleton.aspx
+        private static Lazy<ShredderService> _instance = new Lazy<ShredderService>(() => new ShredderService());
         public static ShredderService Instance
         {
-            get { return _instance ?? (_instance = new ShredderService()); }
+            get { return _instance.Value; }
         }
         #endregion
 
