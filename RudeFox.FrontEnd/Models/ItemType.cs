@@ -10,6 +10,8 @@ namespace RudeFox.Models
     {
         File = 0,
         Folder = 1,
-        Drive = 2
+        Drive = 2,
+        Unknown = 3,
+        NotSet = 4
     }
 }

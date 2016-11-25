@@ -18,19 +18,20 @@ namespace RudeFox.ViewModels
         #region Constructor
         public WorkItemVM()
         {
-            CancelCommand = new DelegateCommand(o =>
-            {
-                OnDeleteRequested(true);
-            });
             CancellationTokenSource = new CancellationTokenSource();
             TaskProgress = new Progress<int>();
+
+            CancelCommand = new DelegateCommand(o =>
+            {
+                CancellationTokenSource.Cancel();
+            });
+
             TaskProgress.ProgressChanged += (sender, newBytes) =>
             {
                 BytesComplete += newBytes;
 
-                if (Bytes == -1) return;
-
-                Progress = ((double)BytesComplete / Bytes) * 100;
+                if (Bytes != -1)
+                    Progress = ((double)BytesComplete / Bytes) * 100;
             };
         }
         #endregion
@@ -51,7 +52,20 @@ namespace RudeFox.ViewModels
         private ItemType _type;
         public ItemType Type
         {
-            get { return _type; }
+            get
+            {
+                if (_type == ItemType.NotSet)
+                {
+                    if (File.Exists(Path))
+                        Type = ItemType.File;
+                    else if (Directory.Exists(Path))
+                        Type = ItemType.Folder;
+                    else
+                        Type = ItemType.Unknown;
+                }
+
+                return _type;
+            }
             set
             {
                 if (SetProperty(ref _type, value))
@@ -65,14 +79,7 @@ namespace RudeFox.ViewModels
         public double Progress
         {
             get { return _progress; }
-            private set
-            {
-                if (SetProperty(ref _progress, value))
-                {
-                    if (_progress == 100)
-                        OnDeleteRequested();
-                }
-            }
+            private set { SetProperty(ref _progress, value); }
         }
 
         private long _bytesComplete;
@@ -81,7 +88,6 @@ namespace RudeFox.ViewModels
             get { return _bytesComplete; }
             set { SetProperty(ref _bytesComplete, value); }
         }
-
 
         private long _bytes = -1;
         public long Bytes
@@ -135,20 +141,9 @@ namespace RudeFox.ViewModels
             }
         }
 
-        private Task _task;
-        public Task Task
-        {
-            get { return _task; }
-            set { SetProperty(ref _task, value); }
-        }
-
         public CancellationTokenSource CancellationTokenSource { get; set; }
+
         public Progress<int> TaskProgress { get; set; }
-
-        #endregion
-
-        #region Events
-        public event EventHandler<bool> DeleteRequested;
         #endregion
 
         #region Commands
@@ -165,15 +160,6 @@ namespace RudeFox.ViewModels
 
             RaisePropertyChanged(nameof(Bytes));
             RaisePropertyChanged(nameof(Size));
-
-            if (_bytes == 0 || _bytes == -1)
-                OnDeleteRequested();
-        }
-        private void OnDeleteRequested(bool canceled = false)
-        {
-            var handler = DeleteRequested;
-            handler?.Invoke(this, canceled);
-            if (canceled) CancellationTokenSource.Cancel();
         }
         #endregion
     }

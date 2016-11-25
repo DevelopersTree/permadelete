@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RudeFox.Mvvm;
 using System.Windows.Input;
 using System.Windows;
-using System.Diagnostics;
 using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -73,6 +71,57 @@ namespace RudeFox.ViewModels
         #region Methods
         private async void DeleteItems(List<string> paths)
         {
+            var response = GetUserAgreedToDelete(paths);
+            if (response != true) return;
+            
+            var duplicates = from i in WorkItems
+                             join p in paths
+                             on i.Path equals p
+                             select p;
+
+            paths.RemoveAll(p => duplicates.Contains(p));
+
+            var newItems = new List<WorkItemVM>();
+            foreach (var path in paths)
+            {
+                var item = new WorkItemVM { Path = path };
+
+                if (File.Exists(path) || Directory.Exists(path))
+                    newItems.Add(item);
+                else
+                    continue;
+
+                WorkItems.Add(item);
+            }
+
+            var tasks = newItems.Select(item => ProcessItem(item)).ToList();
+
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task ProcessItem(WorkItemVM item)
+        {
+            var task = ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
+            try
+            {
+                await task;
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+            catch (Exception exc)
+            {
+                DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
+            }
+            finally
+            {
+                Application.Current.Dispatcher.Invoke(() => WorkItems.Remove(item));
+            }
+        }
+
+        private bool? GetUserAgreedToDelete(List<string> paths)
+        {
             string message;
             string pronoun;
             var itemName = File.Exists(paths[0]) ? "file" : "folder";
@@ -88,106 +137,7 @@ namespace RudeFox.ViewModels
                 pronoun = "them";
             }
 
-            var response = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, "Delete " + pronoun, "Cancel", true).ShowDialog();
-            if (response != true) return;
-
-            var newItems = new List<WorkItemVM>();
-            var cts = new CancellationTokenSource();
-
-            var duplicates = from i in WorkItems
-                             join p in paths
-                             on i.Path equals p
-                             select p;
-
-            paths.RemoveAll(p => duplicates.Contains(p));
-
-            foreach (var path in paths)
-            {
-                var item = new WorkItemVM();
-                item.Path = path;
-
-                if (File.Exists(path))
-                {
-                    if (ShredderService.Instance.IsFileLocked(new FileInfo(path)))
-                    {
-                        MessageBox.Show($"Can't access file, it's being used by another application: {path}");
-                        continue;
-                    }
-                    item.Type = ItemType.File;
-                    newItems.Add(item);
-                }
-                else if (Directory.Exists(path))
-                {
-                    item.Type = ItemType.Folder;
-                    newItems.Add(item);
-                }
-                else return;
-
-                item.DeleteRequested += (sender, canceled) =>
-                {
-                    WorkItems.Remove(sender as WorkItemVM);
-                };
-
-                item.CancellationTokenSource = new CancellationTokenSource();
-
-                // if the file was empty, delete it without showing it to the user
-                if (item.Bytes != 0) WorkItems.Add(item);
-            }
-
-            var tasks = newItems.Select(item =>
-            {
-                item.Task = ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
-                return item.Task;
-            }).ToList();
-
-            try
-            {
-                await Task.WhenAll(tasks);
-            }
-            catch (OperationCanceledException)
-            {
-
-            }
-            catch (AggregateException exc)
-            {
-                RemoveFailedTasks(tasks);
-                var exception = exc.Flatten();
-                DialogService.Instance.GetErrorDialog("Could not delete item", exception).ShowDialog();
-            }
-            catch (Exception exc)
-            {
-                RemoveFailedTasks(tasks);
-                DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
-            }
-
-            if (newItems.Count > 0)
-            {
-                for (int i = 0; i < WorkItems.Count; i++)
-                {
-                    if (newItems.Contains(WorkItems[i]))
-                    {
-                        WorkItems.RemoveAt(i);
-                        i--;
-                    }
-                }
-            }
-        }
-
-        private void RemoveFailedTasks(List<Task> tasks)
-        {
-            var failedTasks = tasks.Where(t => t.IsFaulted);
-            tasks.RemoveAll(t => failedTasks.Contains(t));
-
-            var failedItems = WorkItems.Where(item => item.Task.IsFaulted || item.Task.IsCanceled);
-
-            for (int i = 0; i < WorkItems.Count; i++)
-            {
-                if (failedItems.Contains(WorkItems[i]))
-                {
-                    WorkItems.RemoveAt(i);
-                    i--;
-                }
-            }
+            return DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, "Delete " + pronoun, "Cancel", true).ShowDialog();
         }
         #endregion
     }
