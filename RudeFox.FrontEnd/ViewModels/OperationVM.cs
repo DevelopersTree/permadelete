@@ -20,6 +20,7 @@ namespace RudeFox.ViewModels
         {
             CancellationTokenSource = new CancellationTokenSource();
             TaskProgress = new Progress<int>();
+            _lastProgressReport = DateTime.Now;
 
             CancelCommand = new DelegateCommand(o =>
             {
@@ -34,6 +35,12 @@ namespace RudeFox.ViewModels
                     Progress = ((double)BytesComplete / Bytes) * 100;
             };
         }
+        #endregion
+
+        #region Fields
+        private double _oldProgress = 0.0;
+        private DateTime _lastProgressReport;
+        private LinkedList<double> _progressHistory = new LinkedList<double>();
         #endregion
 
         #region Properties
@@ -74,12 +81,33 @@ namespace RudeFox.ViewModels
                 }
             }
         }
-
+        
         private double _progress;
         public double Progress
         {
             get { return _progress; }
-            private set { SetProperty(ref _progress, value); }
+            private set
+            {
+                _oldProgress = _progress;
+                if (SetProperty(ref _progress, value))
+                {
+                    var change = _progress - _oldProgress;
+                    var interval = (DateTime.Now - _lastProgressReport).TotalSeconds;
+                    var rate = change / interval;
+                    _progressHistory.AddFirst(rate);
+
+                    var secondsRemaining = (100.0 - _progress) / _progressHistory.Average();
+                    TimeRemaining = TimeSpan.FromSeconds(secondsRemaining);
+                    _lastProgressReport = DateTime.Now;
+                }
+            }
+        }
+
+        private TimeSpan _timeRemaining;
+        public TimeSpan TimeRemaining
+        {
+            get { return _timeRemaining; }
+            private set { SetProperty(ref _timeRemaining, value); }
         }
 
         private long _bytesComplete;

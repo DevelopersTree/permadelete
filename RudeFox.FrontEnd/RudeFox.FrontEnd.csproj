@@ -68,7 +68,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\FlatButton.cs" />
+    <Compile Include="Converters\TimespanToStringConverter.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Models\FileSystemType.cs" />
     <Compile Include="Models\ItemType.cs" />
     <Compile Include="Models\MessageIcon.cs" />

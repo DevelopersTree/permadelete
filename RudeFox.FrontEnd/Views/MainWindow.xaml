@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RudeFox.Views"
         mc:Ignorable="d"
+        xmlns:converters="clr-namespace:RudeFox.Converters"
         xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
         Title="{Binding Title}" Height="600" Width="800">
+    <Window.Resources>
+        <converters:TimespanToStringConverter x:Key="timeConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowVM />
     </Window.DataContext>
@@ -37,12 +41,20 @@
 
                         <Image Width="32" VerticalAlignment="Center" Grid.RowSpan="3" Source="{Binding Image}" Margin="10, 0" />
 
-                        <TextBlock FontSize="14" FontWeight="Light" Text="{Binding Path}" Grid.Column="1" />
-                        <DockPanel LastChildFill="True"  Grid.Column="1" Grid.Row="2" >
-                            <TextBlock Foreground="Gray" Text="{Binding Size, StringFormat='{}{0}  —'}" Margin="0,0, 10,0"/>
-                            <TextBlock Foreground="Gray" Text="{Binding Progress, StringFormat='{}{0:00.0}%', FallbackValue=0.0}" Margin="0,0, 10,0"/>
-                            <ProgressBar Value="{Binding Progress}" HorizontalAlignment="Stretch" DockPanel.Dock="Right" />
+                        <DockPanel Grid.Column="1" LastChildFill="True">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <TextBlock Foreground="#555" Text="{Binding Size}" Margin="0,0, 10,0"  DockPanel.Dock="Right"/>
+                                <TextBlock Foreground="#999" Text="—" Margin="0,0,5,0"/>
+                                <TextBlock Foreground="#555" Text="{Binding Progress, StringFormat='{}{0:00.0}%', FallbackValue=0.0}" Margin="0,0, 10,0"  DockPanel.Dock="Right"/>
+                                <TextBlock Foreground="#999" Text="—" Margin="0,0,5,0"/>
+                                <TextBlock HorizontalAlignment="Right" Foreground="#555"  DockPanel.Dock="Right"
+                                       Text="{Binding TimeRemaining, Converter={StaticResource timeConverter}}"/>
+                            </StackPanel>
+
+                            <TextBlock FontSize="14" FontWeight="Light" Text="{Binding Path}" DockPanel.Dock="Left" />
                         </DockPanel>
+
+                        <ProgressBar Value="{Binding Progress}" Grid.Column="1" Grid.Row="2" DockPanel.Dock="Right" />
 
                         <Button Content="X" Grid.Column="2" Grid.Row="2" Margin="10, 0" Padding="10,0" VerticalAlignment="Center" Command="{Binding CancelCommand}"/>
                     </Grid>
