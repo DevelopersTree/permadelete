@@ -78,7 +78,7 @@
     <Compile Include="ViewModels\ErrorDialogVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\MessageDialogVM.cs" />
-    <Compile Include="ViewModels\WorkItemVM.cs" />
+    <Compile Include="ViewModels\OperationVM.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>

@@ -13,10 +13,10 @@ using System.Windows.Input;
 
 namespace RudeFox.ViewModels
 {
-    class WorkItemVM : BindableBase
+    class OperationVM : BindableBase
     {
         #region Constructor
-        public WorkItemVM()
+        public OperationVM()
         {
             CancellationTokenSource = new CancellationTokenSource();
             TaskProgress = new Progress<int>();

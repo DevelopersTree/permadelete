@@ -29,11 +29,11 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Properties
-        private ObservableCollection<WorkItemVM> _workItems = new ObservableCollection<WorkItemVM>();
-        public ObservableCollection<WorkItemVM> WorkItems
+        private ObservableCollection<OperationVM> _operations = new ObservableCollection<OperationVM>();
+        public ObservableCollection<OperationVM> Operations
         {
-            get { return _workItems; }
-            set { SetProperty(ref _workItems, value); }
+            get { return _operations; }
+            set { SetProperty(ref _operations, value); }
         }
 
         public string Title { get { return "Rude Fox"; } }
@@ -74,24 +74,24 @@ namespace RudeFox.ViewModels
             var response = GetUserAgreedToDelete(paths);
             if (response != true) return;
             
-            var duplicates = from i in WorkItems
+            var duplicates = from i in Operations
                              join p in paths
                              on i.Path equals p
                              select p;
 
             paths.RemoveAll(p => duplicates.Contains(p));
 
-            var newItems = new List<WorkItemVM>();
+            var newItems = new List<OperationVM>();
             foreach (var path in paths)
             {
-                var item = new WorkItemVM { Path = path };
+                var item = new OperationVM { Path = path };
 
                 if (File.Exists(path) || Directory.Exists(path))
                     newItems.Add(item);
                 else
                     continue;
 
-                WorkItems.Add(item);
+                Operations.Add(item);
             }
 
             var tasks = newItems.Select(item => ProcessItem(item)).ToList();
@@ -99,7 +99,7 @@ namespace RudeFox.ViewModels
             await Task.WhenAll(tasks);
         }
 
-        private async Task ProcessItem(WorkItemVM item)
+        private async Task ProcessItem(OperationVM item)
         {
             var task = ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
             try
@@ -116,7 +116,7 @@ namespace RudeFox.ViewModels
             }
             finally
             {
-                Application.Current.Dispatcher.Invoke(() => WorkItems.Remove(item));
+                Application.Current.Dispatcher.Invoke(() => Operations.Remove(item));
             }
         }
 

@@ -20,7 +20,7 @@
                 <MenuItem Header="_About" Command="{Binding ShowAboutCommand}"/>
             </MenuItem>
         </Menu>
-        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding WorkItems}" HorizontalContentAlignment="Stretch">
+        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding Operations}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="vm:WorkItemVM">
                     <Grid Margin="0, 5">
