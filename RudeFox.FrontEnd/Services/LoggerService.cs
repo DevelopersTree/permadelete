@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using SharpRaven.Data;
+
 namespace RudeFox.Services
 {
     public sealed class LoggerService
@@ -11,12 +13,13 @@ namespace RudeFox.Services
         #region Constructor
         private LoggerService()
         {
-
+            _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         #endregion
 
         #region Fields
         private static Logger _logger = LogManager.GetLogger("RudeFox.Services.LoggerService");
+        private static SharpRaven.RavenClient _ravenClient = new SharpRaven.RavenClient(Keys.SENTRY_API_DSN);
         #endregion
 
         #region Properties
@@ -48,6 +51,14 @@ namespace RudeFox.Services
         public void Fatal(Func<string> messageFunction)
         {
             _logger.Fatal(messageFunction);
+        }
+
+        public async Task SendRaven(string message) => await SendRaven(message, ErrorLevel.Info);
+        public async Task SendRaven(string message, ErrorLevel level)
+        {
+            var sentryEvent = new SentryEvent(message);
+            sentryEvent.Level = level;
+            await _ravenClient.CaptureAsync(sentryEvent);
         }
         #endregion
     }

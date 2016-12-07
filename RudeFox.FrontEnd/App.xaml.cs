@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using RudeFox.Views;
 using RudeFox.Services;
+using NLog.Config;
 
 namespace RudeFox.FrontEnd
 {
@@ -22,6 +19,9 @@ namespace RudeFox.FrontEnd
             DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
             TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
 
+            // register sentry as NLog target
+            ConfigurationItemFactory.Default.Targets.RegisterDefinition("Sentry", typeof(Nlog.SentryTarget));
+
             // open the main window
             var window = new MainWindow();
             this.MainWindow = window;
@@ -31,7 +31,7 @@ namespace RudeFox.FrontEnd
         private void LogUnhandledException(Exception e)
         {
             LoggerService.Instance.Error(e);
-            DialogService.Instance.GetErrorDialog("An unxpected error occured.", e);
+            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
         }
     }
 }
