@@ -43,6 +43,10 @@
       <HintPath>..\packages\gong-wpf-dragdrop.1.0.0\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.11\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -75,6 +79,7 @@
     <Compile Include="Models\ItemType.cs" />
     <Compile Include="Models\MessageIcon.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\ShredderService.cs" />
     <Compile Include="ViewModels\AboutDialogVM.cs" />
     <Compile Include="ViewModels\ErrorDialogVM.cs" />
@@ -114,6 +119,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

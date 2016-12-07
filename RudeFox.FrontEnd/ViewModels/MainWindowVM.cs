@@ -112,6 +112,7 @@ namespace RudeFox.ViewModels
             }
             catch (Exception exc)
             {
+                LoggerService.Instance.Error(exc);
                 DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
             }
             finally

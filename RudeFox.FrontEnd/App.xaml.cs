@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using RudeFox.Views;
+using RudeFox.Services;
+
 namespace RudeFox.FrontEnd
 {
     /// <summary>
@@ -15,9 +17,21 @@ namespace RudeFox.FrontEnd
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            // handle the unhandled global exceptions
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogUnhandledException((Exception)args.ExceptionObject);
+            DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
+            TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
+
+            // open the main window
             var window = new MainWindow();
             this.MainWindow = window;
             window.Show();
+        }
+
+        private void LogUnhandledException(Exception e)
+        {
+            LoggerService.Instance.Error(e);
+            DialogService.Instance.GetErrorDialog("An unxpected error occured.", e);
         }
     }
 }
