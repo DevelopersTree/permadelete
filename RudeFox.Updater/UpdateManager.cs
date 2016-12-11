@@ -15,7 +15,7 @@ namespace RudeFox.Updater
     public class UpdateManager
     {
         #region Constructor
-        private const string DROPBOX_API_KEY = "Z81GCznEuHAAAAAAAAAAF0agsDc3K5BC_42amwJXKB3gTfvHud8unJ0-daSO5h5P";
+        private const string DROPBOX_API_KEY = "";
         static UpdateManager()
         {
             _client = new DropboxClient(DROPBOX_API_KEY);
