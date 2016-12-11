@@ -15,7 +15,5 @@ namespace RudeFox.Updater
         public string ChangeListLink { get; set; }
         public string Path { get; set; }
         public List<File> Files { get; set; }
-        [JsonIgnore]
-        public string TempFolderName { get; set; }
     }
 }

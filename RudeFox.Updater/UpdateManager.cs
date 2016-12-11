@@ -35,7 +35,7 @@ namespace RudeFox.Updater
         /// </summary>
         /// <param name="currentVersion">The current version of the app</param>
         /// <returns></returns>
-        public static async Task<UpdateInfo> DownloadLatestUpdate(Version currentVersion)
+        public static async Task<string> DownloadLatestUpdate(Version currentVersion)
         {
             var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
             DeleteOldFiles(appFolder);
@@ -44,8 +44,8 @@ namespace RudeFox.Updater
             if (updateInfo.Version <= currentVersion || updateInfo?.Path == null)
                 return null;
 
-            updateInfo.TempFolderName = Path.GetTempPath() + "RudeFox " + _random.Next();
-            Directory.CreateDirectory(updateInfo.TempFolderName);
+            var tempFolderName = Path.GetTempPath() + "RudeFox " + _random.Next();
+            Directory.CreateDirectory(tempFolderName);
 
             foreach (var remote in updateInfo.Files)
             {
@@ -67,7 +67,7 @@ namespace RudeFox.Updater
                 var downloadPath = CombinePathForInternet(_updateFolder, updateInfo.Path, remote.Folder, remote.Name);
                 var data = await _client.Files.DownloadAsync(downloadPath).ConfigureAwait(false);
 
-                var tempPath = Path.Combine(updateInfo.TempFolderName, remote.Folder, remote.Name);
+                var tempPath = Path.Combine(tempFolderName, remote.Folder, remote.Name);
                 Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 
                 using (var stream = await data.GetContentAsStreamAsync().ConfigureAwait(false))
@@ -76,7 +76,8 @@ namespace RudeFox.Updater
                     await stream.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
             }
-            return updateInfo;
+
+            return tempFolderName;
         }
 
         /// <summary>
@@ -102,7 +103,8 @@ namespace RudeFox.Updater
             var entries = Directory.EnumerateFileSystemEntries(tempFolderPath);
             foreach (var entry in entries)
             {
-                var newFileName = Path.Combine(appFolder, entry.Replace(tempFolderPath, ""));
+                var fileName = entry.Replace(tempFolderPath, "");
+                var newFileName = CombinePathForInternet(appFolder, fileName);
                 if (System.IO.File.Exists(entry))
                     System.IO.File.Copy(entry, newFileName, true);
                 else
