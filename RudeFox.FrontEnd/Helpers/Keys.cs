@@ -9,5 +9,6 @@ namespace RudeFox
     public class Keys
     {
         public const string SENTRY_API_DSN = "";
+        public const string DROPBOX_API_KEY = "";
     }
 }

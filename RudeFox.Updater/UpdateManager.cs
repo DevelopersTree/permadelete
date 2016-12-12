@@ -14,14 +14,6 @@ namespace RudeFox.Updater
 {
     public class UpdateManager
     {
-        #region Constructor
-        private const string DROPBOX_API_KEY = "";
-        static UpdateManager()
-        {
-            _client = new DropboxClient(DROPBOX_API_KEY);
-        }
-        #endregion
-
         #region Fields
         private static DropboxClient _client;
         private static Random _random = new Random();
@@ -30,6 +22,15 @@ namespace RudeFox.Updater
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Initializes UpdateManager, should be called before calling the other methods.
+        /// </summary>
+        /// <param name="dropboxApiKey"></param>
+        public static void Initialize(string dropboxApiKey)
+        {
+            if (_client == null)
+                _client = new DropboxClient(dropboxApiKey);
+        }
         /// <summary>
         /// Tries to update the app and returns the update information if succeeded, otherwise returns null.
         /// </summary>
@@ -49,12 +50,12 @@ namespace RudeFox.Updater
 
             foreach (var remote in updateInfo.Files)
             {
-                var localPath = Path.Combine(appFolder, remote.Name);
+                var localPath = CombinePathForInternet(appFolder, remote.Folder, remote.Name);
                 var localFileInfo = new FileInfo(localPath);
 
                 Version localVersion;
                 if (System.IO.File.Exists(localPath) && (remote.Extention == "exe" || remote.Extention == "dll"))
-                    localVersion = new Version(FileVersionInfo.GetVersionInfo(localPath).ProductVersion);
+                    localVersion = new Version(FileVersionInfo.GetVersionInfo(localPath).FileVersion);
                 else
                     localVersion = new Version(0, 0, 0, 0);
 
@@ -67,7 +68,7 @@ namespace RudeFox.Updater
                 var downloadPath = CombinePathForInternet(_updateFolder, updateInfo.Path, remote.Folder, remote.Name);
                 var data = await _client.Files.DownloadAsync(downloadPath).ConfigureAwait(false);
 
-                var tempPath = Path.Combine(tempFolderName, remote.Folder, remote.Name);
+                var tempPath = CombinePathForInternet(tempFolderName, remote.Folder, remote.Name);
                 Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 
                 using (var stream = await data.GetContentAsStreamAsync().ConfigureAwait(false))
@@ -90,7 +91,7 @@ namespace RudeFox.Updater
             var downloadedFiles = new DirectoryInfo(tempFolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories).Select(info => info.Name);
 
             var oldFiles = new DirectoryInfo(appFolder).EnumerateFiles("*.*", SearchOption.AllDirectories)
-                       .Where(local => (local.FullName.EndsWith(".exe") || local.FullName.EndsWith(".dll") && downloadedFiles.Contains(local.Name)));
+                       .Where(local => (local.FullName.EndsWith(".exe") || local.FullName.EndsWith(".dll")) && downloadedFiles.Contains(local.Name));
 
             foreach (var item in oldFiles)
             {
@@ -103,12 +104,17 @@ namespace RudeFox.Updater
             var entries = Directory.EnumerateFileSystemEntries(tempFolderPath);
             foreach (var entry in entries)
             {
-                var fileName = entry.Replace(tempFolderPath, "");
-                var newFileName = CombinePathForInternet(appFolder, fileName);
+                var entryName = entry.Replace(tempFolderPath, "");
                 if (System.IO.File.Exists(entry))
+                {
+                    var newFileName = CombinePathForInternet(appFolder, entryName);
                     System.IO.File.Copy(entry, newFileName, true);
+                }
                 else
-                    Directory.Move(entry, appFolder);
+                {
+                    var newDirName = CombinePathForInternet(appFolder, entryName);
+                    DirectoryCopy(entry, newDirName);
+                }
             }
 
             Directory.Delete(tempFolderPath, true);
@@ -148,6 +154,33 @@ namespace RudeFox.Updater
         {
             string fullPath = string.Join("/", segments);
             return _pattern.Replace(fullPath, "/");
+        }
+
+        // from: https://msdn.microsoft.com/en-us/library/bb762914(v=vs.110).aspx
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs = true)
+        {
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!Directory.Exists(destDirName))
+                Directory.CreateDirectory(destDirName);
+
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(temppath, true);
+            }
+
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
         }
         #endregion
     }

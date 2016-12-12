@@ -9,13 +9,6 @@ namespace RudeFox.Updater
 {
     public class File
     {
-        public File()
-        {
-            Version = new Version(0, 0, 0, 0);
-            Name = "";
-            Folder = "";
-        }
-
         public Version Version { get; set; }
         public string Name { get; set; }
         public string Folder { get; set; }

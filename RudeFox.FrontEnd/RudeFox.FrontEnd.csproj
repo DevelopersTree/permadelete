@@ -194,6 +194,12 @@
   <ItemGroup>
     <Resource Include="Images\information.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RudeFox.Updater\RudeFox.Updater.csproj">
+      <Project>{5651c82b-95eb-4658-bf08-c00bd3dab1fd}</Project>
+      <Name>RudeFox.Updater</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
