@@ -55,7 +55,7 @@ namespace RudeFox.Updater
 
                 Version localVersion;
                 if (System.IO.File.Exists(localPath) && (remote.Extention == "exe" || remote.Extention == "dll"))
-                    localVersion = new Version(FileVersionInfo.GetVersionInfo(localPath).FileVersion);
+                    localVersion = ParseVersion(FileVersionInfo.GetVersionInfo(localPath).FileVersion);
                 else
                     localVersion = new Version(0, 0, 0, 0);
 
@@ -181,6 +181,14 @@ namespace RudeFox.Updater
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }
+        }
+
+        private static Version ParseVersion(string version)
+        {
+            var count = version.Split('.').Count();
+            for (; count < 4; count++)
+                version += ".0";
+            return new Version(version);
         }
         #endregion
     }
