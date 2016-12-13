@@ -186,8 +186,12 @@ namespace RudeFox.Updater
         private static Version ParseVersion(string version)
         {
             var count = version.Split('.').Count();
+
+            if (count == 0) return new Version(0, 0, 0, 0);
+
             for (; count < 4; count++)
                 version += ".0";
+
             return new Version(version);
         }
         #endregion
