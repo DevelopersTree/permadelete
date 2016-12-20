@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace RudeFox.ViewModels
 {
-    class OperationVM : BindableBase
+    public class OperationVM : BindableBase
     {
         #region Constructor
         public OperationVM()

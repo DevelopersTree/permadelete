@@ -11,6 +11,7 @@ using System.IO;
 using RudeFox.Models;
 using RudeFox.Services;
 using System.Threading;
+using RudeFox.FrontEnd;
 
 namespace RudeFox.ViewModels
 {
@@ -29,13 +30,6 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Properties
-        private ObservableCollection<OperationVM> _operations = new ObservableCollection<OperationVM>();
-        public ObservableCollection<OperationVM> Operations
-        {
-            get { return _operations; }
-            set { SetProperty(ref _operations, value); }
-        }
-
         public string Title { get { return "Rude Fox"; } }
         #endregion
 
@@ -56,89 +50,52 @@ namespace RudeFox.ViewModels
                 dropInfo.Effects = DragDropEffects.None;
         }
 
-        void IDropTarget.Drop(IDropInfo dropInfo)
+        async void IDropTarget.Drop(IDropInfo dropInfo)
         {
             var data = dropInfo.Data as IDataObject;
 
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                DeleteItems(paths.ToList());
+                await DeleteItems(paths.ToList());
             }
         }
         #endregion
 
         #region Methods
-        private async void DeleteItems(List<string> paths)
+        private async Task DeleteItems(List<string> paths)
         {
-            var response = GetUserAgreedToDelete(paths);
-            if (response != true) return;
-            
-            var duplicates = from i in Operations
-                             join p in paths
-                             on i.Path equals p
-                             select p;
+            var userAgreed = await GetUserAgreedToDeleteAsync(paths);
+            if (userAgreed != true) return;
 
+            var duplicates = App.Operations.Select(item => item.Path).Intersect(paths);
             paths.RemoveAll(p => duplicates.Contains(p));
 
-            var newItems = new List<OperationVM>();
-            foreach (var path in paths)
-            {
-                var item = new OperationVM { Path = path };
-
-                if (File.Exists(path) || Directory.Exists(path))
-                    newItems.Add(item);
-                else
-                    continue;
-
-                Operations.Add(item);
-            }
-
-            var tasks = newItems.Select(item => ProcessItem(item)).ToList();
+            var validPaths = paths.Where(path => File.Exists(path) || Directory.Exists(path));
+            var tasks = validPaths.Select(item => App.DeleteFileOrFolder(item)).ToList();
 
             await Task.WhenAll(tasks);
         }
 
-        private async Task ProcessItem(OperationVM item)
-        {
-            var task = ShredderService.Instance.ShredItemAsync(item.Path, item.CancellationTokenSource.Token, item.TaskProgress);
-            try
-            {
-                await task;
-            }
-            catch (OperationCanceledException)
-            {
-
-            }
-            catch (Exception exc)
-            {
-                LoggerService.Instance.Error(exc);
-                DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
-            }
-            finally
-            {
-                Application.Current.Dispatcher.Invoke(() => Operations.Remove(item));
-            }
-        }
-
-        private bool? GetUserAgreedToDelete(List<string> paths)
+        private async Task<bool?> GetUserAgreedToDeleteAsync(List<string> paths)
         {
             string message;
-            string pronoun;
+            string okText = "Delete ";
             var itemName = File.Exists(paths[0]) ? "file" : "folder";
+
             if (paths.Count == 1)
             {
                 message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
                 message += Path.GetFileName(paths[0]);
-                pronoun = "it";
+                okText += "it";
             }
             else
             {
                 message = $"Are you sure you want to delete these {paths.Count} items?";
-                pronoun = "them";
+                okText += "them";
             }
 
-            return DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, "Delete " + pronoun, "Cancel", true).ShowDialog();
+            return await DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true).ShowDialogAsync();
         }
         #endregion
     }

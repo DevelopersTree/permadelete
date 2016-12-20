@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RudeFox.Views"
+        xmlns:frontEnd="clr-namespace:RudeFox.FrontEnd"
         mc:Ignorable="d"
         xmlns:converters="clr-namespace:RudeFox.Converters"
         xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
@@ -24,7 +25,7 @@
                 <MenuItem Header="_About" Command="{Binding ShowAboutCommand}"/>
             </MenuItem>
         </Menu>
-        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding Operations}" HorizontalContentAlignment="Stretch">
+        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}" ItemsSource="{Binding Source={x:Static frontEnd:App.Operations}}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="vm:WorkItemVM">
                     <Grid Margin="0, 5">
