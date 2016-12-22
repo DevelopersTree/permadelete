@@ -108,8 +108,8 @@
 
     <DockPanel Background="#343434">
         <StackPanel DockPanel.Dock="Left" Width="250" Margin="5, 10, 0, 10">
-            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" />
-            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDERS" />
+            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}"/>
+            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDER" Command="{Binding DeleteFoldersCommand}"/>
             <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}"/>
         </StackPanel>
 

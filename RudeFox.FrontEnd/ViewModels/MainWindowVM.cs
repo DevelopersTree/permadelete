@@ -12,6 +12,7 @@ using RudeFox.Models;
 using RudeFox.Services;
 using System.Threading;
 using RudeFox.FrontEnd;
+using Ookii.Dialogs.Wpf;
 
 namespace RudeFox.ViewModels
 {
@@ -22,11 +23,15 @@ namespace RudeFox.ViewModels
         {
             ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.GetAboutDialog().ShowDialog());
             ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
+
             CancelAllCommand = new DelegateCommand(p =>
             {
                 foreach (var operation in App.Operations)
                     operation.CancelCommand.Execute(null);
             });
+
+            DeleteFilesCommand = new DelegateCommand(async p => await DeleteFiles());
+            DeleteFoldersCommand = new DelegateCommand(async p => await DeleteFolders());
         }
         #endregion
 
@@ -42,6 +47,8 @@ namespace RudeFox.ViewModels
         public ICommand ShowAboutCommand { get; private set; }
         public ICommand ExitCommand { get; private set; }
         public ICommand CancelAllCommand { get; private set; }
+        public ICommand DeleteFilesCommand { get; private set; }
+        public ICommand DeleteFoldersCommand { get; private set; }
         #endregion
 
         #region Drag and drop
@@ -69,6 +76,29 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Methods
+        private async Task DeleteFiles()
+        {
+            var dialog = new VistaOpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.Title = "Select the files you want to delete";
+            var result = dialog.ShowDialog();
+            if (result != true) return;
+
+            var files = dialog.FileNames;
+            await DeleteItems(files.ToList());
+        }
+
+        private async Task DeleteFolders()
+        {
+            var dialog = new VistaFolderBrowserDialog();
+            dialog.Description = "Select the folder you want to delete";
+            dialog.UseDescriptionForTitle = true;
+            var result = dialog.ShowDialog();
+            if (result != true) return;
+
+            var path = dialog.SelectedPath;
+            await DeleteItems(new List<string> { path });
+        }
         private async Task DeleteItems(List<string> paths)
         {
             var userAgreed = await GetUserAgreedToDeleteAsync(paths);
