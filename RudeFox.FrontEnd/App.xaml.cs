@@ -8,6 +8,7 @@ using RudeFox.Updater;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using RudeFox.ViewModels;
+using NLog.Targets;
 
 namespace RudeFox.FrontEnd
 {
@@ -75,7 +76,7 @@ namespace RudeFox.FrontEnd
             TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
 
             // register sentry as NLog target
-            ConfigurationItemFactory.Default.Targets.RegisterDefinition("Sentry", typeof(Nlog.SentryTarget));
+            Target.Register<Nlog.SentryTarget>("Sentry");
 
 #if !DEBUG
             // check for updates
