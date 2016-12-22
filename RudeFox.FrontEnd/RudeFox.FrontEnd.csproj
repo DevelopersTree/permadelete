@@ -80,6 +80,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\FlatButton.cs" />
+    <Compile Include="Controls\SidebarButton.cs" />
     <Compile Include="Converters\TimespanToStringConverter.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
@@ -129,6 +130,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Images\cancel_all.png" />
+    <Resource Include="Images\delete_file.png" />
+    <Resource Include="Images\delete_folder.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

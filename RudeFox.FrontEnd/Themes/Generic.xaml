@@ -12,6 +12,7 @@
     <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
 
     <Style TargetType="{x:Type local:FlatButton}">
+        <Setter Property="CornerRadius" Value="3" />
         <Setter Property="Background" Value="#e5e5e5" />
         <Setter Property="BorderBrush" Value="#505050" />
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -21,12 +22,12 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="local:FlatButton">
                     <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
                         <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3">
+                            CornerRadius="{TemplateBinding CornerRadius}">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Style.Triggers>
@@ -37,7 +38,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                        <ContentControl Margin="{TemplateBinding Padding}" Focusable="False" Content="{TemplateBinding Content}" />
+                        <ContentControl Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -77,6 +78,61 @@
                     <Setter Property="Visibility" Value="Collapsed" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:SidebarButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Padding" Value="10, 5" />
+        <Setter Property="Margin" Value="0, 0, 0, 5" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SidebarButton">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        </Border>
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="4*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Height="24" Source="{Binding RelativeSource={RelativeSource AncestorType=local:SidebarButton}, Path=ImageSource}"/>
+                            <TextBlock Foreground="Gainsboro" Text="{TemplateBinding Text}" FontSize="16" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2b2b2b" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#1b1b1b" />
+            </Trigger>
+
+            <Trigger Property="ImageSource" Value="{x:Null}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="local:SidebarButton">
+                            <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
+                                <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"></Border>
+                                <TextBlock Foreground="Gainsboro" Text="{TemplateBinding Text}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

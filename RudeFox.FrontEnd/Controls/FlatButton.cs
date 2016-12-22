@@ -28,8 +28,18 @@ namespace RudeFox.Controls
             set { SetValue(IsDestructiveProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsDestructive.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsDestructiveProperty =
             DependencyProperty.Register(nameof(IsDestructive), typeof(bool), typeof(FlatButton), new PropertyMetadata(false));
+
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(FlatButton), new PropertyMetadata(new CornerRadius(3)));
+
+
     }
 }
