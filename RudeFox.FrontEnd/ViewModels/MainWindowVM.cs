@@ -22,6 +22,11 @@ namespace RudeFox.ViewModels
         {
             ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.GetAboutDialog().ShowDialog());
             ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
+            CancelAllCommand = new DelegateCommand(p =>
+            {
+                foreach (var operation in App.Operations)
+                    operation.CancelCommand.Execute(null);
+            });
         }
         #endregion
 
@@ -36,6 +41,7 @@ namespace RudeFox.ViewModels
         #region Commands
         public ICommand ShowAboutCommand { get; private set; }
         public ICommand ExitCommand { get; private set; }
+        public ICommand CancelAllCommand { get; private set; }
         #endregion
 
         #region Drag and drop
