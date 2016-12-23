@@ -97,7 +97,7 @@ namespace RudeFox.ViewModels
             }
         }
 
-        private TimeSpan _timeRemaining;
+        private TimeSpan _timeRemaining = TimeSpan.FromSeconds(-1);
         public TimeSpan TimeRemaining
         {
             get { return _timeRemaining; }
@@ -138,7 +138,7 @@ namespace RudeFox.ViewModels
                         Bytes = new FileInfo(Path).Length;
                     else
                     {
-                        return "Calculating";
+                        return "Calculating...";
                     }
                 }
                 if (Bytes >= Constants.GIGABYTE)
