@@ -73,7 +73,7 @@ namespace RudeFox.ViewModels
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                await DeleteItems(paths.ToList());
+                await App.DeleteFilesOrFolders(paths.ToList());
             }
         }
         #endregion
@@ -88,7 +88,7 @@ namespace RudeFox.ViewModels
             if (result != true) return;
 
             var files = dialog.FileNames;
-            await DeleteItems(files.ToList());
+            await App.DeleteFilesOrFolders(files.ToList());
         }
 
         private async Task DeleteFolders()
@@ -100,42 +100,9 @@ namespace RudeFox.ViewModels
             if (result != true) return;
 
             var path = dialog.SelectedPath;
-            await DeleteItems(new List<string> { path });
+            await App.DeleteFilesOrFolders(new List<string> { path });
         }
-        private async Task DeleteItems(List<string> paths)
-        {
-            var userAgreed = await GetUserAgreedToDeleteAsync(paths);
-            if (userAgreed != true) return;
-
-            var duplicates = App.Operations.Select(item => item.Path).Intersect(paths);
-            paths.RemoveAll(p => duplicates.Contains(p));
-
-            var validPaths = paths.Where(path => File.Exists(path) || Directory.Exists(path));
-            var tasks = validPaths.Select(item => App.DeleteFileOrFolder(item)).ToList();
-
-            await Task.WhenAll(tasks);
-        }
-
-        private async Task<bool?> GetUserAgreedToDeleteAsync(List<string> paths)
-        {
-            string message;
-            string okText = "Delete ";
-            var itemName = File.Exists(paths[0]) ? "file" : "folder";
-
-            if (paths.Count == 1)
-            {
-                message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
-                message += Path.GetFileName(paths[0]);
-                okText += "it";
-            }
-            else
-            {
-                message = $"Are you sure you want to delete these {paths.Count} items?";
-                okText += "them";
-            }
-
-            return await DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true).ShowDialogAsync();
-        }
+      
         #endregion
     }
 }

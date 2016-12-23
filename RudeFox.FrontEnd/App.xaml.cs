@@ -9,6 +9,11 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using RudeFox.ViewModels;
 using NLog.Targets;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using RudeFox.Models;
+using RudeFox.Helpers;
 
 namespace RudeFox.FrontEnd
 {
@@ -68,7 +73,23 @@ namespace RudeFox.FrontEnd
             }
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        public static async Task DeleteFilesOrFolders(List<string> paths)
+        {
+            paths.Remove(Constants.SENDTO_PREFIX);
+            var userAgreed = await GetUserAgreedToDeleteAsync(paths);
+            if (userAgreed != true) return;
+
+            var duplicates = Operations.Select(item => item.Path).Intersect(paths);
+            paths.RemoveAll(p => duplicates.Contains(p));
+
+            var validPaths = paths.Where(path => System.IO.File.Exists(path) || Directory.Exists(path));
+            var tasks = validPaths.Select(item => DeleteFileOrFolder(item)).ToList();
+
+            await Task.WhenAll(tasks);
+        }
+
+      
+        protected override async void OnStartup(StartupEventArgs e)
         {
             // handle the unhandled global exceptions
             AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogUnhandledException((Exception)args.ExceptionObject);
@@ -77,6 +98,10 @@ namespace RudeFox.FrontEnd
 
             // register sentry as NLog target
             Target.Register<Nlog.SentryTarget>("Sentry");
+
+            Task deleteTask = null;
+            if (e.Args.Length > 1 && e.Args[0].Equals(Constants.SENDTO_PREFIX, StringComparison.InvariantCultureIgnoreCase))
+                deleteTask = DeleteFilesOrFolders(e.Args.ToList());
 
 #if !DEBUG
             // check for updates
@@ -88,6 +113,9 @@ namespace RudeFox.FrontEnd
             var window = new MainWindow();
             this.MainWindow = window;
             window.Show();
+
+            if (deleteTask != null)
+                await deleteTask;
         }
 
         private void LogUnhandledException(Exception e)
@@ -124,6 +152,28 @@ namespace RudeFox.FrontEnd
 
             return true; // updated and waiting for the app to exit
         }
+
+        private static async Task<bool?> GetUserAgreedToDeleteAsync(List<string> paths)
+        {
+            string message;
+            string okText = "Delete ";
+            var itemName = System.IO.File.Exists(paths[0]) ? "file" : "folder";
+
+            if (paths.Count == 1)
+            {
+                message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
+                message += Path.GetFileName(paths[0]);
+                okText += "it";
+            }
+            else
+            {
+                message = $"Are you sure you want to delete these {paths.Count} items?";
+                okText += "them";
+            }
+
+            return await DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true).ShowDialogAsync();
+        }
+
         #endregion
     }
 }
