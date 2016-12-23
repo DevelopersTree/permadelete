@@ -5,13 +5,6 @@ To delete one or more item, simply drag and drop them into the main window, then
 
 **Note:** It needs .Net Framework 4.5 to run which you can download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653).
 
-## Screen Shots
-
-### Main Window
-![Main Window](screenshots/1.png)
-
-### Delete Confirmation
-![Confirm Dialog](screenshots/2.png)
-
-### You can delete multiple items simultaneously
-![Operations Queue](screenshots/3.png)
+## How to use
+Open the app and grab stuff inside the main window, then click "Delete them"
+![Main Window](screenshots/mainwindow.png)
