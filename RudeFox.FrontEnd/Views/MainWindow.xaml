@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RudeFox.Views"
-        xmlns:frontEnd="clr-namespace:RudeFox.FrontEnd"
+        xmlns:appManagment="clr-namespace:RudeFox.ApplicationManagement"
         mc:Ignorable="d"
         xmlns:controls="clr-namespace:RudeFox.Controls"
         xmlns:converters="clr-namespace:RudeFox.Converters"
@@ -126,7 +126,7 @@
         </Grid>
 
         <ListBox x:Name="lstOperations" gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}"
-                 ItemsSource="{Binding Source={x:Static frontEnd:App.Operations}}"
+                 ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
                  Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick">
         </ListBox>

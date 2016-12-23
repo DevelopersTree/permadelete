@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RudeFox.Mvvm;
-using System.Windows.Input;
 using System.Windows;
 using GongSolutions.Wpf.DragDrop;
-using System.Collections.ObjectModel;
-using System.IO;
-using RudeFox.Models;
 using RudeFox.Services;
-using System.Threading;
-using RudeFox.FrontEnd;
 using Ookii.Dialogs.Wpf;
 using System.Collections.Specialized;
+using RudeFox.ApplicationManagement;
 
 namespace RudeFox.ViewModels
 {
@@ -73,7 +67,7 @@ namespace RudeFox.ViewModels
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                await App.DeleteFilesOrFolders(paths.ToList());
+                await App.Instance.DeleteFilesOrFolders(paths.ToList());
             }
         }
         #endregion
@@ -88,7 +82,7 @@ namespace RudeFox.ViewModels
             if (result != true) return;
 
             var files = dialog.FileNames;
-            await App.DeleteFilesOrFolders(files.ToList());
+            await App.Instance.DeleteFilesOrFolders(files.ToList());
         }
 
         private async Task DeleteFolders()
@@ -100,7 +94,7 @@ namespace RudeFox.ViewModels
             if (result != true) return;
 
             var path = dialog.SelectedPath;
-            await App.DeleteFilesOrFolders(new List<string> { path });
+            await App.Instance.DeleteFilesOrFolders(new List<string> { path });
         }
       
         #endregion
