@@ -51,37 +51,28 @@ namespace RudeFox.ViewModels
             set
             {
                 if (SetProperty(ref _path, value))
+                {
+                    RaisePropertyChanged(nameof(Type));
+                    RaisePropertyChanged(nameof(Image));
                     CalculateBytes();
+                }
             }
 
         }
 
-        private ItemType _type;
         public ItemType Type
         {
             get
             {
-                if (_type == ItemType.NotSet)
-                {
-                    if (File.Exists(Path))
-                        Type = ItemType.File;
-                    else if (Directory.Exists(Path))
-                        Type = ItemType.Folder;
-                    else
-                        Type = ItemType.Unknown;
-                }
-
-                return _type;
-            }
-            set
-            {
-                if (SetProperty(ref _type, value))
-                {
-                    RaisePropertyChanged(nameof(Image));
-                }
+                if (File.Exists(Path))
+                    return ItemType.File;
+                else if (Directory.Exists(Path))
+                    return ItemType.Folder;
+                else
+                    return ItemType.Unknown;
             }
         }
-        
+
         private double _progress;
         public double Progress
         {
@@ -95,6 +86,9 @@ namespace RudeFox.ViewModels
                     var interval = (DateTime.Now - _lastProgressReport).TotalSeconds;
                     var rate = change / interval;
                     _progressHistory.AddFirst(rate);
+
+                    if (_progressHistory.Count > 25)
+                        _progressHistory.RemoveLast();
 
                     var secondsRemaining = (100.0 - _progress) / _progressHistory.Average();
                     TimeRemaining = TimeSpan.FromSeconds(secondsRemaining);
