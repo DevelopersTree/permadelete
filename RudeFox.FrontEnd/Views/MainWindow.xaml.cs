@@ -25,5 +25,10 @@ namespace RudeFox.Views
             InitializeComponent();
         }
 
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lstOperations.SelectedItem == null)
+                (DataContext as MainWindowVM).DeleteFilesCommand.Execute(null);
+        }
     }
 }

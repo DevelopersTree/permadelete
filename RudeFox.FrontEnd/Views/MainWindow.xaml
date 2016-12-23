@@ -22,7 +22,7 @@
         <SolidColorBrush x:Key="foreground2" Color="#343434" />
         <converters:TimespanToStringConverter x:Key="timeConverter"/>
         <DataTemplate x:Key="operation" DataType="vm:OperationVM">
-            <Border >
+            <Border>
                 <Grid Margin="0, 5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
@@ -125,11 +125,10 @@
             <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="ABOUT RUDE FOX" Command="{Binding ShowAboutCommand}" Grid.Row="5"/>
         </Grid>
 
-        <ListBox gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}"
+        <ListBox x:Name="lstOperations" gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}"
                  ItemsSource="{Binding Source={x:Static frontEnd:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
-                 Style="{StaticResource listBox}" Background="{StaticResource background2}">
-
+                 Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick">
         </ListBox>
 
     </DockPanel>
