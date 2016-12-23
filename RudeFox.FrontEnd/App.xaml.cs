@@ -34,6 +34,26 @@ namespace RudeFox.FrontEnd
         public static ReadOnlyObservableCollection<OperationVM> Operations { get; private set; }
         #endregion
 
+        #region OnStartup
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            RegisterExceptionHandlingEvents();
+            InitializeComponents();
+
+            Task deleteTask = null;
+            if (e.Args.Length > 1 && e.Args[0].Equals(Constants.SENDTO_PREFIX, StringComparison.InvariantCultureIgnoreCase))
+                deleteTask = DeleteFilesOrFolders(e.Args.ToList());
+
+            // open the main window
+            var window = new MainWindow();
+            this.MainWindow = window;
+            window.Show();
+
+            if (deleteTask != null)
+                await deleteTask;
+        }
+        #endregion
+
         #region Methods
         private static void AddOperation(OperationVM operation)
         {
@@ -88,42 +108,6 @@ namespace RudeFox.FrontEnd
             await Task.WhenAll(tasks);
         }
 
-      
-        protected override async void OnStartup(StartupEventArgs e)
-        {
-            // handle the unhandled global exceptions
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogUnhandledException((Exception)args.ExceptionObject);
-            DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
-            TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
-
-            // register sentry as NLog target
-            Target.Register<Nlog.SentryTarget>("Sentry");
-
-            Task deleteTask = null;
-            if (e.Args.Length > 1 && e.Args[0].Equals(Constants.SENDTO_PREFIX, StringComparison.InvariantCultureIgnoreCase))
-                deleteTask = DeleteFilesOrFolders(e.Args.ToList());
-
-#if !DEBUG
-            // check for updates
-            UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
-            Task.Run(() => UpdateAfter(5));
-#endif
-
-            // open the main window
-            var window = new MainWindow();
-            this.MainWindow = window;
-            window.Show();
-
-            if (deleteTask != null)
-                await deleteTask;
-        }
-
-        private void LogUnhandledException(Exception e)
-        {
-            LoggerService.Instance.Error(e);
-            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
-        }
-
         /// <summary>
         /// Checks for updates, if there was a newer version returns true. Otherwise, it will return false.
         /// However, if there was an error during the update, it will return null.
@@ -153,6 +137,12 @@ namespace RudeFox.FrontEnd
             return true; // updated and waiting for the app to exit
         }
 
+        private void LogUnhandledException(Exception e)
+        {
+            LoggerService.Instance.Error(e);
+            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
+        }
+
         private static async Task<bool?> GetUserAgreedToDeleteAsync(List<string> paths)
         {
             string message;
@@ -174,6 +164,25 @@ namespace RudeFox.FrontEnd
             return await DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true).ShowDialogAsync();
         }
 
+        private void InitializeComponents()
+        {
+            // register sentry as NLog target
+            Target.Register<Nlog.SentryTarget>("Sentry");
+
+#if !DEBUG
+            // check for updates
+            UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
+            Task.Run(() => UpdateAfter(5));
+#endif
+        }
+
+        private void RegisterExceptionHandlingEvents()
+        {
+            // handle the unhandled global exceptions
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogUnhandledException((Exception)args.ExceptionObject);
+            DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
+            TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
+        }
         #endregion
     }
 }
