@@ -104,7 +104,7 @@ namespace RudeFox.ApplicationManagement
         {
             if (args == null) return null;
 
-            Task deleteTask = null;
+            Task deleteTask = Task.Delay(0); // do nothing
             if (args.Count > 1 && args[0].Equals(Constants.SENDTO_PREFIX, StringComparison.InvariantCultureIgnoreCase))
             {
                 args.Remove(Constants.SENDTO_PREFIX);

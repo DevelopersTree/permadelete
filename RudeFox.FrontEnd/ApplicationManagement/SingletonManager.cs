@@ -35,8 +35,7 @@ namespace RudeFox.ApplicationManagement
 
             App.Instance.Activate();
 
-            if (deleteTask != null)
-                await deleteTask;
+            await deleteTask;
         }
 
         private void InitializeComponents()
