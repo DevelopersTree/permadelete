@@ -13,6 +13,7 @@ using RudeFox.Services;
 using System.Threading;
 using RudeFox.FrontEnd;
 using Ookii.Dialogs.Wpf;
+using System.Collections.Specialized;
 
 namespace RudeFox.ViewModels
 {
@@ -28,7 +29,9 @@ namespace RudeFox.ViewModels
             {
                 foreach (var operation in App.Operations)
                     operation.CancelCommand.Execute(null);
-            });
+            }, p => App.Operations.Count > 0);
+
+            (App.Operations as INotifyCollectionChanged).CollectionChanged += (sender, e) => CancelAllCommand.RaiseCanExecuteChanged();
 
             DeleteFilesCommand = new DelegateCommand(async p => await DeleteFiles());
             DeleteFoldersCommand = new DelegateCommand(async p => await DeleteFolders());
@@ -44,11 +47,11 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Commands
-        public ICommand ShowAboutCommand { get; private set; }
-        public ICommand ExitCommand { get; private set; }
-        public ICommand CancelAllCommand { get; private set; }
-        public ICommand DeleteFilesCommand { get; private set; }
-        public ICommand DeleteFoldersCommand { get; private set; }
+        public DelegateCommand ShowAboutCommand { get; private set; }
+        public DelegateCommand ExitCommand { get; private set; }
+        public DelegateCommand CancelAllCommand { get; private set; }
+        public DelegateCommand DeleteFilesCommand { get; private set; }
+        public DelegateCommand DeleteFoldersCommand { get; private set; }
         #endregion
 
         #region Drag and drop

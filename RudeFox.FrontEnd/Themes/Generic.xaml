@@ -84,9 +84,9 @@
     <Style TargetType="{x:Type local:SidebarButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Padding" Value="10, 5" />
-        <Setter Property="Margin" Value="0, 0, 0, 5" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -118,7 +118,9 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="#1b1b1b" />
             </Trigger>
-
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
             <Trigger Property="ImageSource" Value="{x:Null}">
                 <Setter Property="Template">
                     <Setter.Value>
