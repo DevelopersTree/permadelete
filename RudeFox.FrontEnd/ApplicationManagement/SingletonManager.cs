@@ -8,6 +8,7 @@ using RudeFox.Helpers;
 using RudeFox.Views;
 using RudeFox.Services;
 using NLog.Targets;
+using RudeFox.Updater;
 
 namespace RudeFox.ApplicationManagement
 {
@@ -46,7 +47,7 @@ namespace RudeFox.ApplicationManagement
 #if !DEBUG
             // check for updates
             UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
-            Task.Run(() => UpdateAfter(5));
+            Task.Run(() => App.Instance.UpdateAfter(5));
 #endif
         }
     }
