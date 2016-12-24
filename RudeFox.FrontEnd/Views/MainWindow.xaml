@@ -14,7 +14,9 @@
     <Window.DataContext>
         <vm:MainWindowVM />
     </Window.DataContext>
-
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressValue="{Binding OverallProgress}" ProgressState="{Binding TaskbarState}"/>
+    </Window.TaskbarItemInfo>
     <Window.Resources>
         <SolidColorBrush x:Key="background1" Color="#343434" />
         <SolidColorBrush x:Key="background2" Color="White" />
@@ -117,12 +119,12 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
 
-            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}"/>
-            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDER" Command="{Binding DeleteFoldersCommand}" Grid.Row="1"/>
+            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="Delete Files" Command="{Binding DeleteFilesCommand}"/>
+            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="Delete Folder" Command="{Binding DeleteFoldersCommand}" Grid.Row="1"/>
             <Separator Background="#666" VerticalAlignment="Center"  Grid.Row="2"/>
-            <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Row="3"/>
+            <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="Cancel All" Command="{Binding CancelAllCommand}" Grid.Row="3"/>
 
-            <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="ABOUT RUDE FOX" Command="{Binding ShowAboutCommand}" Grid.Row="5"/>
+            <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="About Rude Fox" Command="{Binding ShowAboutCommand}" Grid.Row="5"/>
         </Grid>
 
         <ListBox x:Name="lstOperations" gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}"

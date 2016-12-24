@@ -8,6 +8,9 @@ using RudeFox.Services;
 using Ookii.Dialogs.Wpf;
 using System.Collections.Specialized;
 using RudeFox.ApplicationManagement;
+using System.Windows.Shell;
+using System.Windows.Threading;
+using System;
 
 namespace RudeFox.ViewModels
 {
@@ -25,19 +28,39 @@ namespace RudeFox.ViewModels
                     operation.CancelCommand.Execute(null);
             }, p => App.Operations.Count > 0);
 
-            (App.Operations as INotifyCollectionChanged).CollectionChanged += (sender, e) => CancelAllCommand.RaiseCanExecuteChanged();
 
             DeleteFilesCommand = new DelegateCommand(async p => await DeleteFiles());
             DeleteFoldersCommand = new DelegateCommand(async p => await DeleteFolders());
+
+            (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
+            _progressbarTimer.Tick += ProgressbarTimer_Tick;
         }
+
+
         #endregion
 
         #region Fields
-
+        DispatcherTimer _progressbarTimer = new DispatcherTimer();
+        long _totalBytes = 0;
         #endregion
 
         #region Properties
         public string Title { get { return "Rude Fox"; } }
+
+        private double _overallProgress;
+        public double OverallProgress
+        {
+            get { return _overallProgress; }
+            set { SetProperty(ref _overallProgress, value); }
+        }
+
+        private TaskbarItemProgressState _taskbarState;
+        public TaskbarItemProgressState TaskbarState
+        {
+            get { return _taskbarState; }
+            set { SetProperty(ref _taskbarState, value); }
+        }
+
         #endregion
 
         #region Commands
@@ -96,7 +119,39 @@ namespace RudeFox.ViewModels
             var path = dialog.SelectedPath;
             await App.Instance.DeleteFilesOrFolders(new List<string> { path });
         }
-      
+
+        private void ProgressbarTimer_Tick(object sender, EventArgs e)
+        {
+            if (App.Operations.Count == 1)
+            {
+                OverallProgress = App.Operations.First().Progress / 100;
+                return;
+            }
+
+            var bytesWritten = App.Operations.Sum(o => o.BytesComplete);
+            OverallProgress =  (double)bytesWritten / _totalBytes;
+        }
+
+        private void Operations_Changed(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CancelAllCommand.RaiseCanExecuteChanged();
+
+            if (App.Operations.Count == 0)
+            {
+                TaskbarState = TaskbarItemProgressState.None;
+                OverallProgress = 0;
+                _progressbarTimer.Stop();
+            }
+            else
+            {
+                _totalBytes = App.Operations.Sum(o => o.Bytes);
+
+                if (TaskbarState == TaskbarItemProgressState.None)
+                    TaskbarState = TaskbarItemProgressState.Normal;
+                if (!_progressbarTimer.IsEnabled)
+                    _progressbarTimer.Start();
+            }
+        }
         #endregion
     }
 }
