@@ -42,6 +42,8 @@ namespace RudeFox.ViewModels
         #region Fields
         DispatcherTimer _progressbarTimer = new DispatcherTimer();
         long _totalBytes = 0;
+        long _bytesOfCompletedOperations = 0;
+        long _writtenBytes = 0;
         #endregion
 
         #region Properties
@@ -122,14 +124,8 @@ namespace RudeFox.ViewModels
 
         private void ProgressbarTimer_Tick(object sender, EventArgs e)
         {
-            if (App.Operations.Count == 1)
-            {
-                OverallProgress = App.Operations.First().Progress / 100;
-                return;
-            }
-
-            var bytesWritten = App.Operations.Sum(o => o.BytesComplete);
-            OverallProgress =  (double)bytesWritten / _totalBytes;
+            _writtenBytes = App.Operations.Sum(o => o.BytesComplete);
+            OverallProgress = (double)(_writtenBytes + _bytesOfCompletedOperations) / _totalBytes;
         }
 
         private void Operations_Changed(object sender, NotifyCollectionChangedEventArgs e)
@@ -138,13 +134,23 @@ namespace RudeFox.ViewModels
 
             if (App.Operations.Count == 0)
             {
+                _totalBytes = 0;
+                _writtenBytes = 0;
+                _bytesOfCompletedOperations = 0;
+
                 TaskbarState = TaskbarItemProgressState.None;
                 OverallProgress = 0;
                 _progressbarTimer.Stop();
             }
             else
             {
-                _totalBytes = App.Operations.Sum(o => o.Bytes);
+                if (e.NewItems?.Count > 0)
+                    foreach (OperationVM item in e.NewItems)
+                        _totalBytes += item.Bytes;
+
+                if (e.OldItems?.Count > 0)
+                    foreach (OperationVM item in e.OldItems)
+                        _bytesOfCompletedOperations += item.Bytes;
 
                 if (TaskbarState == TaskbarItemProgressState.None)
                     TaskbarState = TaskbarItemProgressState.Normal;
