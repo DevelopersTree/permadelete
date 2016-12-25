@@ -19,7 +19,13 @@ namespace RudeFox.ViewModels
         #region Constructor
         public MainWindowVM()
         {
-            ShowAboutCommand = new DelegateCommand(p => DialogService.Instance.GetAboutDialog().ShowDialog());
+            ShowAboutCommand = new DelegateCommand(parent =>
+            {
+                var dialog = DialogService.Instance.GetAboutDialog();
+                dialog.Owner = (Window)parent;
+                dialog.ShowDialog();
+            });
+
             ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
 
             CancelAllCommand = new DelegateCommand(p =>
