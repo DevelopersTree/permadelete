@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using DiskDetector;
 namespace RudeFox.Services
 {
     public sealed class ShredderService
@@ -91,8 +91,11 @@ namespace RudeFox.Services
                 progress.Report(newBytes);
             };
 
-            // if the file was a syslink then only remove the link not the contents.
-            if ((file.Attributes & FileAttributes.ReparsePoint) == 0)
+            // if the file was a syslink, then only remove the link not the contents.
+            // and if the drive was an ssd, then there is no point in overwriting content
+            // more info: https://samsclass.info/121/proj/ssd-evaporation.htm
+            var driveName = Path.GetPathRoot(file.FullName);
+            if ((file.Attributes & FileAttributes.ReparsePoint) == 0 && !DiskIsSSD(driveName))
             {
                 file.Attributes = FileAttributes.Normal;
                 file.Attributes = FileAttributes.NotContentIndexed;
@@ -102,6 +105,10 @@ namespace RudeFox.Services
 
                 if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
                 await DestroyEntityMetaData(file);
+            }
+            else
+            {
+                progress.Report((int)file.Length);
             }
 
             file.Delete();
@@ -236,6 +243,18 @@ namespace RudeFox.Services
             });
 
             return true;
+        }
+        private bool DiskIsSSD(string driveName)
+        {
+            try
+            {
+                var result = Detector.DetectDrive(driveName);
+                return result.HardwareType == DiskDetector.Models.HardwareType.Ssd;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }
