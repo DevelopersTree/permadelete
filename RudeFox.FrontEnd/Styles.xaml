@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:RudeFox.Controls"
                     xmlns:vm="clr-namespace:RudeFox.ViewModels"
-                    xmlns:converters="clr-namespace:RudeFox.Converters"
+                    xmlns:xaml="clr-namespace:RudeFox.Xaml"
                     xmlns:local="clr-namespace:RudeFox">
     <SolidColorBrush x:Key="background1" Color="#343434" />
     <SolidColorBrush x:Key="background2" Color="White" />
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
     <SolidColorBrush x:Key="foreground2" Color="#343434" />
-    <converters:TimespanToStringConverter x:Key="timeConverter"/>
+    <xaml:TimespanToStringConverter x:Key="timeConverter"/>
     
     <DataTemplate x:Key="operation" DataType="vm:OperationVM">
         <Border>

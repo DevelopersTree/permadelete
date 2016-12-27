@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace RudeFox.Converters
+namespace RudeFox.Xaml
 {
     class TimespanToStringConverter : IValueConverter
     {

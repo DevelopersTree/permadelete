@@ -85,7 +85,7 @@
     <Compile Include="ApplicationManagement\SingletonManager.cs" />
     <Compile Include="Controls\FlatButton.cs" />
     <Compile Include="Controls\SidebarButton.cs" />
-    <Compile Include="Converters\TimespanToStringConverter.cs" />
+    <Compile Include="Xaml\TimespanToStringConverter.cs" />
     <Compile Include="Enums\OperationStatus.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />

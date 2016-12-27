@@ -7,7 +7,6 @@
         xmlns:appManagment="clr-namespace:RudeFox.ApplicationManagement"
         mc:Ignorable="d"
         xmlns:controls="clr-namespace:RudeFox.Controls"
-        xmlns:converters="clr-namespace:RudeFox.Converters"
         xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
         Title="{Binding Title}" Height="600" MinWidth="800" MinHeight="500">
