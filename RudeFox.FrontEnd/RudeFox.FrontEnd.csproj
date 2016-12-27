@@ -86,6 +86,7 @@
     <Compile Include="Controls\FlatButton.cs" />
     <Compile Include="Controls\SidebarButton.cs" />
     <Compile Include="Converters\TimespanToStringConverter.cs" />
+    <Compile Include="Enums\OperationStatus.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\Keys.cs" />
@@ -159,6 +160,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

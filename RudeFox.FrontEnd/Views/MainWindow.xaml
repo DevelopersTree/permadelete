@@ -18,94 +18,56 @@
         <TaskbarItemInfo ProgressValue="{Binding OverallProgress}" ProgressState="{Binding TaskbarState}"/>
     </Window.TaskbarItemInfo>
     <Window.Resources>
-        <SolidColorBrush x:Key="background1" Color="#343434" />
-        <SolidColorBrush x:Key="background2" Color="White" />
-        <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
-        <SolidColorBrush x:Key="foreground2" Color="#343434" />
-        <converters:TimespanToStringConverter x:Key="timeConverter"/>
-        <DataTemplate x:Key="operation" DataType="vm:OperationVM">
-            <Border>
-                <Grid Margin="0, 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="60" />
-                    </Grid.ColumnDefinitions>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-                    <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48"/>
+            <Style TargetType="{x:Type ListBox}" x:Key="listBox">
+                <Setter Property="BorderBrush" Value="{StaticResource background1}" />
+                <Setter Property="BorderThickness" Value="5, 5, 0, 5" />
+                <Setter Property="Padding" Value="3" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
+                                <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <!-- If the list was empty, show the user a hint ;) -->
+                    <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}"  Value="0">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="256"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="2*" />
+                                            </Grid.RowDefinitions>
+                                            <Image Height="128" Width="128" Grid.Row="1" Source="/Images/icon_128.png"/>
+                                            <StackPanel Orientation="Horizontal" Grid.Row="2"  HorizontalAlignment="Center" Margin="0,0,0,20">
+                                                <TextBlock Text="Nothing to delete" FontSize="28" Margin="0,0,10,0" FontWeight="Light" Foreground="{StaticResource foreground2}" />
+                                            </StackPanel>
+                                            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource foreground2}" FontSize="18">Drop some files and folders here to be deleted.</TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
-                    <Grid Grid.Column="1">
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding Path}" FontSize="16" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock FontSize="16" Text="{Binding Progress, StringFormat='{}{0:0.#} %', FallbackValue=0.0}" Grid.Column="1" HorizontalAlignment="Right"/>
-
-                        <ProgressBar Value="{Binding Progress}" Grid.Row="1" Margin="0, 5" Height="18" Grid.ColumnSpan="2"/>
-                      
-                        <TextBlock Text="{Binding TimeRemaining, Converter={StaticResource timeConverter}, StringFormat='Time Remaining: {0}'}" Foreground="#666" Grid.Row="2"/>
-                        <TextBlock Text="{Binding Size}" VerticalAlignment="Center" Foreground="Gray" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
-                    </Grid>
-
-                    <controls:FlatButton Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="3" MinWidth="30" MinHeight="30"
-                                         Grid.Column="2" Focusable="False" Command="{Binding CancelCommand}"  TextBlock.TextAlignment="Center"/>
-                </Grid>
-            </Border>
-        </DataTemplate>
-
-        <Style TargetType="{x:Type ListBox}" x:Key="listBox">
-            <Setter Property="BorderBrush" Value="{StaticResource background1}" />
-            <Setter Property="BorderThickness" Value="5, 5, 0, 5" />
-            <Setter Property="Padding" Value="3" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
-                            <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <!-- If the list was empty, show the user a hint ;) -->
-                <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}"  Value="0">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="256"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="2*" />
-                                        </Grid.RowDefinitions>
-                                        <Image Height="128" Width="128" Grid.Row="1" Source="/Images/icon_128.png"/>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="2"  HorizontalAlignment="Center" Margin="0,0,0,20">
-                                            <TextBlock Text="Nothing to delete" FontSize="28" Margin="0,0,10,0" FontWeight="Light" Foreground="{StaticResource foreground2}" />
-                                        </StackPanel>
-                                        <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource foreground2}" FontSize="18">Drop some files and folders here to be deleted.</TextBlock>
-                                    </Grid>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel Background="{StaticResource background1}">

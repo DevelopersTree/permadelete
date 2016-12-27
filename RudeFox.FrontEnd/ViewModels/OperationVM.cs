@@ -166,6 +166,21 @@ namespace RudeFox.ViewModels
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
         public Progress<int> TaskProgress { get; set; }
+
+        private OperationStatus _status;
+        public OperationStatus Status
+        {
+            get { return _status; }
+            set { SetProperty(ref _status, value); }
+        }
+
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set { SetProperty(ref _message, value); }
+        }
+
         #endregion
 
         #region Commands
