@@ -1,4 +1,4 @@
-﻿using RudeFox.Models;
+﻿using RudeFox.Enums;
 using RudeFox.ViewModels;
 using RudeFox.Views;
 using System;

@@ -12,7 +12,7 @@ using NLog.Targets;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using RudeFox.Models;
+using RudeFox.Enums;
 using RudeFox.Helpers;
 
 namespace RudeFox.ApplicationManagement

@@ -1,4 +1,4 @@
-﻿using RudeFox.Models;
+﻿using RudeFox.Enums;
 using RudeFox.Mvvm;
 using System;
 using System.Collections.Generic;

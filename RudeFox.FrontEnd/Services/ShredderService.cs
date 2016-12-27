@@ -1,5 +1,5 @@
 ﻿using RudeFox.Helpers;
-using RudeFox.Models;
+using RudeFox.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;

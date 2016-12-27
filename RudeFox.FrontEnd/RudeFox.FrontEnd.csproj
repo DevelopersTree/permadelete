@@ -89,9 +89,9 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\Keys.cs" />
-    <Compile Include="Models\FileSystemType.cs" />
-    <Compile Include="Models\ItemType.cs" />
-    <Compile Include="Models\MessageIcon.cs" />
+    <Compile Include="Enums\FileSystemType.cs" />
+    <Compile Include="Enums\ItemType.cs" />
+    <Compile Include="Enums\MessageIcon.cs" />
     <Compile Include="NLog\SentryTarget.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\LoggerService.cs" />

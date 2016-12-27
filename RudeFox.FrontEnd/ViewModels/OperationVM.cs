@@ -1,5 +1,5 @@
 ﻿using RudeFox.Helpers;
-using RudeFox.Models;
+using RudeFox.Enums;
 using RudeFox.Mvvm;
 using RudeFox.Services;
 using System;
