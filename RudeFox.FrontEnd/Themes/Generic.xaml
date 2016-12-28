@@ -12,12 +12,14 @@
     <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
 
     <Style TargetType="{x:Type local:FlatButton}">
-        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="CornerRadius" Value="2" />
         <Setter Property="Background" Value="#e5e5e5" />
         <Setter Property="BorderBrush" Value="#505050" />
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinWidth" Value="50" />
         <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="Padding" Value="10, 7" />
+        <Setter Property="Padding" Value="15, 5" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
@@ -38,7 +40,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                        <ContentControl Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                        <ContentControl Focusable="False" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -47,25 +49,76 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#eee" />
             </Trigger>
+           
+            <!-- IsDestructive -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="True"/>
                     <Condition Property="IsDestructive" Value="True"/>
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="Crimson" />
-                    <Setter Property="Foreground" Value="Crimson" />
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#dc143c"   />
                 </MultiTrigger.Setters>
             </MultiTrigger>
 
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="True"/>
-                    <Condition Property="IsDestructive" Value="False"/>
+                    <Condition Property="IsDestructive" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="True"/>
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="DodgerBlue" />
-                    <Setter Property="Foreground" Value="DodgerBlue" />
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#ea234b"   />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsDestructive" Value="True"/>
+                    <Condition Property="IsPressed" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#be1234"   />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <!-- IsRecommended -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#1e90ff" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#339aff" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                    <Condition Property="IsPressed" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#1580e8" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
 

@@ -41,5 +41,18 @@ namespace RudeFox.Controls
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(FlatButton), new PropertyMetadata(new CornerRadius(3)));
 
 
+
+        public bool IsRecommended
+        {
+            get { return (bool)GetValue(IsRecommendedProperty); }
+            set { SetValue(IsRecommendedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsGood.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsRecommendedProperty =
+            DependencyProperty.Register(nameof(IsRecommended), typeof(bool), typeof(FlatButton), new PropertyMetadata(false));
+
     }
+
+  
 }
