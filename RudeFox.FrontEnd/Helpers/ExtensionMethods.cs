@@ -23,5 +23,25 @@ namespace RudeFox
                 return await window.Dispatcher.InvokeAsync(() => window.ShowDialog());
             });
         }
+
+        public static string ToHumanLanguage(this TimeSpan time)
+        {
+            if (time >= TimeSpan.FromMinutes(60) && time.Minutes != 0)
+                return $"About {time.Hours} hours and {time.Minutes} minutes";
+            if (time >= TimeSpan.FromMinutes(50))
+                return $"About {time.Hours} hours";
+            if (time >= TimeSpan.FromMinutes(30))
+                return $"About {time.Minutes} minutes";
+            if (time > TimeSpan.FromMinutes(1) && time.Seconds != 0)
+                return $"About {time.Minutes} minutes and {time.Seconds.RoundOff()} seconds";
+            if (time > TimeSpan.FromMinutes(1))
+                return $"About {time.Minutes} minutes";
+            if (((int)time.TotalSeconds).RoundOff() > 4)
+                return $"About {((int)time.TotalSeconds).RoundOff()} seconds";
+            if (((int)time.TotalSeconds).RoundOff() == 0)
+                return "Just a moment...";
+
+            return "Calculating...";
+        }
     }
 }

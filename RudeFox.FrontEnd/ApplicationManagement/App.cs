@@ -40,20 +40,29 @@ namespace RudeFox.ApplicationManagement
         #region OnStartup
         protected override async void OnStartup(StartupEventArgs e)
         {
-            this.MainWindow = new MainWindow();
-            this.MainWindow.Show();
-
-            await ProcessCommandLineArgs(e.Args.ToList());
+            if (e.Args.Count() == 0)
+            {
+                this.MainWindow = new MainWindow();
+                this.MainWindow.Show();
+            }
+            else
+            {
+                var window = new AgileWindow();
+                window.DataContext = new AgileWindowVM(e.Args.ToList());
+                await window.ShowDialogAsync();
+            }
         }
 
         #endregion
 
         #region Methods
-
-        public async Task DeleteFilesOrFolders(List<string> paths)
+        public async Task DeleteFilesOrFolders(List<string> paths, bool silent = false)
         {
-            var userAgreed = await GetUserAgreedToDeleteAsync(paths);
-            if (userAgreed != true) return;
+            if (!silent)
+            {
+                var userAgreed = await GetUserAgreedToDeleteAsync(paths);
+                if (userAgreed != true) return;
+            }
 
             var duplicates = Operations.Select(item => item.Path).Intersect(paths);
             paths.RemoveAll(p => duplicates.Contains(p));

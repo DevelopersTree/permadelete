@@ -8,14 +8,11 @@ using System.Windows.Data;
 
 namespace RudeFox.Xaml
 {
-    class TimespanToStringConverter : IValueConverter
+    public class ProgressDoubleToIntConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is TimeSpan))
-                throw new ArgumentException("Value must be a Timespan.");
-
-            return ((TimeSpan)value).ToHumanLanguage();
+            return (int)((double)value * 100);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
