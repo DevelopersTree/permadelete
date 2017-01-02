@@ -13,7 +13,5 @@ namespace RudeFox.Helpers
         public const int GIGABYTE = MEGABYTE * KILOBYTE;
 
         public const string WEBSITE_URL = "https://github.com/encrypt0r/RudeFox";
-
-        public const string SENDTO_PREFIX = "--sendto";
     }
 }
