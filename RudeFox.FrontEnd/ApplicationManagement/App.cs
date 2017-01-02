@@ -48,7 +48,7 @@ namespace RudeFox.ApplicationManagement
             else
             {
                 var window = new AgileWindow();
-                window.DataContext = new AgileWindowVM(e.Args.ToList());
+                window.DataContext = new AgileWindowVM(e.Args);
                 await window.ShowDialogAsync();
             }
         }
@@ -56,7 +56,7 @@ namespace RudeFox.ApplicationManagement
         #endregion
 
         #region Methods
-        public async Task DeleteFilesOrFolders(List<string> paths, bool silent = false)
+        public async Task DeleteFilesOrFolders(IEnumerable<string> paths, bool silent = false)
         {
             if (!silent)
             {
@@ -65,10 +65,10 @@ namespace RudeFox.ApplicationManagement
             }
 
             var duplicates = Operations.Select(item => item.Path).Intersect(paths);
-            paths.RemoveAll(p => duplicates.Contains(p));
+            paths = paths.Except(duplicates);
 
             var validPaths = paths.Where(path => System.IO.File.Exists(path) || Directory.Exists(path));
-            var tasks = validPaths.Select(item => DeleteFileOrFolder(item)).ToList();
+            var tasks = validPaths.Select(item => DeleteFileOrFolder(item));
 
             await Task.WhenAll(tasks);
         }
@@ -107,20 +107,6 @@ namespace RudeFox.ApplicationManagement
             MainWindow.Activate();
             if (MainWindow.WindowState == WindowState.Minimized)
                 MainWindow.WindowState = WindowState.Normal;
-        }
-
-        internal Task ProcessCommandLineArgs(List<string> args)
-        {
-            if (args == null) return null;
-
-            Task deleteTask = Task.Delay(0); // do nothing
-            if (args.Count > 1 && args[0].Equals(Constants.SENDTO_PREFIX, StringComparison.InvariantCultureIgnoreCase))
-            {
-                args.Remove(Constants.SENDTO_PREFIX);
-                deleteTask = DeleteFilesOrFolders(args);
-            }
-
-            return deleteTask;
         }
 
         internal void RegisterExceptionHandlingEvents()
@@ -163,21 +149,21 @@ namespace RudeFox.ApplicationManagement
 
         public void RemoveOperation(OperationVM operation) => _operationsSource.Remove(operation);
 
-        private async Task<bool?> GetUserAgreedToDeleteAsync(List<string> paths)
+        private async Task<bool?> GetUserAgreedToDeleteAsync(IEnumerable<string> paths)
         {
             string message;
             string okText = "Delete ";
-            var itemName = System.IO.File.Exists(paths[0]) ? "file" : "folder";
+            var itemName = System.IO.File.Exists(paths.FirstOrDefault()) ? "file" : "folder";
 
-            if (paths.Count == 1)
+            if (paths.Count() == 1)
             {
                 message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
-                message += Path.GetFileName(paths[0]);
+                message += Path.GetFileName(paths.FirstOrDefault());
                 okText += "it";
             }
             else
             {
-                message = $"Are you sure you want to delete these {paths.Count} items?";
+                message = $"Are you sure you want to delete these {paths.Count()} items?";
                 okText += "them";
             }
             var dialog = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true);

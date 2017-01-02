@@ -31,19 +31,18 @@ namespace RudeFox.ApplicationManagement
         protected override async void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
         {
             // subsequent launches
-            Task deleteTask = App.Instance.ProcessCommandLineArgs(eventArgs.CommandLine?.ToList());
-
             App.Instance.Activate();
 
-            await deleteTask;
+            if (eventArgs.CommandLine.Count() > 0)
+                await App.Instance.DeleteFilesOrFolders(eventArgs.CommandLine);
         }
 
         private void InitializeComponents()
         {
+#if !DEBUG
             // register sentry as NLog target
             Target.Register<Nlog.SentryTarget>("Sentry");
 
-#if !DEBUG
             // check for updates
             UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
             Task.Run(() => App.Instance.UpdateAfter(5));

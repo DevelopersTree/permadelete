@@ -18,18 +18,18 @@ namespace RudeFox.ViewModels
 {
     public class AgileWindowVM : BindableBase
     {
-        public AgileWindowVM(List<string> paths)
+        public AgileWindowVM(IEnumerable<string> paths)
         {
             string names;
             string pronoun;
-            if (paths.Count == 1)
+            if (paths.Count() == 1)
             {
-                names = $"\"{GetShortName(paths[0])}\"";
+                names = $"\"{GetShortName(paths.First())}\"";
                 pronoun = string.Empty;
             }
             else
             {
-                names = $"{paths.Count} items";
+                names = $"{paths.Count()} items";
                 pronoun = "these ";
             }
 

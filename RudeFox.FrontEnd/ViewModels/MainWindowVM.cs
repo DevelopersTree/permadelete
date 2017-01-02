@@ -5,13 +5,12 @@ using RudeFox.Mvvm;
 using System.Windows;
 using GongSolutions.Wpf.DragDrop;
 using RudeFox.Services;
-using Ookii.Dialogs.Wpf;
 using System.Collections.Specialized;
 using RudeFox.ApplicationManagement;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using System;
-
+using Microsoft.WindowsAPICodePack.Dialogs;
 namespace RudeFox.ViewModels
 {
     class MainWindowVM : BindableBase, IDropTarget
@@ -35,14 +34,12 @@ namespace RudeFox.ViewModels
             }, p => App.Operations.Count > 0);
 
 
-            DeleteFilesCommand = new DelegateCommand(async p => await DeleteFiles());
-            DeleteFoldersCommand = new DelegateCommand(async p => await DeleteFolders());
+            DeleteFilesCommand = new DelegateCommand(async w => await DeleteFiles((Window)w));
+            DeleteFoldersCommand = new DelegateCommand(async w => await DeleteFolders((Window)w));
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
             _progressbarTimer.Tick += ProgressbarTimer_Tick;
         }
-
-
         #endregion
 
         #region Fields
@@ -98,34 +95,34 @@ namespace RudeFox.ViewModels
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                await App.Instance.DeleteFilesOrFolders(paths.ToList());
+                await App.Instance.DeleteFilesOrFolders(paths);
             }
         }
         #endregion
 
         #region Methods
-        private async Task DeleteFiles()
+        private async Task DeleteFiles(Window window)
         {
-            var dialog = new VistaOpenFileDialog();
-            dialog.Multiselect = true;
+            var dialog = GetOpenFileDialog();
             dialog.Title = "Select the files you want to delete";
-            var result = dialog.ShowDialog();
-            if (result != true) return;
+
+            var result = dialog.ShowDialog(window);
+            if (result != CommonFileDialogResult.Ok) return;
 
             var files = dialog.FileNames;
-            await App.Instance.DeleteFilesOrFolders(files.ToList());
+            await App.Instance.DeleteFilesOrFolders(files);
         }
 
-        private async Task DeleteFolders()
+        private async Task DeleteFolders(Window window)
         {
-            var dialog = new VistaFolderBrowserDialog();
-            dialog.Description = "Select the folder you want to delete";
-            dialog.UseDescriptionForTitle = true;
-            var result = dialog.ShowDialog();
-            if (result != true) return;
+            var dialog = GetOpenFileDialog(true);
+            dialog.Title = "Select the folders you want to delete";
 
-            var path = dialog.SelectedPath;
-            await App.Instance.DeleteFilesOrFolders(new List<string> { path });
+            var result = dialog.ShowDialog(window);
+            if (result != CommonFileDialogResult.Ok) return;
+
+            var paths = dialog.FileNames;
+            await App.Instance.DeleteFilesOrFolders(paths);
         }
 
         private void ProgressbarTimer_Tick(object sender, EventArgs e)
@@ -163,6 +160,19 @@ namespace RudeFox.ViewModels
                 if (!_progressbarTimer.IsEnabled)
                     _progressbarTimer.Start();
             }
+        }
+
+        private CommonOpenFileDialog GetOpenFileDialog(bool isFolderPicker = false)
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = true;
+            dialog.ShowHiddenItems = true;
+            dialog.IsFolderPicker = isFolderPicker;
+
+            return dialog;
         }
         #endregion
     }

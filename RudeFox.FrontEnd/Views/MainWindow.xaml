@@ -80,8 +80,10 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
 
-            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="Delete Files" Command="{Binding DeleteFilesCommand}"/>
-            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="Delete Folder" Command="{Binding DeleteFoldersCommand}" Grid.Row="1"/>
+            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="Delete Files" Command="{Binding DeleteFilesCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="Delete Folders" Command="{Binding DeleteFoldersCommand}" Grid.Row="1"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             <Separator Background="#666" VerticalAlignment="Center"  Grid.Row="2"/>
             <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="Cancel All" Command="{Binding CancelAllCommand}" Grid.Row="3"/>
 
