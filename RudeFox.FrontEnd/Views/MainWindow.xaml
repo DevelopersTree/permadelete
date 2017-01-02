@@ -9,7 +9,7 @@
         xmlns:controls="clr-namespace:RudeFox.Controls"
         xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
-        Title="{Binding Title}" Height="600" MinWidth="800" MinHeight="500">
+        Title="{Binding Title}" Height="600" MinHeight="300" MinWidth="400" SizeChanged="Window_SizeChanged">
     <Window.DataContext>
         <vm:MainWindowVM />
     </Window.DataContext>
@@ -47,21 +47,22 @@
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
-                                                <RowDefinition Height="256"/>
+                                                <RowDefinition Height="2*" />
                                                 <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
                                                 <RowDefinition Height="2*" />
                                             </Grid.RowDefinitions>
-                                            <Image Height="128" Width="128" Grid.Row="1" Source="/Images/icon_128.png"/>
-                                            <StackPanel Orientation="Horizontal" Grid.Row="2"  HorizontalAlignment="Center" Margin="0,0,0,20">
-                                                <TextBlock Text="Nothing to delete" FontSize="28" Margin="0,0,10,0" FontWeight="Light" Foreground="{StaticResource foreground2}" />
-                                            </StackPanel>
-                                            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource foreground2}" FontSize="18">Drop some files and folders here to be deleted.</TextBlock>
+                                            <Image MaxHeight="128" Grid.Row="1" Source="/Images/icon_128.png"/>
+                                            <TextBlock Text="Nothing to delete" FontSize="28" Grid.Row="2"  HorizontalAlignment="Center" FontWeight="Light" Foreground="{StaticResource foreground2}" />
+                                            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource foreground2}" FontSize="18" VerticalAlignment="Center">Drop some files and folders here to be deleted.</TextBlock>
                                         </Grid>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=sidebarGrid, Path=Visibility}" Value="Collapsed">
+                        <Setter Property="BorderThickness" Value="0" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -70,7 +71,7 @@
     </Window.Resources>
 
     <DockPanel Background="{StaticResource background1}">
-        <Grid DockPanel.Dock="Left" Width="250" Margin="5, 10, 0, 10">
+        <Grid DockPanel.Dock="Left" Width="250" Margin="5, 10, 0, 10" x:Name="sidebarGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />

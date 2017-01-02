@@ -30,5 +30,13 @@ namespace RudeFox.Views
             if (lstOperations.SelectedItem == null)
                 (DataContext as MainWindowVM).DeleteFilesCommand.Execute(null);
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (Width < 650 || Height < 300)
+                sidebarGrid.Visibility = Visibility.Collapsed;
+            else
+                sidebarGrid.Visibility = Visibility.Visible;
+        }
     }
 }
