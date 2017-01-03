@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="UpdateAttempt.cs" />
     <Compile Include="UpdateManager.cs" />
     <Compile Include="UpdateType.cs" />
     <Compile Include="UpdateInfo.cs" />

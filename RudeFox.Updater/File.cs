@@ -21,8 +21,6 @@ namespace RudeFox.Updater
             }
         }
         public bool Overwrite { get; set; }
-        [JsonIgnore]
-        public bool IsDownloaded { get; set; }
         public long Length { get; set; }
     }
 }

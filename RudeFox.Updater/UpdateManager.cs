@@ -16,8 +16,8 @@ namespace RudeFox.Updater
     {
         #region Fields
         private static DropboxClient _client;
-        private static Random _random = new Random();
-        private static string _updateFolder = "/update/v0.1";
+        private const string _attemptFileName = "attempt.bak";
+        private const string _updateFolder = "/update/v0.2";
         private static System.Text.RegularExpressions.Regex _pattern = new System.Text.RegularExpressions.Regex(@"[\\/]{2,}|[\\]");
         #endregion
 
@@ -39,31 +39,26 @@ namespace RudeFox.Updater
         public static async Task<string> DownloadLatestUpdate(Version currentVersion)
         {
             var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-            DeleteOldFiles(appFolder);
+            CleanUpFolder(appFolder);
 
             var updateInfo = await CheckForUpdates().ConfigureAwait(false);
             if (updateInfo.Version <= currentVersion || updateInfo?.Path == null)
                 return null;
 
-            var tempFolderName = Path.GetTempPath() + "RudeFox " + _random.Next();
+            var tempFolderName = Path.GetTempPath() + "RudeFox " + currentVersion;
             Directory.CreateDirectory(tempFolderName);
+
+            var updateAttempt = CheckForPreviousAttempts(tempFolderName, currentVersion, updateInfo.Version);
+            var lastAttemptWasNew = updateAttempt.Version == updateInfo.Version;
+            if (!lastAttemptWasNew)
+                CleanUpFolder(tempFolderName, "*.*");
+            else if (lastAttemptWasNew && updateAttempt.DownloadCompleted)
+                return tempFolderName;
 
             foreach (var remote in updateInfo.Files)
             {
-                var localPath = CombinePathForInternet(appFolder, remote.Folder, remote.Name);
-                var localFileInfo = new FileInfo(localPath);
-
-                Version localVersion;
-                if (System.IO.File.Exists(localPath) && (remote.Extention == "exe" || remote.Extention == "dll"))
-                    localVersion = ParseVersion(FileVersionInfo.GetVersionInfo(localPath).FileVersion);
-                else
-                    localVersion = new Version(0, 0, 0, 0);
-
-                var remoteIsNewer = remote.Version > localVersion;
-                var shouldReplace = remote.Overwrite || remoteIsNewer;
-                remote.IsDownloaded = !localFileInfo.Exists || shouldReplace;
-
-                if (!remote.IsDownloaded) continue;
+                if (!ShouldDownloadFile(remote, appFolder, tempFolderName, lastAttemptWasNew))
+                    continue;
 
                 var downloadPath = CombinePathForInternet(_updateFolder, updateInfo.Path, remote.Folder, remote.Name);
                 var data = await _client.Files.DownloadAsync(downloadPath).ConfigureAwait(false);
@@ -78,10 +73,14 @@ namespace RudeFox.Updater
                 }
             }
 
+            updateAttempt.DownloadCompleted = true;
+            var attemptJson = JsonConvert.SerializeObject(updateAttempt);
+            System.IO.File.WriteAllText(Path.Combine(tempFolderName, _attemptFileName), attemptJson);
+
             return tempFolderName;
         }
 
-        /// <summary>
+        /// <summary>/
         /// Applies the update after it has been downloaded. Must be called after calling DownloadLatestUpdate.
         /// </summary>
         /// <param name="tempFolderPath">The path of the folder in which the update files are located.</param>
@@ -130,15 +129,67 @@ namespace RudeFox.Updater
             return info.Version;
         }
 
-        private static void DeleteOldFiles(string directory)
+        private static bool ShouldDownloadFile(File file, string appFolderPath, string tempFolderPath, bool lastAttemptWasNew)
         {
-            var files = new DirectoryInfo(directory).EnumerateFiles("*.bak", SearchOption.AllDirectories);
+            var localPath = CombinePathForInternet(appFolderPath, file.Folder, file.Name);
+            var tempPath = CombinePathForInternet(tempFolderPath, file.Folder, file.Name);
+            var localVersion = GetFileVersion(localPath, file.Extention);
+            var tempVersion = GetFileVersion(tempPath, tempPath.Split('.').LastOrDefault());
+
+            var remoteIsNewer = file.Version > localVersion;
+            var shouldReplace = file.Overwrite || remoteIsNewer;
+
+            var tempFileIsComplete = System.IO.File.Exists(tempPath) && (new FileInfo(tempPath).Length == file.Length);
+            var isAlreadyDownloaded = lastAttemptWasNew && tempFileIsComplete && (tempVersion == file.Version);
+
+            return !isAlreadyDownloaded && (!System.IO.File.Exists(localPath) || shouldReplace);
+        }
+
+        private static Version GetFileVersion(string path, string extention)
+        {
+            try
+            {
+                Version localVersion;
+                if (System.IO.File.Exists(path) && System.IO.File.Exists(path) && (extention == "exe" || extention == "dll"))
+                    localVersion = ParseVersion(FileVersionInfo.GetVersionInfo(path).FileVersion);
+                else
+                    localVersion = new Version(0, 0, 0, 0);
+
+                return localVersion;
+            }
+            catch (Exception)
+            {
+                return new Version(0, 0, 0, 0);
+            }
+        }
+
+        private static void CleanUpFolder(string directory, string searchPattern = "*.bak", SearchOption options = SearchOption.AllDirectories)
+        {
+            var files = new DirectoryInfo(directory).EnumerateFiles(searchPattern, options);
             foreach (var file in files)
             {
                 file.Delete();
                 if (!file.Directory.EnumerateFileSystemInfos().Any())
                     file.Directory.Delete();
             }
+        }
+
+        private static UpdateAttempt CheckForPreviousAttempts(string tempFolderName, Version currentVersion, Version newVersion)
+        {
+            var attemptPath = Path.Combine(tempFolderName, _attemptFileName);
+            UpdateAttempt attempt;
+            if (System.IO.File.Exists(attemptPath))
+            {
+                attempt = JsonConvert.DeserializeObject<UpdateAttempt>(System.IO.File.ReadAllText(attemptPath));
+            }
+            else
+            {
+                attempt = new UpdateAttempt { Date = DateTime.Now, Version = newVersion };
+                var attemptJson = JsonConvert.SerializeObject(attempt);
+                System.IO.File.WriteAllText(attemptPath, attemptJson);
+            }
+
+            return attempt;
         }
 
         private static async Task<UpdateInfo> CheckForUpdates()
