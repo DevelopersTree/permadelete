@@ -18,12 +18,16 @@ namespace RudeFox.Nlog
         #region Constructor
         public SentryTarget()
         {
+            if (string.IsNullOrWhiteSpace(Keys.SENTRY_API_DSN))
+                throw new NullReferenceException("Bad Sentry API DSN.");
+
+            _ravenClient = new RavenClient(Keys.SENTRY_API_DSN);
             _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         #endregion
 
         #region Fields
-        private RavenClient _ravenClient = new RavenClient(Keys.SENTRY_API_DSN);
+        private RavenClient _ravenClient;
         #endregion
 
         #region Methods

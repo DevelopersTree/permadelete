@@ -39,6 +39,9 @@ namespace RudeFox.ApplicationManagement
 
         private void InitializeComponents()
         {
+#if !DEBUG
+            if (string.IsNullOrWhiteSpace(Keys.DROPBOX_API_KEY))
+                throw new NullReferenceException("Bad Dropbox API key.");
 
             // register sentry as NLog target
             Target.Register<Nlog.SentryTarget>("Sentry");
@@ -46,6 +49,7 @@ namespace RudeFox.ApplicationManagement
             // check for updates
             UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
             Task.Run(() => App.Instance.UpdateAfter(5));
+#endif
         }
     }
 }
