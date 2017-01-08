@@ -99,40 +99,51 @@ namespace RudeFox.Updater
             }
 
             var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-            var downloadedFiles = new DirectoryInfo(tempFolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories)
-                                  .Select(info => GetRelativePath(tempFolderPath, GetUniformPath(info.FullName)));
+            string backupPath = BackUpAppFiles(appFolder);
 
-            var blackList = downloadedFiles.Where(p => System.IO.File.Exists(GetUniformPath(appFolder, p)))
-                            .Union(attempt?.FilesToDelete);
-
-            foreach (var item in blackList)
+            try
             {
-                if (!System.IO.File.Exists(item)) continue;
+                var downloadedFiles = new DirectoryInfo(tempFolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories)
+                                         .Select(info => GetRelativePath(tempFolderPath, GetUniformPath(info.FullName)));
 
-                var newFileName = item + ".bak";
-                if (System.IO.File.Exists(newFileName))
-                    System.IO.File.Delete(newFileName);
-                System.IO.File.Move(item, newFileName);
+                var blackList = downloadedFiles.Where(p => System.IO.File.Exists(GetUniformPath(appFolder, p)))
+                                .Union(attempt?.FilesToDelete);
+
+                foreach (var item in blackList)
+                {
+                    if (!System.IO.File.Exists(item)) continue;
+
+                    var newFileName = item + ".bak";
+                    if (System.IO.File.Exists(newFileName))
+                        System.IO.File.Delete(newFileName);
+                    System.IO.File.Move(item, newFileName);
+                }
+
+                foreach (var file in downloadedFiles)
+                {
+                    var tempPath = GetUniformPath(tempFolderPath, file);
+                    if (System.IO.File.Exists(tempPath))
+                    {
+                        var newFileName = GetUniformPath(appFolder, file);
+                        FileCopy(tempPath, newFileName);
+                    }
+                    else if (Directory.Exists(tempPath))
+                    {
+                        var newDirName = GetUniformPath(appFolder, file);
+                        DirectoryCopy(tempPath, newDirName);
+                    }
+                }
             }
-
-            foreach (var file in downloadedFiles)
+            catch (Exception)
             {
-                var tempPath = GetUniformPath(tempFolderPath, file);
-                if (System.IO.File.Exists(tempPath))
-                {
-                    var newFileName = GetUniformPath(appFolder, file);
-                    if (!Directory.Exists(Path.GetDirectoryName(newFileName)))
-                        Directory.CreateDirectory(Path.GetDirectoryName(newFileName));
-                    System.IO.File.Copy(tempPath, newFileName, true);
-                }
-                else if (Directory.Exists(tempPath))
-                {
-                    var newDirName = GetUniformPath(appFolder, file);
-                    DirectoryCopy(tempPath, newDirName);
-                }
+                RollBackChanges(backupPath, appFolder);
+                throw;
             }
-
-            Directory.Delete(tempFolderPath, true);
+            finally
+            {
+                Directory.Delete(backupPath, true);
+                Directory.Delete(tempFolderPath, true);
+            }
         }
 
         /// <summary>
@@ -143,6 +154,14 @@ namespace RudeFox.Updater
         {
             var info = await CheckForUpdates().ConfigureAwait(false);
             return info.Version;
+        }
+
+        private static string BackUpAppFiles(string appFolder)
+        {
+            var tempPath = GetUniformPath(Path.GetTempPath(), "Rude Fox Backup");
+            DirectoryCopy(appFolder, tempPath);
+
+            return tempPath;
         }
 
         private static string GetRelativePath(string parentFolder, string fullPath)
@@ -196,6 +215,32 @@ namespace RudeFox.Updater
                 if (!file.Directory.EnumerateFileSystemInfos().Any())
                     file.Directory.Delete();
             }
+        }
+
+        private static void RollBackChanges(string backupPath, string appFolder)
+        {
+            if (!Directory.Exists(backupPath) || !Directory.Exists(appFolder)) return;
+
+            var files = Directory.EnumerateFiles(backupPath, "*.*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                var newPath = GetUniformPath(appFolder, GetRelativePath(backupPath, file));
+                try
+                {
+                    FileCopy(file, newPath);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+        }
+
+        private static void FileCopy(string source, string destination)
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(destination)))
+                Directory.CreateDirectory(Path.GetDirectoryName(destination));
+            System.IO.File.Copy(source, destination, true);
         }
 
         private static UpdateAttempt CheckForPreviousAttempts(string tempFolderName, Version currentVersion, Version newVersion)
