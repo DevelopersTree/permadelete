@@ -38,14 +38,14 @@ namespace RudeFox.Updater
         /// <returns></returns>
         public static async Task<string> DownloadLatestUpdate(Version currentVersion)
         {
-            var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+            var appFolder = GetUniformPath(Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
             CleanUpFolder(appFolder);
 
             var updateInfo = await CheckForUpdates().ConfigureAwait(false);
             if (updateInfo.Version <= currentVersion || updateInfo?.Path == null)
                 return null;
 
-            var tempFolderName = Path.GetTempPath() + "RudeFox " + currentVersion;
+            var tempFolderName = GetUniformPath(Path.GetTempPath() + "RudeFox " + currentVersion);
             Directory.CreateDirectory(tempFolderName);
 
             var updateAttempt = CheckForPreviousAttempts(tempFolderName, currentVersion, updateInfo.Version);
@@ -55,15 +55,17 @@ namespace RudeFox.Updater
             else if (lastAttemptWasNew && updateAttempt.DownloadCompleted)
                 return tempFolderName;
 
-            foreach (var remote in updateInfo.Files)
+            updateAttempt.FilesToDelete.AddRange(updateInfo.ObsoleteFiles);
+
+            foreach (var remote in updateInfo.NewFiles)
             {
                 if (!ShouldDownloadFile(remote, appFolder, tempFolderName, lastAttemptWasNew))
                     continue;
 
-                var downloadPath = CombinePathForInternet(_updateFolder, updateInfo.Path, remote.Folder, remote.Name);
+                var downloadPath = GetUniformPath(_updateFolder, updateInfo.Path, remote.Folder, remote.Name);
                 var data = await _client.Files.DownloadAsync(downloadPath).ConfigureAwait(false);
 
-                var tempPath = CombinePathForInternet(tempFolderName, remote.Folder, remote.Name);
+                var tempPath = GetUniformPath(tempFolderName, remote.Folder, remote.Name);
                 Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 
                 using (var stream = await data.GetContentAsStreamAsync().ConfigureAwait(false))
@@ -75,44 +77,58 @@ namespace RudeFox.Updater
 
             updateAttempt.DownloadCompleted = true;
             var attemptJson = JsonConvert.SerializeObject(updateAttempt);
-            System.IO.File.WriteAllText(Path.Combine(tempFolderName, _attemptFileName), attemptJson);
+            System.IO.File.WriteAllText(GetUniformPath(tempFolderName, _attemptFileName), attemptJson);
 
             return tempFolderName;
         }
 
-        /// <summary>/
+        /// <summary>
         /// Applies the update after it has been downloaded. Must be called after calling DownloadLatestUpdate.
         /// </summary>
         /// <param name="tempFolderPath">The path of the folder in which the update files are located.</param>
         public static void ApplyUpdate(string tempFolderPath)
         {
-            var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-            var downloadedFiles = new DirectoryInfo(tempFolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories).Select(info => info.Name);
+            tempFolderPath = GetUniformPath(tempFolderPath);
 
-            var oldFiles = new DirectoryInfo(appFolder).EnumerateFiles("*.*", SearchOption.AllDirectories)
-                       .Where(local => (local.FullName.EndsWith(".exe") || local.FullName.EndsWith(".dll")) && downloadedFiles.Contains(local.Name));
-
-            foreach (var item in oldFiles)
+            UpdateAttempt attempt = null;
+            var attemptPath = GetUniformPath(tempFolderPath, _attemptFileName);
+            if (System.IO.File.Exists(attemptPath))
             {
-                var newFileName = item.FullName + ".bak";
-                if (System.IO.File.Exists(newFileName))
-                    System.IO.File.Delete(newFileName);
-                item.MoveTo(newFileName);
+                var attemptJson = System.IO.File.ReadAllText(attemptPath);
+                attempt = JsonConvert.DeserializeObject<UpdateAttempt>(attemptJson);
             }
 
-            var entries = Directory.EnumerateFileSystemEntries(tempFolderPath);
-            foreach (var entry in entries)
+            var appFolder = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+            var downloadedFiles = new DirectoryInfo(tempFolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories)
+                                  .Select(info => GetRelativePath(tempFolderPath, GetUniformPath(info.FullName)));
+
+            var blackList = downloadedFiles.Where(p => System.IO.File.Exists(GetUniformPath(appFolder, p)))
+                            .Union(attempt?.FilesToDelete);
+
+            foreach (var item in blackList)
             {
-                var entryName = entry.Replace(tempFolderPath, "");
-                if (System.IO.File.Exists(entry))
+                if (!System.IO.File.Exists(item)) continue;
+
+                var newFileName = item + ".bak";
+                if (System.IO.File.Exists(newFileName))
+                    System.IO.File.Delete(newFileName);
+                System.IO.File.Move(item, newFileName);
+            }
+
+            foreach (var file in downloadedFiles)
+            {
+                var tempPath = GetUniformPath(tempFolderPath, file);
+                if (System.IO.File.Exists(tempPath))
                 {
-                    var newFileName = CombinePathForInternet(appFolder, entryName);
-                    System.IO.File.Copy(entry, newFileName, true);
+                    var newFileName = GetUniformPath(appFolder, file);
+                    if (!Directory.Exists(Path.GetDirectoryName(newFileName)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(newFileName));
+                    System.IO.File.Copy(tempPath, newFileName, true);
                 }
-                else
+                else if (Directory.Exists(tempPath))
                 {
-                    var newDirName = CombinePathForInternet(appFolder, entryName);
-                    DirectoryCopy(entry, newDirName);
+                    var newDirName = GetUniformPath(appFolder, file);
+                    DirectoryCopy(tempPath, newDirName);
                 }
             }
 
@@ -129,10 +145,18 @@ namespace RudeFox.Updater
             return info.Version;
         }
 
+        private static string GetRelativePath(string parentFolder, string fullPath)
+        {
+            var result = fullPath.Replace(parentFolder, string.Empty);
+            if (result.Any() && result.First() == '\\' || result.First() == '/')
+                result = result.Substring(1);
+            return GetUniformPath(result);
+        }
+
         private static bool ShouldDownloadFile(File file, string appFolderPath, string tempFolderPath, bool lastAttemptWasNew)
         {
-            var localPath = CombinePathForInternet(appFolderPath, file.Folder, file.Name);
-            var tempPath = CombinePathForInternet(tempFolderPath, file.Folder, file.Name);
+            var localPath = GetUniformPath(appFolderPath, file.Folder, file.Name);
+            var tempPath = GetUniformPath(tempFolderPath, file.Folder, file.Name);
             var localVersion = GetFileVersion(localPath, file.Extention);
             var tempVersion = GetFileVersion(tempPath, tempPath.Split('.').LastOrDefault());
 
@@ -176,7 +200,7 @@ namespace RudeFox.Updater
 
         private static UpdateAttempt CheckForPreviousAttempts(string tempFolderName, Version currentVersion, Version newVersion)
         {
-            var attemptPath = Path.Combine(tempFolderName, _attemptFileName);
+            var attemptPath = GetUniformPath(tempFolderName, _attemptFileName);
             UpdateAttempt attempt;
             if (System.IO.File.Exists(attemptPath))
             {
@@ -194,14 +218,14 @@ namespace RudeFox.Updater
 
         private static async Task<UpdateInfo> CheckForUpdates()
         {
-            using (var response = await _client.Files.DownloadAsync(CombinePathForInternet(_updateFolder, "info.json")).ConfigureAwait(false))
+            using (var response = await _client.Files.DownloadAsync(GetUniformPath(_updateFolder, "info.json")).ConfigureAwait(false))
             {
                 var latestInfo = await response.GetContentAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<UpdateInfo>(latestInfo);
             }
         }
 
-        private static string CombinePathForInternet(params string[] segments)
+        private static string GetUniformPath(params string[] segments)
         {
             string fullPath = string.Join("/", segments);
             return _pattern.Replace(fullPath, "/");
@@ -220,7 +244,7 @@ namespace RudeFox.Updater
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                string temppath = Path.Combine(destDirName, file.Name);
+                string temppath = GetUniformPath(destDirName, file.Name);
                 file.CopyTo(temppath, true);
             }
 
@@ -228,7 +252,7 @@ namespace RudeFox.Updater
             {
                 foreach (DirectoryInfo subdir in dirs)
                 {
-                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    string temppath = GetUniformPath(destDirName, subdir.Name);
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }

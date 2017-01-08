@@ -39,14 +39,13 @@ namespace RudeFox.ApplicationManagement
 
         private void InitializeComponents()
         {
-#if !DEBUG
+
             // register sentry as NLog target
             Target.Register<Nlog.SentryTarget>("Sentry");
 
             // check for updates
             UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
             Task.Run(() => App.Instance.UpdateAfter(5));
-#endif
         }
     }
 }

@@ -8,8 +8,13 @@ namespace RudeFox.Updater
 {
     public class UpdateAttempt
     {
+        public UpdateAttempt()
+        {
+            FilesToDelete = new List<string>();
+        }
         public Version Version { get; set; }
         public DateTime Date { get; set; }
+        public List<string> FilesToDelete { get; set; }
         public bool DownloadCompleted { get; set; }
     }
 }
