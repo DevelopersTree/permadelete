@@ -8,7 +8,7 @@ To delete one or more item, simply drag and drop them into the main window, then
 ## How to use
 Open the app and grab stuff inside the main window, then click "Delete them"
 
-![Main Window](screenshots/mainwindow.PNG)
+![Main Window](screenshots/mainwindow.png)
 
 ## Credits
 These projects and articles have been very helpful in developing Rude Fox:
