@@ -62,13 +62,13 @@ namespace RudeFox.ViewModels
         #region Methods
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (App.Instance.UpdateStatus == _lastStatus)
+            if (App.Current.UpdateStatus == _lastStatus)
                 return;
 
-            ShowBusyIndicator = App.Instance.UpdateStatus == UpdateStatus.CheckingForUpdate ||
-                                App.Instance.UpdateStatus == UpdateStatus.DownloadingUpdate;
+            ShowBusyIndicator = App.Current.UpdateStatus == UpdateStatus.CheckingForUpdate ||
+                                App.Current.UpdateStatus == UpdateStatus.DownloadingUpdate;
 
-            switch (App.Instance.UpdateStatus)
+            switch (App.Current.UpdateStatus)
             {
                 case UpdateStatus.Idle:
                     StatusMessage = string.Empty;
@@ -87,7 +87,7 @@ namespace RudeFox.ViewModels
                     break;
             }
 
-            _lastStatus = App.Instance.UpdateStatus;
+            _lastStatus = App.Current.UpdateStatus;
         }
         #endregion
     }

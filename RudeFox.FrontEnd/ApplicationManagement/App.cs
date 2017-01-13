@@ -30,10 +30,10 @@ namespace RudeFox.ApplicationManagement
         private static ObservableCollection<OperationVM> _operationsSource = new ObservableCollection<OperationVM>();
         public static ReadOnlyObservableCollection<OperationVM> Operations { get; private set; }
 
-        private static readonly Lazy<App> _instance = new Lazy<App>(() => new App());
-        public static App Instance
+        private static readonly Lazy<App> _current = new Lazy<App>(() => new App());
+        public static new App Current
         {
-            get { return _instance.Value; }
+            get { return _current.Value; }
         }
 
         public UpdateStatus UpdateStatus { get; set; }
@@ -126,7 +126,7 @@ namespace RudeFox.ApplicationManagement
         {
             // handle the unhandled global exceptions
             AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogUnhandledException((Exception)args.ExceptionObject);
-            App.Instance.DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
+            App.Current.DispatcherUnhandledException += (sender, args) => LogUnhandledException(args.Exception);
             TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
         }
 

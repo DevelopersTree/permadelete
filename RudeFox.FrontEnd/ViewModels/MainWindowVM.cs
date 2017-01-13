@@ -95,7 +95,7 @@ namespace RudeFox.ViewModels
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                await App.Instance.DeleteFilesOrFolders(paths);
+                await App.Current.DeleteFilesOrFolders(paths);
             }
         }
         #endregion
@@ -110,7 +110,7 @@ namespace RudeFox.ViewModels
             if (result != CommonFileDialogResult.Ok) return;
 
             var files = dialog.FileNames;
-            await App.Instance.DeleteFilesOrFolders(files);
+            await App.Current.DeleteFilesOrFolders(files);
         }
 
         private async Task DeleteFolders(Window window)
@@ -122,7 +122,7 @@ namespace RudeFox.ViewModels
             if (result != CommonFileDialogResult.Ok) return;
 
             var paths = dialog.FileNames;
-            await App.Instance.DeleteFilesOrFolders(paths);
+            await App.Current.DeleteFilesOrFolders(paths);
         }
 
         private void ProgressbarTimer_Tick(object sender, EventArgs e)

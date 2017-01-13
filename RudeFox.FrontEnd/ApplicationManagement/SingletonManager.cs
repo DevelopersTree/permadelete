@@ -23,19 +23,19 @@ namespace RudeFox.ApplicationManagement
         protected override bool OnStartup(StartupEventArgs e)
         {
             // first time app is launched
-            App.Instance.RegisterExceptionHandlingEvents();
+            App.Current.RegisterExceptionHandlingEvents();
             InitializeComponents();
-            App.Instance.Run();
+            App.Current.Run();
             return false;
         }
 
         protected override async void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
         {
             // subsequent launches
-            App.Instance.Activate();
+            App.Current.Activate();
 
             if (eventArgs.CommandLine.Count() > 0)
-                await App.Instance.DeleteFilesOrFolders(eventArgs.CommandLine);
+                await App.Current.DeleteFilesOrFolders(eventArgs.CommandLine);
         }
 
         private void InitializeComponents()
@@ -46,7 +46,7 @@ namespace RudeFox.ApplicationManagement
             else
             {
                 UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
-                Task.Run(() => App.Instance.UpdateAfter(5));
+                Task.Run(() => App.Current.UpdateAfter(5));
             }
 
             // register sentry as NLog target

@@ -46,7 +46,7 @@ namespace RudeFox.ViewModels
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
 
-            CancelCommand = new DelegateCommand(p => App.Instance.Shutdown());
+            CancelCommand = new DelegateCommand(p => App.Current.Shutdown());
 
             DeleteCommand = new DelegateCommand(async p =>
             {
@@ -54,15 +54,15 @@ namespace RudeFox.ViewModels
                 TaskbarState = TaskbarItemProgressState.Normal;
 
                 _progressTimer.Start();
-                await App.Instance.DeleteFilesOrFolders(paths, true);
+                await App.Current.DeleteFilesOrFolders(paths, true);
             });
 
             OpenRudeFoxCommand = new DelegateCommand(dialog =>
             {
                 (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
 
-                App.Instance.MainWindow = new MainWindow();
-                App.Instance.MainWindow.Show();
+                App.Current.MainWindow = new MainWindow();
+                App.Current.MainWindow.Show();
                 (dialog as Window).Close();
             });
         }
