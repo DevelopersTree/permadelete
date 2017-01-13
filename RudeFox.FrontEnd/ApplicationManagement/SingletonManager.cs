@@ -9,6 +9,7 @@ using RudeFox.Views;
 using RudeFox.Services;
 using NLog.Targets;
 using RudeFox.Updater;
+using RudeFox.Enums;
 
 namespace RudeFox.ApplicationManagement
 {
@@ -41,14 +42,15 @@ namespace RudeFox.ApplicationManagement
         {
 #if !DEBUG
             if (string.IsNullOrWhiteSpace(Keys.DROPBOX_API_KEY))
-                throw new NullReferenceException("Bad Dropbox API key.");
+                DialogService.Instance.GetMessageDialog("API key not found", "Could not find Dropbox API key.", "Ok").ShowDialog();
+            else
+            {
+                UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
+                Task.Run(() => App.Instance.UpdateAfter(5));
+            }
 
             // register sentry as NLog target
             Target.Register<Nlog.SentryTarget>("Sentry");
-
-            // check for updates
-            UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
-            Task.Run(() => App.Instance.UpdateAfter(5));
 #endif
         }
     }
