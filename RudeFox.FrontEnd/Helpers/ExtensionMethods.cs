@@ -43,5 +43,15 @@ namespace RudeFox
 
             return "Calculating...";
         }
+
+        public static string Shorten(this Version version)
+        {
+            if (version.Revision != 0)
+                return version.Major + "." + version.Minor + "." + version.Build + "." + version.Revision;
+            if (version.Build != 0)
+                return version.Major + "." + version.Minor + "." + version.Build;
+
+                return version.Major + "." + version.Minor;
+        }
     }
 }

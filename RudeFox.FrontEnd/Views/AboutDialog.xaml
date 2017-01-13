@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:RudeFox.Controls"
         xmlns:local="clr-namespace:RudeFox.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         Title="About Rude Fox" Height="300" Width="500">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -18,14 +22,48 @@
 
         <Image Source="/Images/icon_128.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="96" Stretch="Uniform"/>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" >
-            <TextBlock Text="Rude Fox" FontWeight="Light" FontSize="32" />
-            <TextBlock Text="{Binding Version}" FontSize="12" Foreground="#555" Margin="0,0,0,10" />
-            <TextBlock Text="Programming:" FontSize="14" />
-            <TextBlock Text="Encryptor (encryptor@outlook.com)"/>
-            <TextBlock Text="Icons by:" FontSize="14" Margin="0,10,0,0"/>
-            <TextBlock Text="Madebyoliver and Flat Icons"/>
-        </StackPanel>
+        <Grid Grid.Row="0" Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Text="Rude Fox" FontWeight="Light" FontSize="32" />
+                <TextBlock Text="{Binding Version, FallbackValue='1.0'}" VerticalAlignment="Bottom" FontSize="23" FontWeight="Light" Foreground="#555" Margin="13,0,0,2" />
+            </StackPanel>
+            
+            <Grid Margin="0, 0, 20, 10" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:ProgressRing Visibility="{Binding ShowBusyIndicator, Converter={StaticResource boolToVis}}" Margin="0, 0, 10, 0"/>
+                <TextBlock FontSize="12" Text="{Binding StatusMessage}" Foreground="#555" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1" TextTrimming="CharacterEllipsis">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <TextBlock Text="Programming:" FontSize="14" Grid.Row="3"/>
+            <TextBlock Text="Encryptor (encryptor@outlook.com)"  Grid.Row="4"/>
+            <TextBlock Text="Icons by:" FontSize="14"  Grid.Row="5"/>
+            <TextBlock Text="Madebyoliver and Flat Icons"  Grid.Row="6"/>
+        </Grid>
 
         <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0">
             <Button x:Name="websiteButton" Content="Visit our website" Padding="10, 5" Command="{Binding VisitWebsiteCommand}"/>

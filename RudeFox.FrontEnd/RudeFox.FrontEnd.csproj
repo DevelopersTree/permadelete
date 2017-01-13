@@ -88,7 +88,11 @@
     <Compile Include="ApplicationManagement\App.cs" />
     <Compile Include="ApplicationManagement\SingletonManager.cs" />
     <Compile Include="Controls\FlatButton.cs" />
+    <Compile Include="Controls\ProgressRing.xaml.cs">
+      <DependentUpon>ProgressRing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SidebarButton.cs" />
+    <Compile Include="Enums\UpdateStatus.cs" />
     <Compile Include="ViewModels\AgileWindowVM.cs" />
     <Compile Include="Views\AgileWindow.xaml.cs">
       <DependentUpon>AgileWindow.xaml</DependentUpon>
@@ -153,6 +157,7 @@
     <Resource Include="Images\cancel_all.png" />
     <Resource Include="Images\delete_file.png" />
     <Resource Include="Images\delete_folder.png" />
+    <Resource Include="Images\circular_progress.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -175,6 +180,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ProgressRing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

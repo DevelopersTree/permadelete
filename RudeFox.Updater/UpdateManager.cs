@@ -31,6 +31,7 @@ namespace RudeFox.Updater
             if (_client == null)
                 _client = new DropboxClient(dropboxApiKey);
         }
+
         /// <summary>
         /// Tries to update the app and returns the update information if succeeded, otherwise returns null.
         /// </summary>
@@ -38,10 +39,15 @@ namespace RudeFox.Updater
         /// <returns></returns>
         public static async Task<string> DownloadLatestUpdate(Version currentVersion)
         {
+            var updateInfo = await CheckForUpdates().ConfigureAwait(false);
+            return await DownloadLatestUpdate(currentVersion, updateInfo).ConfigureAwait(false);
+        }
+
+        public static async Task<string> DownloadLatestUpdate(Version currentVersion, UpdateInfo updateInfo)
+        {
             var appFolder = GetUniformPath(Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
             CleanUpFolder(appFolder);
 
-            var updateInfo = await CheckForUpdates().ConfigureAwait(false);
             if (updateInfo.Version <= currentVersion || updateInfo?.Path == null)
                 return null;
 
@@ -147,13 +153,16 @@ namespace RudeFox.Updater
         }
 
         /// <summary>
-        /// Get the latest version of the app available.
+        /// Returns information about the latest update.
         /// </summary>
         /// <returns></returns>
-        public static async Task<Version> GetLatestVersion()
+        public static async Task<UpdateInfo> CheckForUpdates()
         {
-            var info = await CheckForUpdates().ConfigureAwait(false);
-            return info.Version;
+            using (var response = await _client.Files.DownloadAsync(GetUniformPath(_updateFolder, "info.json")).ConfigureAwait(false))
+            {
+                var latestInfo = await response.GetContentAsStringAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<UpdateInfo>(latestInfo);
+            }
         }
 
         private static string BackUpAppFiles(string appFolder)
@@ -259,15 +268,6 @@ namespace RudeFox.Updater
             }
 
             return attempt;
-        }
-
-        private static async Task<UpdateInfo> CheckForUpdates()
-        {
-            using (var response = await _client.Files.DownloadAsync(GetUniformPath(_updateFolder, "info.json")).ConfigureAwait(false))
-            {
-                var latestInfo = await response.GetContentAsStringAsync().ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<UpdateInfo>(latestInfo);
-            }
         }
 
         private static string GetUniformPath(params string[] segments)

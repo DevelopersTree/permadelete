@@ -35,6 +35,8 @@ namespace RudeFox.ApplicationManagement
         {
             get { return _instance.Value; }
         }
+
+        public UpdateStatus UpdateStatus { get; set; }
         #endregion
 
         #region OnStartup
@@ -81,13 +83,24 @@ namespace RudeFox.ApplicationManagement
         /// <returns></returns>
         internal async Task<bool?> UpdateAfter(int seconds)
         {
+            UpdateStatus = UpdateStatus.Idle;
             await Task.Delay(seconds * 1000);
+            UpdateStatus = UpdateStatus.CheckingForUpdate;
 
             try
             {
                 var version = Assembly.GetExecutingAssembly().GetName().Version;
-                var tempFolder = await UpdateManager.DownloadLatestUpdate(version);
-                if (tempFolder == null) return false; // no update
+
+                var updateInfo = await UpdateManager.CheckForUpdates().ConfigureAwait(false);
+                if (updateInfo.Version <= version || updateInfo?.Path == null)
+                {
+                    UpdateStatus = UpdateStatus.LatestVersion;
+                    return false;
+                }
+
+                UpdateStatus = UpdateStatus.DownloadingUpdate;
+                var tempFolder = await UpdateManager.DownloadLatestUpdate(version, updateInfo).ConfigureAwait(false);
+                UpdateStatus = UpdateStatus.UpdateDownloaded;
 
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     Application.Current.Exit += (sender, args) => UpdateManager.ApplyUpdate(tempFolder)
