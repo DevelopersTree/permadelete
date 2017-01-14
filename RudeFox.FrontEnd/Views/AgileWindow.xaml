@@ -11,7 +11,7 @@
         <TaskbarItemInfo ProgressState="{Binding TaskbarState}" ProgressValue="{Binding Progress}" />
     </Window.TaskbarItemInfo>
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CancelCommand}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </Window.InputBindings>
     <Grid >
         <local:AgileWindowProgress />

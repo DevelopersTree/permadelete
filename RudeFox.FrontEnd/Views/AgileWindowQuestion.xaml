@@ -36,7 +36,7 @@
 
             <Border BorderBrush="#dfdfdf" BorderThickness="0, 1, 0, 0" Background="#f0f0f0" Grid.ColumnSpan="4"/>
 
-            <controls:FlatButton Content="Cancel" Command="{Binding CancelCommand}" IsRecommended="True" IsCancel="True" Grid.Column="1" VerticalAlignment="Center" Margin="10, 0"/>
+            <controls:FlatButton Content="Cancel" Command="{Binding CloseCommand}" IsRecommended="True" IsCancel="True" Grid.Column="1" VerticalAlignment="Center" Margin="10, 0"/>
             <controls:FlatButton Content="Delete" Command="{Binding DeleteCommand}" IsDefault="True"  IsDestructive="True" Grid.Column="2" VerticalAlignment="Center" Margin="10, 0"/>
         </Grid>
     </Grid>

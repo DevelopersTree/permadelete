@@ -42,7 +42,7 @@
 
             <controls:FlatButton Content="Open RudeFox" VerticalAlignment="Center" Margin="10, 0" Command="{Binding OpenRudeFoxCommand}"
                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
-            <controls:FlatButton Content="Stop"  Command="{Binding CancelCommand}" IsRecommended="True" IsCancel="True" Grid.Column="2" VerticalAlignment="Center" Margin="10, 0"/>
+            <controls:FlatButton Content="Stop"  Command="{Binding CloseCommand}" IsRecommended="True" IsCancel="True" Grid.Column="2" VerticalAlignment="Center" Margin="10, 0"/>
         </Grid>
     </Grid>
 </UserControl>

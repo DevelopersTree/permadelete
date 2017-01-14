@@ -46,7 +46,7 @@ namespace RudeFox.ViewModels
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
 
-            CancelCommand = new DelegateCommand(p =>
+            CloseCommand = new DelegateCommand(p =>
             {
                 if (App.Current.UpdateStatus != Enums.UpdateStatus.DownloadingUpdate)
                 {
@@ -77,7 +77,7 @@ namespace RudeFox.ViewModels
                 _progressTimer.Start();
                 await App.Current.DeleteFilesOrFolders(paths, true);
 
-                CancelCommand.Execute(null);
+                CloseCommand.Execute(null);
             });
 
             OpenRudeFoxCommand = new DelegateCommand(dialog =>
@@ -99,7 +99,7 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Commands
-        public ICommand CancelCommand { get; set; }
+        public ICommand CloseCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenRudeFoxCommand { get; set; }
         #endregion
