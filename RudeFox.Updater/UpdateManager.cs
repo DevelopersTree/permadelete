@@ -150,11 +150,13 @@ namespace RudeFox.Updater
         }
 
         /// <summary>
-        /// Returns information about the latest update.
+        /// Returns information about the latest update if there was internet connection, otherwise returns null.
         /// </summary>
         /// <returns></returns>
         public static async Task<UpdateInfo> CheckForUpdates()
         {
+            if (!Helper.InternetConnectionAvailable()) return null;
+
             using (var response = await _client.Files.DownloadAsync(Helper.GetUniformPath(Helper._updateFolder, "info.json")).ConfigureAwait(false))
             {
                 var latestInfo = await response.GetContentAsStringAsync().ConfigureAwait(false);

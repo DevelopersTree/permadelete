@@ -105,7 +105,7 @@ namespace RudeFox.ApplicationManagement
                 var version = Assembly.GetExecutingAssembly().GetName().Version;
 
                 var updateInfo = await UpdateManager.CheckForUpdates().ConfigureAwait(false);
-                if (updateInfo.Version <= version || updateInfo?.Path == null)
+                if (updateInfo == null || updateInfo.Version <= version || updateInfo?.Path == null)
                 {
                     UpdateStatus = UpdateStatus.LatestVersion;
                     return false;

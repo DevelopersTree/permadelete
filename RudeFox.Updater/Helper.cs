@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace RudeFox.Updater
 {
     internal static class Helper
     {
+        #region P/Invoke Signatures
+        [DllImport("wininet.dll", SetLastError = true)]
+        extern static bool InternetGetConnectedState(out int lpdwFlags, int dwReserved);
+        #endregion
+
         #region Fields
         static System.Text.RegularExpressions.Regex _pattern = new System.Text.RegularExpressions.Regex(@"[\\/]{2,}|[\\]");
         internal const string _attemptFileName = "attempt.bak";
@@ -168,6 +174,12 @@ namespace RudeFox.Updater
             return new Version(version);
         }
 
+        // more info at: https://msdn.microsoft.com/en-us/library/windows/desktop/aa384702%28v=vs.85%29.aspx
+        internal static bool InternetConnectionAvailable()
+        {
+            int description;
+            return InternetGetConnectedState(out description, 0);
+        }
         #endregion
     }
 }
