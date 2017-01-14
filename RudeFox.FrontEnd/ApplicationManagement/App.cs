@@ -58,7 +58,11 @@ namespace RudeFox.ApplicationManagement
             if (e.Args.Count() == 0)
             {
                 this.MainWindow = new MainWindow();
-                this.MainWindow.Show();
+
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    this.MainWindow.Show();
+                });
             }
             else
             {
