@@ -76,6 +76,8 @@ namespace RudeFox.ViewModels
 
                 _progressTimer.Start();
                 await App.Current.DeleteFilesOrFolders(paths, true);
+
+                CancelCommand.Execute(null);
             });
 
             OpenRudeFoxCommand = new DelegateCommand(dialog =>
@@ -187,9 +189,6 @@ namespace RudeFox.ViewModels
 
         private void Operations_Changed(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (App.Operations.Count == 0)
-                CancelCommand.Execute(null);
-
             if (e.NewItems?.Count > 0)
                 foreach (OperationVM item in e.NewItems)
                     _totalBytes += item.Bytes;
