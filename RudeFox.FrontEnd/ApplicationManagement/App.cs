@@ -53,23 +53,23 @@ namespace RudeFox.ApplicationManagement
         #endregion
 
         #region OnStartup
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
-            if (e.Args.Count() == 0)
+            await Dispatcher.InvokeAsync(() =>
             {
-                this.MainWindow = new MainWindow();
-
-                await Dispatcher.InvokeAsync(() =>
+                if (e.Args.Count() == 0)
                 {
+                    this.MainWindow = new MainWindow();
                     this.MainWindow.Show();
-                });
-            }
-            else
-            {
-                var window = new AgileWindow();
-                window.DataContext = new AgileWindowVM(e.Args);
-                window.Show();
-            }
+                }
+                else
+                {
+                    var window = new AgileWindow();
+                    window.DataContext = new AgileWindowVM(e.Args);
+                    window.Show();
+
+                }
+            });
         }
 
         #endregion
