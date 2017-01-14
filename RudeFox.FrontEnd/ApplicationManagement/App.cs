@@ -36,11 +36,24 @@ namespace RudeFox.ApplicationManagement
             get { return _current.Value; }
         }
 
-        public UpdateStatus UpdateStatus { get; set; }
+        public event EventHandler UpdateStatusChanged;
+
+        private UpdateStatus _updateStatus;
+        public UpdateStatus UpdateStatus
+        {
+            get { return _updateStatus; }
+            set
+            {
+                if (_updateStatus == value) return;
+
+                _updateStatus = value;
+                OnUpdateStatusChanged();
+            }
+        }
         #endregion
 
         #region OnStartup
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             if (e.Args.Count() == 0)
             {
@@ -51,7 +64,7 @@ namespace RudeFox.ApplicationManagement
             {
                 var window = new AgileWindow();
                 window.DataContext = new AgileWindowVM(e.Args);
-                await window.ShowDialogAsync();
+                window.Show();
             }
         }
 
@@ -100,11 +113,12 @@ namespace RudeFox.ApplicationManagement
 
                 UpdateStatus = UpdateStatus.DownloadingUpdate;
                 var tempFolder = await UpdateManager.DownloadLatestUpdate(version, updateInfo).ConfigureAwait(false);
-                UpdateStatus = UpdateStatus.UpdateDownloaded;
 
-                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                     Application.Current.Exit += (sender, args) => UpdateManager.ApplyUpdate(tempFolder)
                 ));
+
+                UpdateStatus = UpdateStatus.UpdateDownloaded;
             }
             catch (Exception ex)
             {
@@ -188,6 +202,11 @@ namespace RudeFox.ApplicationManagement
         {
             LoggerService.Instance.Error(e);
             DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
+        }
+
+        private void OnUpdateStatusChanged()
+        {
+            UpdateStatusChanged?.Invoke(this, new EventArgs());
         }
         #endregion
     }

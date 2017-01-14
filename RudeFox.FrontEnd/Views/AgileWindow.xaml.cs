@@ -28,7 +28,7 @@ namespace RudeFox.Views
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            //(DataContext as AgileWindowVM).CancelCommand.Execute(null);
+            (DataContext as AgileWindowVM).CancelCommand.Execute(null);
         }
     }
 }

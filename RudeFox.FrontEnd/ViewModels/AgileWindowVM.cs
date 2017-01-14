@@ -46,7 +46,28 @@ namespace RudeFox.ViewModels
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
 
-            CancelCommand = new DelegateCommand(p => App.Current.Shutdown());
+            CancelCommand = new DelegateCommand(p =>
+            {
+                if (App.Current.UpdateStatus != Enums.UpdateStatus.DownloadingUpdate)
+                {
+                    App.Current.Shutdown();
+                    return;
+                }
+
+                App.Current.MainWindow.Hide();
+
+                App.Current.UpdateStatusChanged += (sender, e) =>
+                {
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        if (App.Operations.Count == 0)
+                            App.Current.Shutdown();
+                        else
+                            App.Current?.MainWindow?.Show();
+                    });
+                };
+
+            });
 
             DeleteCommand = new DelegateCommand(async p =>
             {

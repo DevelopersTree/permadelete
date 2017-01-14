@@ -20,15 +20,8 @@ namespace RudeFox.ViewModels
         {
             VisitWebsiteCommand = new DelegateCommand(p => Process.Start(Constants.WEBSITE_URL));
 
-            var timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            App.Current.UpdateStatusChanged += UpdateStatus_Changed;
         }
-        #endregion
-
-        #region Fields
-        private UpdateStatus _lastStatus;
         #endregion
 
         #region Properties
@@ -60,11 +53,8 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Methods
-        private void Timer_Tick(object sender, EventArgs e)
+        private void UpdateStatus_Changed(object sender, EventArgs e)
         {
-            if (App.Current.UpdateStatus == _lastStatus)
-                return;
-
             ShowBusyIndicator = App.Current.UpdateStatus == UpdateStatus.CheckingForUpdate ||
                                 App.Current.UpdateStatus == UpdateStatus.DownloadingUpdate;
 
@@ -86,8 +76,6 @@ namespace RudeFox.ViewModels
                     StatusMessage = "Awesome! You are using the latest version.";
                     break;
             }
-
-            _lastStatus = App.Current.UpdateStatus;
         }
         #endregion
     }
