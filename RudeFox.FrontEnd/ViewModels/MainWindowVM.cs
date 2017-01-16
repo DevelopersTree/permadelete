@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using RudeFox.Mvvm;
 using System.Windows;
-using GongSolutions.Wpf.DragDrop;
 using RudeFox.Services;
 using System.Collections.Specialized;
 using RudeFox.ApplicationManagement;
@@ -13,7 +12,7 @@ using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
 namespace RudeFox.ViewModels
 {
-    class MainWindowVM : BindableBase, IDropTarget
+    class MainWindowVM : BindableBase
     {
         #region Constructor
         public MainWindowVM()
@@ -36,6 +35,16 @@ namespace RudeFox.ViewModels
 
             DeleteFilesCommand = new DelegateCommand(async w => await DeleteFiles((Window)w));
             DeleteFoldersCommand = new DelegateCommand(async w => await DeleteFolders((Window)w));
+
+            HandleFileDropCommand = new DelegateCommand(async p =>
+            {
+                var data = (IDataObject)p;
+                if (data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    string[] paths = (string[])data.GetData(DataFormats.FileDrop);
+                    await App.Current.DeleteFilesOrFolders(paths);
+                }
+            });
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
             _progressbarTimer.Tick += ProgressbarTimer_Tick;
@@ -74,30 +83,7 @@ namespace RudeFox.ViewModels
         public DelegateCommand CancelAllCommand { get; private set; }
         public DelegateCommand DeleteFilesCommand { get; private set; }
         public DelegateCommand DeleteFoldersCommand { get; private set; }
-        #endregion
-
-        #region Drag and drop
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-            var data = dropInfo.Data as IDataObject;
-            if (data == null) return;
-
-            if (data.GetDataPresent(DataFormats.FileDrop))
-                dropInfo.Effects = DragDropEffects.Move;
-            else
-                dropInfo.Effects = DragDropEffects.None;
-        }
-
-        async void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            var data = dropInfo.Data as IDataObject;
-
-            if (data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] paths = (string[])data.GetData(DataFormats.FileDrop);
-                await App.Current.DeleteFilesOrFolders(paths);
-            }
-        }
+        public DelegateCommand HandleFileDropCommand { get; set; }
         #endregion
 
         #region Methods

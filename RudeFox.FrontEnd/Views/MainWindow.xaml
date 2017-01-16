@@ -91,11 +91,11 @@
             <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="About Rude Fox" Command="{Binding ShowAboutCommand}" Grid.Row="5"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
         </Grid>
-
-        <ListBox x:Name="lstOperations" gong:DragDrop.IsDropTarget="True" gong:DragDrop.DropHandler="{Binding}"
+        <ListBox x:Name="lstOperations"
                  ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
-                 Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick">
+                 Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick"
+                 DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True">
         </ListBox>
 
     </DockPanel>
