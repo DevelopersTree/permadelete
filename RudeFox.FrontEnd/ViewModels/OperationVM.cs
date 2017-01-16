@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace RudeFox.ViewModels
 {
@@ -41,6 +43,7 @@ namespace RudeFox.ViewModels
         private double _oldProgress = 0.0;
         private DateTime _lastProgressReport;
         private LinkedList<double> _progressHistory = new LinkedList<double>();
+        private ShellObject _shellObject;
         #endregion
 
         #region Properties
@@ -53,11 +56,11 @@ namespace RudeFox.ViewModels
                 if (SetProperty(ref _path, value))
                 {
                     RaisePropertyChanged(nameof(Type));
+                    RefreshShellObject();
                     RaisePropertyChanged(nameof(Image));
                     CalculateBytes();
                 }
             }
-
         }
 
         public ItemType Type
@@ -122,10 +125,7 @@ namespace RudeFox.ViewModels
             }
         }
 
-        public string Image
-        {
-            get { return "pack://application:,,,/Images/" + Type.ToString().ToLower() + ".png"; }
-        }
+        public BitmapSource Image { get { return GetThumbnail(); } }
 
         public string Size
 
@@ -197,6 +197,25 @@ namespace RudeFox.ViewModels
 
             RaisePropertyChanged(nameof(Bytes));
             RaisePropertyChanged(nameof(Size));
+        }
+
+        private BitmapSource GetThumbnail()
+        {
+            // Sizes: https://github.com/aybe/Windows-API-Code-Pack-1.1/blob/master/source/WindowsAPICodePack/Shell/Common/DefaultShellImageSizes.cs
+            if (_shellObject != null)
+                return _shellObject.Thumbnail.MediumBitmapSource;
+            else
+                return new BitmapImage(new Uri(@"pack://application:,,,/Images/file.png"));
+        }
+
+        private void RefreshShellObject()
+        {
+            if (Type == ItemType.File)
+                _shellObject = ShellFile.FromFilePath(Path);
+            else if (Type == ItemType.Folder)
+                _shellObject = ShellFileSystemFolder.FromFolderPath(Path);
+            else
+                _shellObject = null;
         }
         #endregion
     }

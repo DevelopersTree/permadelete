@@ -4,6 +4,13 @@
                     xmlns:vm="clr-namespace:RudeFox.ViewModels"
                     xmlns:xaml="clr-namespace:RudeFox.Xaml"
                     xmlns:local="clr-namespace:RudeFox">
+    <!-- Material design shadows. from: http://marcangers.com/material-design-shadows-in-wpf/ -->
+    <DropShadowEffect x:Key="z-depth1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC"/>
+    <DropShadowEffect x:Key="z-depth2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>
+    <DropShadowEffect x:Key="z-depth3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="#BBBBBB"/>
+    <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
+    <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
+    
     <SolidColorBrush x:Key="background1" Color="#343434" />
     <SolidColorBrush x:Key="background2" Color="White" />
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
@@ -19,7 +26,7 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
 
-                <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48"/>
+                <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Effect="{StaticResource z-depth1}" UseLayoutRounding="True" />
 
                 <Grid Grid.Column="1">
 
