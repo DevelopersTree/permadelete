@@ -1,4 +1,5 @@
 ﻿using RudeFox.ApplicationManagement;
+using RudeFox.Controls;
 using RudeFox.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace RudeFox.Views
     /// <summary>
     /// Interaction logic for AgileWindow.xaml
     /// </summary>
-    public partial class AgileWindow : Window
+    public partial class AgileWindow : FlatWindow
     {
         public AgileWindow()
         {

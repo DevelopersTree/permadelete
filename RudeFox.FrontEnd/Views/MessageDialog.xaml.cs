@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RudeFox.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace RudeFox.Views
     /// <summary>
     /// Interaction logic for MessageDialog.xaml
     /// </summary>
-    public partial class MessageDialog : Window
+    public partial class MessageDialog : FlatWindow
     {
         public MessageDialog()
         {

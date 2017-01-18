@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RudeFox.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace RudeFox.Views
     /// <summary>
     /// Interaction logic for ErrorDialog.xaml
     /// </summary>
-    public partial class ErrorDialog : Window
+    public partial class ErrorDialog : FlatWindow
     {
         public ErrorDialog()
         {
