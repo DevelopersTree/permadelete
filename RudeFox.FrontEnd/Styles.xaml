@@ -35,6 +35,15 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
+    <VisualBrush x:Key="WindowBackgroundThatch" TileMode="Tile" Viewport="0,0,15,15" ViewportUnits="Absolute" Viewbox="0,0,15,15" ViewboxUnits="Absolute">
+        <VisualBrush.Visual>
+            <Grid Background="{StaticResource WindowBackgroundColorBrush}">
+                <Path Data="M 0 15 L 15 0" Stroke="#999" Opacity="0.1" />
+                <Path Data="M 0 0 L 15 15" Stroke="#999" Opacity="0.1"/>
+            </Grid>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
     <Style x:Key="TitlebarButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{StaticResource WindowBackgroundColorBrush}" />
         <Setter Property="Background" Value="Transparent" />
