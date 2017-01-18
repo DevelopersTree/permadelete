@@ -15,8 +15,72 @@
     <SolidColorBrush x:Key="background2" Color="White" />
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
     <SolidColorBrush x:Key="foreground2" Color="#343434" />
-    <xaml:TimespanToStringConverter x:Key="timeConverter"/>
+
+    <Color x:Key="WindowBackgroundColor">#FFFEFEFE</Color>
+    <Color x:Key="AccentLightColor">#FF9B59B6</Color>
+    <Color x:Key="AccentColor">#FF8E44AD</Color>
+    <Color x:Key="ForegroundColor">#F333</Color>
+
+    <SolidColorBrush x:Key="WindowBackgroundColorBrush" Color="{StaticResource WindowBackgroundColor}"/>
+    <SolidColorBrush x:Key="AccentLightColorBrush" Color="{StaticResource AccentLightColor}"/>
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="ForegroundColorBrush" Color="{StaticResource ForegroundColor}"/>
+
+    <VisualBrush x:Key="TitlebarBackgroundThatch" TileMode="Tile" Viewport="0,0,15,15" ViewportUnits="Absolute" Viewbox="0,0,15,15" ViewboxUnits="Absolute">
+        <VisualBrush.Visual>
+            <Grid Background="{StaticResource AccentColorBrush}">
+                <Path Data="M 0 15 L 15 0" Stroke="{StaticResource AccentLightColorBrush}" Opacity="0.5" />
+                <Path Data="M 0 0 L 15 15" Stroke="{StaticResource AccentLightColorBrush}" Opacity="0.5"/>
+            </Grid>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
+    <VisualBrush x:Key="WindowBackgroundThatch" TileMode="Tile" Viewport="0,0,15,15" ViewportUnits="Absolute" Viewbox="0,0,15,15" ViewboxUnits="Absolute">
+        <VisualBrush.Visual>
+            <Grid Background="{StaticResource WindowBackgroundColorBrush}">
+                <Path Data="M 0 15 L 15 0" Stroke="#999" Opacity="0.1" />
+                <Path Data="M 0 0 L 15 15" Stroke="#999" Opacity="0.1"/>
+            </Grid>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
+    <Style x:Key="TitlebarButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource WindowBackgroundColorBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter x:Name="contentPresenter"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                          Margin="{TemplateBinding Padding}"
+                          RecognizesAccessKey="True" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#2FFF" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#2000" />
+
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
+    <xaml:TimespanToStringConverter x:Key="timeConverter"/>
+    <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
+
     <DataTemplate x:Key="operation" DataType="vm:OperationVM">
         <Border>
             <Grid Margin="0, 5">
