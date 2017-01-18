@@ -200,7 +200,7 @@ namespace RudeFox.ApplicationManagement
                 message = $"Are you sure you want to delete these {paths.Count()} items?";
                 okText += "them";
             }
-            var dialog = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Exclamation, okText, "Cancel", true);
+            var dialog = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Question, okText, "Cancel", true);
             dialog.Owner = this.MainWindow;
             return await dialog.ShowDialogAsync();
         }
