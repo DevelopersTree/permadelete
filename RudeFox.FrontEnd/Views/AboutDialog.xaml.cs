@@ -1,4 +1,5 @@
-﻿using RudeFox.ViewModels;
+﻿using RudeFox.Controls;
+using RudeFox.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace RudeFox.Views
     /// <summary>
     /// Interaction logic for AboutDialog.xaml
     /// </summary>
-    public partial class AboutDialog : Window
+    public partial class AboutDialog : FlatWindow
     {
         public AboutDialog()
         {

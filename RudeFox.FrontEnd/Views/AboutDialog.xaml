@@ -1,4 +1,4 @@
-﻿<Window x:Class="RudeFox.Views.AboutDialog"
+﻿<controls:FlatWindow x:Class="RudeFox.Views.AboutDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:RudeFox.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         Title="About Rude Fox" Height="300" Width="500">
-    <Window.Resources>
+    <controls:FlatWindow.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
-    </Window.Resources>
+    </controls:FlatWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -70,4 +70,4 @@
             <Button x:Name="closeButton" Content="Close" Margin="10,0,0,0" Padding="10, 5" IsCancel="True" />
         </StackPanel>
     </Grid>
-</Window>
+</controls:FlatWindow>
