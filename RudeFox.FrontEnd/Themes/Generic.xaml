@@ -211,7 +211,6 @@
                                         <Rectangle x:Name="HeaderBackground" Height="30" Fill="{StaticResource TitlebarBackgroundThatch}"/>
 
                                         <!--Client Area-->
-                                        <Rectangle Fill="{StaticResource WindowBackgroundThatch}" Grid.Row="1" Grid.RowSpan="2" />
                                         <ContentPresenter Grid.Row="1" Grid.RowSpan="2" />
 
                                         <!--Titlebar-->
