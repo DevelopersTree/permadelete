@@ -17,7 +17,10 @@ using RudeFox.Helpers;
 
 namespace RudeFox.ApplicationManagement
 {
-    public class App : Application
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
         #region Constructors
         private App()
