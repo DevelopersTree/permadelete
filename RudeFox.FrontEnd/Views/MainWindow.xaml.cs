@@ -1,4 +1,5 @@
 ﻿using DragDropLib;
+using RudeFox.Controls;
 using RudeFox.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace RudeFox.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : FlatWindow
     {
         public MainWindow()
         {

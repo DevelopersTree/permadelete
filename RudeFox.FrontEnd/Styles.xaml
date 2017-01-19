@@ -10,7 +10,7 @@
     <DropShadowEffect x:Key="z-depth3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="#BBBBBB"/>
     <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
     <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
-    
+
     <SolidColorBrush x:Key="background1" Color="#343434" />
     <SolidColorBrush x:Key="background2" Color="White" />
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
@@ -52,23 +52,23 @@
                           Margin="{TemplateBinding Padding}"
                           RecognizesAccessKey="True" />
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#2FFF" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#2000" />
-
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2FFF" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#2000" />
+
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value=".5" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
-    
+
     <xaml:TimespanToStringConverter x:Key="timeConverter"/>
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
 

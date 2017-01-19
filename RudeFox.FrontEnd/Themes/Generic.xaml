@@ -130,60 +130,37 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type local:SidebarButton}">
-        <Setter Property="Background" Value="Transparent" />
+    <Style TargetType="{x:Type local:SidebarButton}" BasedOn="{StaticResource TitlebarButtonStyle}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="Padding" Value="10, 5" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Padding" Value="10, 8" />
+        <Setter Property="Margin" Value="10, 0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SidebarButton">
-                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        </Border>
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                          Background="{TemplateBinding Background}">
                         <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="4*" />
                             </Grid.ColumnDefinitions>
-                            <Image Height="24" Source="{Binding RelativeSource={RelativeSource AncestorType=local:SidebarButton}, Path=ImageSource}"/>
-                            <TextBlock Foreground="Gainsboro" Text="{TemplateBinding Text}" FontSize="16" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center"/>
+                            <Image Height="16" Source="{Binding RelativeSource={RelativeSource AncestorType=local:SidebarButton}, Path=ImageSource}"/>
+                            <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text}" Grid.Column="2" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#2b2b2b" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#1b1b1b" />
-            </Trigger>
+       
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.5" />
             </Trigger>
-            <Trigger Property="ImageSource" Value="{x:Null}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="local:SidebarButton">
-                            <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"></Border>
-                                <TextBlock Foreground="Gainsboro" Text="{TemplateBinding Text}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
+        
         </Style.Triggers>
     </Style>
 

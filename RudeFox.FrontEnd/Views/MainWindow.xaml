@@ -1,4 +1,4 @@
-﻿<Window x:Class="RudeFox.Views.MainWindow"
+﻿<controls:FlatWindow x:Class="RudeFox.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,26 +10,24 @@
         xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
         Title="{Binding Title}" Height="600" MinHeight="300" MinWidth="400" SizeChanged="Window_SizeChanged">
-    <Window.DataContext>
+    <controls:FlatWindow.DataContext>
         <vm:MainWindowVM />
-    </Window.DataContext>
-    <Window.TaskbarItemInfo>
+    </controls:FlatWindow.DataContext>
+    <controls:FlatWindow.TaskbarItemInfo>
         <TaskbarItemInfo ProgressValue="{Binding OverallProgress}" ProgressState="{Binding TaskbarState}"/>
-    </Window.TaskbarItemInfo>
-    <Window.Resources>
+    </controls:FlatWindow.TaskbarItemInfo>
+    <controls:FlatWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="{x:Type ListBox}" x:Key="listBox">
-                <Setter Property="BorderBrush" Value="{StaticResource background1}" />
-                <Setter Property="BorderThickness" Value="5, 5, 0, 5" />
-                <Setter Property="Padding" Value="3" />
+                <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}">
                                 <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </ScrollViewer>
@@ -43,7 +41,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5, 0, 0, 5">
+                                    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
@@ -68,36 +66,59 @@
             </Style>
 
         </ResourceDictionary>
-    </Window.Resources>
+    </controls:FlatWindow.Resources>
 
     <DockPanel Background="{StaticResource background1}">
-        <Grid DockPanel.Dock="Left" Width="250" Margin="5, 10, 0, 10" x:Name="sidebarGrid">
+        <Grid DockPanel.Dock="Top" Margin="0, -30, 0, 0" x:Name="sidebarGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="15" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="Delete Files" Command="{Binding DeleteFilesCommand}"
+            <Rectangle Fill="{StaticResource TitlebarBackgroundThatch}" Grid.RowSpan="2"/>
+            <Rectangle Margin="0, -30, 0, 0" Grid.RowSpan="2">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Repeat" Opacity="0.5">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="254.745" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="{DynamicResource AccentColor}" Offset="0.123"/>
+                        <GradientStop Offset="0.994"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            
+            <Grid Grid.Row="1" Margin="0, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
-            <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="Delete Folders" Command="{Binding DeleteFoldersCommand}" Grid.Row="1"
+                <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
-            <Separator Background="#666" VerticalAlignment="Center"  Grid.Row="2"/>
-            <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="Cancel All" Command="{Binding CancelAllCommand}" Grid.Row="3"/>
+                <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
+                <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
 
-            <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="About Rude Fox" Command="{Binding ShowAboutCommand}" Grid.Row="5"
+                <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="ABOUT RUDEFOX" Command="{Binding ShowAboutCommand}" Grid.Column="5" Margin="10, 0, 0, 0"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+            </Grid>
         </Grid>
         <ListBox x:Name="lstOperations"
                  ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
                  Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick"
-                 DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True">
-        </ListBox>
-
+                 DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True" />
     </DockPanel>
 
-</Window>
+</controls:FlatWindow>
