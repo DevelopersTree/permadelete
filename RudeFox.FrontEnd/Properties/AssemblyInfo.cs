@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Rude Fox")]
-[assembly: AssemblyDescription("A simple file sanitizer")]
+[assembly: AssemblyTitle("Permadelete")]
+[assembly: AssemblyDescription("A free file shredder for windows.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RudeFox.FrontEnd")]
+[assembly: AssemblyProduct("Permadelete.FrontEnd")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

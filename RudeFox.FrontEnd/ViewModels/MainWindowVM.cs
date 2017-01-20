@@ -10,6 +10,8 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using RudeFox.Helpers;
+
 namespace RudeFox.ViewModels
 {
     class MainWindowVM : BindableBase
@@ -59,7 +61,7 @@ namespace RudeFox.ViewModels
         #endregion
 
         #region Properties
-        public string Title { get { return "Rude Fox"; } }
+        public string Title { get { return Constants.APPLICATION_NAME; } }
 
         private double _overallProgress;
         public double OverallProgress

@@ -1,8 +1,9 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:RudeFox.Controls">
-
+    xmlns:local="clr-namespace:RudeFox.Controls"
+     xmlns:xaml="clr-namespace:RudeFox.Xaml">
+   
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Rude Fox;component/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -149,7 +150,7 @@
                                 <ColumnDefinition Width="4*" />
                             </Grid.ColumnDefinitions>
                             <Image Height="16" Source="{Binding RelativeSource={RelativeSource AncestorType=local:ToolbarButton}, Path=ImageSource}"/>
-                            <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text}" Grid.Column="2" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text, Converter={StaticResource caseConverter}, ConverterParameter={x:Static xaml:TextCase.UpperCase}}" Grid.Column="2" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

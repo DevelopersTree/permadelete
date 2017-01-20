@@ -11,6 +11,8 @@
     <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
     <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
 
+    <xaml:CaseConverter x:Key="caseConverter"/>
+    
     <SolidColorBrush x:Key="background1" Color="#343434" />
     <SolidColorBrush x:Key="background2" Color="White" />
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />

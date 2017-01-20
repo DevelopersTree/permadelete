@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:RudeFox.Controls"
+        xmlns:helpers="clr-namespace:RudeFox.Helpers"
         xmlns:local="clr-namespace:RudeFox.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
-        Title="About Rude Fox" Height="300" Width="500">
+        Title="{Binding Title, StringFormat='About {0}'}" Height="300" Width="500">
     <controls:FlatWindow.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
     </controls:FlatWindow.Resources>
@@ -35,7 +36,7 @@
             </Grid.RowDefinitions>
             
             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <TextBlock Text="Rude Fox" FontWeight="Light" FontSize="32" />
+                <TextBlock Text="{Binding Title}" FontWeight="Light" FontSize="32" />
                 <TextBlock Text="{Binding Version, FallbackValue='1.0'}" VerticalAlignment="Bottom" FontSize="23" FontWeight="Light" Foreground="#555" Margin="13,0,0,2" />
             </StackPanel>
             

@@ -103,6 +103,7 @@
     <Compile Include="Views\AgileWindowQuestion.xaml.cs">
       <DependentUpon>AgileWindowQuestion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Xaml\CaseConverter.cs" />
     <Compile Include="Xaml\ProgressDoubleToIntConverter.cs" />
     <Compile Include="Xaml\TimespanToStringConverter.cs" />
     <Compile Include="Enums\OperationStatus.cs" />

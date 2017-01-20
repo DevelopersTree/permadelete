@@ -46,6 +46,8 @@ namespace RudeFox.ViewModels
             get { return _statusMessage; }
             set { SetProperty(ref _statusMessage, value); }
         }
+
+        public string Title { get { return Constants.APPLICATION_NAME; } }
         #endregion
 
         #region Commands
