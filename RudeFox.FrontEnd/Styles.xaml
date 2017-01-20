@@ -16,6 +16,9 @@
     <SolidColorBrush x:Key="foreground1" Color="Gainsboro" />
     <SolidColorBrush x:Key="foreground2" Color="#343434" />
 
+    <Path x:Key="closeIconPath" Data="F1M54.0573,47.8776L38.1771,31.9974 54.0547,16.1198C55.7604,14.4141 55.7604,11.6511 54.0573,9.94531 52.3516,8.23962 49.5859,8.23962 47.8802,9.94531L32.0026,25.8229 16.1224,9.94531C14.4167,8.23962 11.6511,8.23962 9.94794,9.94531 8.24219,11.6511 8.24219,14.4141 9.94794,16.1198L25.8255,32 9.94794,47.8776C8.24219,49.5834 8.24219,52.3477 9.94794,54.0534 11.6511,55.7572 14.4167,55.7585 16.1224,54.0534L32.0026,38.1745 47.8802,54.0534C49.5859,55.7585 52.3516,55.7572 54.0573,54.0534 55.7604,52.3477 55.763,49.5834 54.0573,47.8776z"
+          x:Shared="False" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Width="10"/>
+    
     <Color x:Key="WindowBackgroundColor">#FFFEFEFE</Color>
     <Color x:Key="AccentLightColor">#FF9B59B6</Color>
     <Color x:Key="AccentColor">#FF8E44AD</Color>
@@ -82,15 +85,15 @@
     <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
 
     <DataTemplate x:Key="operation" DataType="vm:OperationVM">
-        <Border>
-            <Grid Margin="0, 5">
+        <Border Background="#5fff">
+            <Grid Margin="5, 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
 
-                <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Effect="{StaticResource z-depth1}" UseLayoutRounding="True" />
+                <Image Source="{Binding Image}" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="48" Effect="{StaticResource z-depth1}" UseLayoutRounding="True" />
 
                 <Grid Grid.Column="1">
 
@@ -114,10 +117,9 @@
                     <TextBlock Text="{Binding Size}" VerticalAlignment="Center" Foreground="Gray" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
                 </Grid>
 
-                <controls:FlatButton Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="3" MinWidth="30" MinHeight="30"
-                                         Grid.Column="2" Focusable="False" Command="{Binding CancelCommand}"  TextBlock.TextAlignment="Center"/>
+                <controls:FlatButton HorizontalAlignment="Center" VerticalAlignment="Center" IsRecommended="True" CornerRadius="16" Width="32" Height="32" Padding="0"
+                                         Grid.Column="2" Focusable="False" Command="{Binding CancelCommand}" Content="{StaticResource closeIconPath}" />
             </Grid>
         </Border>
     </DataTemplate>
-
 </ResourceDictionary>

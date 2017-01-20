@@ -31,7 +31,7 @@ namespace RudeFox.Views
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (lstOperations.SelectedItem == null)
+            //if (lstOperations.SelectedItem == null)
                 (DataContext as MainWindowVM).DeleteFilesCommand.Execute(this);
         }
 

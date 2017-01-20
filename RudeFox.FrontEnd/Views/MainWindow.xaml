@@ -27,7 +27,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}">
                                 <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </ScrollViewer>
@@ -41,7 +41,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource background2}" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <Border BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
@@ -68,7 +68,7 @@
         </ResourceDictionary>
     </controls:FlatWindow.Resources>
 
-    <DockPanel Background="{StaticResource background1}">
+    <DockPanel>
         <Grid DockPanel.Dock="Top" Margin="0, -30, 0, 0" x:Name="sidebarGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
@@ -114,6 +114,7 @@
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             </Grid>
         </Grid>
+        
         <ListBox x:Name="lstOperations"
                  ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
