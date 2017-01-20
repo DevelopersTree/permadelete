@@ -69,7 +69,7 @@
     </controls:FlatWindow.Resources>
 
     <DockPanel>
-        <Grid DockPanel.Dock="Top" Margin="0, -30, 0, 0" x:Name="sidebarGrid">
+        <Grid DockPanel.Dock="Top" Margin="0, -30, 0, 0" x:Name="toolbarGrid" MouseLeftButtonDown="toolbarGrid_MouseLeftButtonDown">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="Auto" />
@@ -92,8 +92,8 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            
-            <Grid Grid.Row="1" Margin="0, 5">
+
+            <Grid Grid.Row="1" Margin="0, 5"  WindowChrome.IsHitTestVisibleInChrome="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />

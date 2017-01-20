@@ -31,16 +31,16 @@ namespace RudeFox.Views
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //if (lstOperations.SelectedItem == null)
+            if (lstOperations.SelectedItem == null)
                 (DataContext as MainWindowVM).DeleteFilesCommand.Execute(this);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (Width < 650 || Height < 300)
-                sidebarGrid.Visibility = Visibility.Collapsed;
+                toolbarGrid.Visibility = Visibility.Collapsed;
             else
-                sidebarGrid.Visibility = Visibility.Visible;
+                toolbarGrid.Visibility = Visibility.Visible;
         }
 
         private void lstOperations_DragOver(object sender, DragEventArgs e)
@@ -82,6 +82,11 @@ namespace RudeFox.Views
             e.Effects = DragDropEffects.Move;
             dropHelper.Drop((ComIDataObject)e.Data, ref windowsPoint, (int)e.Effects);
             (DataContext as MainWindowVM).HandleFileDropCommand.Execute(e.Data);
+        }
+
+        private void toolbarGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }
