@@ -82,7 +82,8 @@ namespace RudeFox.ViewModels
 
             OpenRudeFoxCommand = new DelegateCommand(dialog =>
             {
-                (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
+            (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
+            CloseCommand = new DelegateCommand(p => { });
 
                 App.Current.MainWindow = new MainWindow();
                 App.Current.MainWindow.Show();
