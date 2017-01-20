@@ -130,7 +130,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type local:SidebarButton}" BasedOn="{StaticResource TitlebarButtonStyle}">
+    <Style TargetType="{x:Type local:ToolbarButton}" BasedOn="{StaticResource TitlebarButtonStyle}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="UseLayoutRounding" Value="True"/>
@@ -139,7 +139,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:SidebarButton">
+                <ControlTemplate TargetType="local:ToolbarButton">
                     <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
                           Background="{TemplateBinding Background}">
                         <Grid Margin="{TemplateBinding Padding}">
@@ -148,7 +148,7 @@
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="4*" />
                             </Grid.ColumnDefinitions>
-                            <Image Height="16" Source="{Binding RelativeSource={RelativeSource AncestorType=local:SidebarButton}, Path=ImageSource}"/>
+                            <Image Height="16" Source="{Binding RelativeSource={RelativeSource AncestorType=local:ToolbarButton}, Path=ImageSource}"/>
                             <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text}" Grid.Column="2" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>

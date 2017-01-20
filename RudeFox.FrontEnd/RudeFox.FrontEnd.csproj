@@ -90,7 +90,7 @@
     <Compile Include="Controls\ProgressRing.xaml.cs">
       <DependentUpon>ProgressRing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SidebarButton.cs" />
+    <Compile Include="Controls\ToolbarButton.cs" />
     <Compile Include="DragAndDrop\DragDropLib.cs" />
     <Compile Include="Enums\UpdateStatus.cs" />
     <Compile Include="ViewModels\AgileWindowVM.cs" />

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace RudeFox.Controls
 {
-    public class SidebarButton : Button
+    public class ToolbarButton : Button
     {
-        static SidebarButton()
+        static ToolbarButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SidebarButton), new FrameworkPropertyMetadata(typeof(SidebarButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolbarButton), new FrameworkPropertyMetadata(typeof(ToolbarButton)));
         }
 
         public string ImageSource
@@ -29,7 +29,7 @@ namespace RudeFox.Controls
         }
 
         public static readonly DependencyProperty ImageSourceProperty =
-            DependencyProperty.Register(nameof(ImageSource), typeof(string), typeof(SidebarButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ImageSource), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null));
 
         public string Text
         {
@@ -38,7 +38,7 @@ namespace RudeFox.Controls
         }
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(SidebarButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null));
 
 
     }

@@ -59,9 +59,6 @@
                             </Setter.Value>
                         </Setter>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ElementName=sidebarGrid, Path=Visibility}" Value="Collapsed">
-                        <Setter Property="BorderThickness" Value="0" />
-                    </DataTrigger>
                 </Style.Triggers>
             </Style>
 
@@ -103,14 +100,14 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 
-                <controls:SidebarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
+                <controls:ToolbarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
-                <controls:SidebarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
+                <controls:ToolbarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
                 <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
-                <controls:SidebarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
+                <controls:ToolbarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
 
-                <controls:SidebarButton ImageSource="/Images/icon_24.png" Text="ABOUT RUDEFOX" Command="{Binding ShowAboutCommand}" Grid.Column="5" Margin="10, 0, 0, 0"
+                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="ABOUT RUDEFOX" Command="{Binding ShowAboutCommand}" Grid.Column="5" Margin="10, 0, 0, 0"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             </Grid>
         </Grid>
