@@ -249,7 +249,7 @@
     <Resource Include="Images\information.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RudeFox.Updater\Permadelete.Updater.csproj">
+    <ProjectReference Include="..\Permadelete.Updater\Permadelete.Updater.csproj">
       <Project>{5651c82b-95eb-4658-bf08-c00bd3dab1fd}</Project>
       <Name>Permadelete.Updater</Name>
     </ProjectReference>
