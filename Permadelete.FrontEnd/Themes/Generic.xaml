@@ -3,11 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Permadelete.Controls"
      xmlns:xaml="clr-namespace:Permadelete.Xaml">
-   
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Permadelete;component/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type local:FlatButton}">
         <Setter Property="CornerRadius" Value="2" />
         <Setter Property="Background" Value="#e5e5e5" />
@@ -46,7 +46,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#eee" />
             </Trigger>
-           
+
             <!-- IsDestructive -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -157,11 +157,11 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-       
+
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.5" />
             </Trigger>
-        
+
         </Style.Triggers>
     </Style>
 
@@ -205,28 +205,39 @@
 
                                             <!-- Window Handling Buttons-->
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2">
+                                                
                                                 <Button x:Name="Minimize" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{StaticResource TitlebarButtonStyle}">
                                                     <Grid Width="30" Height="30" RenderTransform="1,0,0,1,0,1">
-                                                        <Path Data="M0,6 L8,6 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"  />
+                                                        <Path Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center"                                                   
+                                                              Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                              Data="M0,40 L96,40 96,48 0,48 0,40z"
+                                                              RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform" />
                                                     </Grid>
                                                 </Button>
+                                                
                                                 <Grid Margin="1,0,1,0">
                                                     <Button x:Name="Restore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" ToolTip="Restore" Visibility="Collapsed" Style="{StaticResource TitlebarButtonStyle}">
                                                         <Grid Width="30" Height="30" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
-                                                            <Path Data="M2,0 L8,0 L8,6 M0,3 L6,3 M0,2 L6,2 L6,8 L0,8 Z" Width="8" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                              Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="1"  />
+                                                            <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                                      Data="M10,9 9,9 9,3 3,3 3,2 10,2 10,9Z M8,11 1,11 1,4 8,4 8,11Z M2,1 2,3 0,3 0,12 9,12 9,10 11,10 11,1 2,1Z"
+                                                                      RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform" />
+                                                            </Canvas>
                                                         </Grid>
                                                     </Button>
+                                                    
                                                     <Button x:Name="Maximize" Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" ToolTip="Maximize" Style="{StaticResource TitlebarButtonStyle}">
                                                         <Grid Width="30" Height="30">
-                                                            <Path Data="M0,1 L9,1 L9,8 L0,8 Z" Width="9" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                              Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"  />
+                                                            <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform"
+                                                                      Data="M2,2 2,10 10,10 10,2 2,2Z M1,11 1,1 11,1 11,11 1,11Z" />
+                                                            </Canvas>
                                                         </Grid>
                                                     </Button>
                                                 </Grid>
+                                                
                                                 <Button Content="{StaticResource closeIconPath}" Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="Close" VerticalAlignment="Center"  Height="30" Width="30" Style="{StaticResource TitlebarButtonStyle}" />
-                                              
+
                                             </StackPanel>
 
                                         </Grid>
