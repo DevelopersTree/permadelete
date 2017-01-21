@@ -94,7 +94,7 @@ namespace Permadelete.ViewModels
                         _progressHistory.RemoveLast();
 
                     var secondsRemaining = (100.0 - _progress) / _progressHistory.Average();
-                    TimeRemaining = TimeSpan.FromSeconds(secondsRemaining);
+                    TimeRemaining = double.IsNaN(secondsRemaining) ? TimeSpan.FromSeconds(0) : TimeSpan.FromSeconds(secondsRemaining);
                     _lastProgressReport = DateTime.Now;
                 }
             }
