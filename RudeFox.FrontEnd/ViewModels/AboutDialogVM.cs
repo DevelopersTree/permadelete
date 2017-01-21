@@ -1,5 +1,5 @@
-﻿using RudeFox.Helpers;
-using RudeFox.Mvvm;
+﻿using Permadelete.Helpers;
+using Permadelete.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
-using RudeFox.ApplicationManagement;
-using RudeFox.Enums;
+using Permadelete.ApplicationManagement;
+using Permadelete.Enums;
 
-namespace RudeFox.ViewModels
+namespace Permadelete.ViewModels
 {
     class AboutDialogVM : BindableBase
     {

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.ApplicationServices;
-using RudeFox.Helpers;
-using RudeFox.Views;
-using RudeFox.Services;
+using Permadelete.Helpers;
+using Permadelete.Views;
+using Permadelete.Services;
 using NLog.Targets;
-using RudeFox.Updater;
-using RudeFox.Enums;
+using Permadelete.Updater;
+using Permadelete.Enums;
 
-namespace RudeFox.ApplicationManagement
+namespace Permadelete.ApplicationManagement
 {
     public class SingletonManager : WindowsFormsApplicationBase
     {

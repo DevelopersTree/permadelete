@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RudeFox.Controls
+namespace Permadelete.Controls
 {
     // based on Viktor La Croix's Custom Window: http://stackoverflow.com/a/15520170/7003797
     public class FlatWindow : Window

@@ -10,7 +10,7 @@ using Dropbox.Api.Files;
 using System.IO;
 using System.Diagnostics;
 
-namespace RudeFox.Updater
+namespace Permadelete.Updater
 {
     public class UpdateManager
     {
@@ -48,7 +48,7 @@ namespace RudeFox.Updater
             if (updateInfo.Version <= currentVersion || updateInfo?.Path == null)
                 return null;
 
-            var tempFolderName = Helper.GetUniformPath(Path.GetTempPath() + "RudeFox " + currentVersion);
+            var tempFolderName = Helper.GetUniformPath(Path.GetTempPath() + "Permadelete " + currentVersion);
             Directory.CreateDirectory(tempFolderName);
 
             var updateAttempt = Helper.CheckForPreviousAttempts(tempFolderName, currentVersion, updateInfo.Version);

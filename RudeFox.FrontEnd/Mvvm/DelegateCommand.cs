@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace RudeFox.Mvvm
+namespace Permadelete.Mvvm
 {
     public class DelegateCommand : ICommand
     {

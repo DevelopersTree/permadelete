@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RudeFox.Controls
+namespace Permadelete.Controls
 {
     /// <summary>
     /// Interaction logic for ProgressRing.xaml

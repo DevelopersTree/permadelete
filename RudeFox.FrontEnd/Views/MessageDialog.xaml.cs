@@ -1,4 +1,4 @@
-﻿using RudeFox.Controls;
+﻿using Permadelete.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace RudeFox.Views
+namespace Permadelete.Views
 {
     /// <summary>
     /// Interaction logic for MessageDialog.xaml

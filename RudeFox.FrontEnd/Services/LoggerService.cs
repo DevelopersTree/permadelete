@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NLog;
 using SharpRaven.Data;
 
-namespace RudeFox.Services
+namespace Permadelete.Services
 {
     public sealed class LoggerService
     {
@@ -18,7 +18,7 @@ namespace RudeFox.Services
         #endregion
 
         #region Fields
-        private static Logger _logger = LogManager.GetLogger("RudeFox.Services.LoggerService");
+        private static Logger _logger = LogManager.GetLogger("Permadelete.Services.LoggerService");
         private static SharpRaven.RavenClient _ravenClient = new SharpRaven.RavenClient(Keys.SENTRY_API_DSN);
         #endregion
 

@@ -1,6 +1,6 @@
-﻿using RudeFox.ApplicationManagement;
-using RudeFox.Controls;
-using RudeFox.ViewModels;
+﻿using Permadelete.ApplicationManagement;
+using Permadelete.Controls;
+using Permadelete.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace RudeFox.Views
+namespace Permadelete.Views
 {
     /// <summary>
     /// Interaction logic for AgileWindow.xaml

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RudeFox.FrontEnd", "RudeFox.FrontEnd\RudeFox.FrontEnd.csproj", "{65CF9D82-1685-49F4-9834-A163C9038597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permadelete.FrontEnd", "RudeFox.FrontEnd\Permadelete.FrontEnd.csproj", "{65CF9D82-1685-49F4-9834-A163C9038597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RudeFox.Updater", "RudeFox.Updater\RudeFox.Updater.csproj", "{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permadelete.Updater", "RudeFox.Updater\Permadelete.Updater.csproj", "{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

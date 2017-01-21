@@ -1,7 +1,7 @@
-﻿using RudeFox.Helpers;
-using RudeFox.Enums;
-using RudeFox.Mvvm;
-using RudeFox.Services;
+﻿using Permadelete.Helpers;
+using Permadelete.Enums;
+using Permadelete.Mvvm;
+using Permadelete.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Microsoft.WindowsAPICodePack.Shell;
 
-namespace RudeFox.ViewModels
+namespace Permadelete.ViewModels
 {
     public class OperationVM : BindableBase
     {

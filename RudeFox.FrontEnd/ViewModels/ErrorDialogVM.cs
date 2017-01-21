@@ -1,12 +1,12 @@
-﻿using RudeFox.Enums;
-using RudeFox.Mvvm;
+﻿using Permadelete.Enums;
+using Permadelete.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RudeFox.ViewModels
+namespace Permadelete.ViewModels
 {
     class ErrorDialogVM : BindableBase
     {

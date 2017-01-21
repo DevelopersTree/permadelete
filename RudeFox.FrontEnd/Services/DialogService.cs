@@ -1,6 +1,6 @@
-﻿using RudeFox.Enums;
-using RudeFox.ViewModels;
-using RudeFox.Views;
+﻿using Permadelete.Enums;
+using Permadelete.ViewModels;
+using Permadelete.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RudeFox.Services
+namespace Permadelete.Services
 {
     public sealed class DialogService
     {

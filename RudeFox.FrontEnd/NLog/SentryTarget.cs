@@ -10,7 +10,7 @@ using NLog;
 using SharpRaven.Data;
 using NLog.Common;
 
-namespace RudeFox.Nlog
+namespace Permadelete.Nlog
 {
     [Target("Sentry")]
     public sealed class SentryTarget : TargetWithLayout

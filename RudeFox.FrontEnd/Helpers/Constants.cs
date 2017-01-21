@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RudeFox.Helpers
+namespace Permadelete.Helpers
 {
     class Constants
     {
@@ -13,6 +13,6 @@ namespace RudeFox.Helpers
         public const int GIGABYTE = MEGABYTE * KILOBYTE;
         public const string APPLICATION_NAME = "Permadelete";
 
-        public const string WEBSITE_URL = "https://github.com/encrypt0r/RudeFox";
+        public const string WEBSITE_URL = "https://github.com/encrypt0r/permadelete";
     }
 }

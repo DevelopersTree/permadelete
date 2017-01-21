@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 
-namespace RudeFox.Updater
+namespace Permadelete.Updater
 {
     internal static class Helper
     {
@@ -26,7 +26,7 @@ namespace RudeFox.Updater
         #region Methods
         internal static string BackUpAppFiles(string appFolder)
         {
-            var tempPath = GetUniformPath(Path.GetTempPath(), "Rude Fox Backup");
+            var tempPath = GetUniformPath(Path.GetTempPath(), "Permadelete Backup");
             DirectoryCopy(appFolder, tempPath);
 
             return tempPath;

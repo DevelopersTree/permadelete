@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RudeFox.Updater
+namespace Permadelete.Updater
 {
     public enum UpdateType
     {

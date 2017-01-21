@@ -1,5 +1,5 @@
-﻿using RudeFox.Helpers;
-using RudeFox.Enums;
+﻿using Permadelete.Helpers;
+using Permadelete.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DiskDetector;
-namespace RudeFox.Services
+namespace Permadelete.Services
 {
     public sealed class ShredderService
     {

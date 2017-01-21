@@ -1,6 +1,6 @@
 ﻿using DragDropLib;
-using RudeFox.Controls;
-using RudeFox.ViewModels;
+using Permadelete.Controls;
+using Permadelete.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ComIDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
 
-namespace RudeFox.Views
+namespace Permadelete.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

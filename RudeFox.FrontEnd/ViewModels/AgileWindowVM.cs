@@ -1,6 +1,6 @@
-using RudeFox.ApplicationManagement;
-using RudeFox.Mvvm;
-using RudeFox.Views;
+using Permadelete.ApplicationManagement;
+using Permadelete.Mvvm;
+using Permadelete.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Shell;
 using System.Windows.Threading;
 
-namespace RudeFox.ViewModels
+namespace Permadelete.ViewModels
 {
     public class AgileWindowVM : BindableBase
     {
@@ -80,7 +80,7 @@ namespace RudeFox.ViewModels
                 CloseCommand.Execute(null);
             });
 
-            OpenRudeFoxCommand = new DelegateCommand(dialog =>
+            OpenMainWindowCommand = new DelegateCommand(dialog =>
             {
             (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
             CloseCommand = new DelegateCommand(p => { });
@@ -102,7 +102,7 @@ namespace RudeFox.ViewModels
         #region Commands
         public ICommand CloseCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
-        public ICommand OpenRudeFoxCommand { get; set; }
+        public ICommand OpenMainWindowCommand { get; set; }
         #endregion
 
         #region Properties

@@ -1,13 +1,13 @@
-﻿<controls:FlatWindow x:Class="RudeFox.Views.MainWindow"
+﻿<controls:FlatWindow x:Class="Permadelete.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RudeFox.Views"
-        xmlns:appManagment="clr-namespace:RudeFox.ApplicationManagement"
+        xmlns:local="clr-namespace:Permadelete.Views"
+        xmlns:appManagment="clr-namespace:Permadelete.ApplicationManagement"
         mc:Ignorable="d"
-        xmlns:controls="clr-namespace:RudeFox.Controls"
-        xmlns:vm="clr-namespace:RudeFox.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        xmlns:controls="clr-namespace:Permadelete.Controls"
+        xmlns:vm="clr-namespace:Permadelete.ViewModels" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         xmlns:gong="urn:gong-wpf-dragdrop" Icon="/Images/icon_24.png"
         Title="{Binding Title}" Height="600" MinHeight="300" MinWidth="400" SizeChanged="Window_SizeChanged">
     <controls:FlatWindow.DataContext>

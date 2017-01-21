@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using RudeFox.Views;
-using RudeFox.Services;
+using Permadelete.Views;
+using Permadelete.Services;
 using NLog.Config;
-using RudeFox.Updater;
+using Permadelete.Updater;
 using System.Reflection;
 using System.Collections.ObjectModel;
-using RudeFox.ViewModels;
+using Permadelete.ViewModels;
 using NLog.Targets;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using RudeFox.Enums;
-using RudeFox.Helpers;
+using Permadelete.Enums;
+using Permadelete.Helpers;
 
-namespace RudeFox.ApplicationManagement
+namespace Permadelete.ApplicationManagement
 {
     /// <summary>
     /// Interaction logic for App.xaml

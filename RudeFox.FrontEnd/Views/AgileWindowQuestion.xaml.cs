@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RudeFox.Views
+namespace Permadelete.Views
 {
     /// <summary>
     /// Interaction logic for AgileWindowQuestion.xaml

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace RudeFox.Xaml
+namespace Permadelete.Xaml
 {
     public enum TextCase
     {

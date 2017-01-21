@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RudeFox
+namespace Permadelete
 {
     public static class ExtensionMethods
     {

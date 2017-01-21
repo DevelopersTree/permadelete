@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RudeFox.Mvvm
+namespace Permadelete.Mvvm
 {
     public class BindableBase : INotifyPropertyChanged
     {

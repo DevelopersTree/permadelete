@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RudeFox.Mvvm;
+using Permadelete.Mvvm;
 using System.Windows;
-using RudeFox.Services;
+using Permadelete.Services;
 using System.Collections.Specialized;
-using RudeFox.ApplicationManagement;
+using Permadelete.ApplicationManagement;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using RudeFox.Helpers;
+using Permadelete.Helpers;
 
-namespace RudeFox.ViewModels
+namespace Permadelete.ViewModels
 {
     class MainWindowVM : BindableBase
     {

@@ -1,11 +1,11 @@
-﻿<Application x:Class="RudeFox.ApplicationManagement.App"
+﻿<Application x:Class="Permadelete.ApplicationManagement.App"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:RudeFox.ApplicationManagement">
+        xmlns:local="clr-namespace:Permadelete.ApplicationManagement">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Rude Fox;component/Styles.xaml" />
+                <ResourceDictionary Source="/Permadelete;component/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

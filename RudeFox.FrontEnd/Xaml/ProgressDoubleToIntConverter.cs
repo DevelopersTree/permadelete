@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace RudeFox.Xaml
+namespace Permadelete.Xaml
 {
     public class ProgressDoubleToIntConverter : IValueConverter
     {

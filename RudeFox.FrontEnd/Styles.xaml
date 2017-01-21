@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:RudeFox.Controls"
-                    xmlns:vm="clr-namespace:RudeFox.ViewModels"
-                    xmlns:xaml="clr-namespace:RudeFox.Xaml"
-                    xmlns:local="clr-namespace:RudeFox">
+                    xmlns:controls="clr-namespace:Permadelete.Controls"
+                    xmlns:vm="clr-namespace:Permadelete.ViewModels"
+                    xmlns:xaml="clr-namespace:Permadelete.Xaml"
+                    xmlns:local="clr-namespace:Permadelete">
     <!-- Material design shadows. from: http://marcangers.com/material-design-shadows-in-wpf/ -->
     <DropShadowEffect x:Key="z-depth1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC"/>
     <DropShadowEffect x:Key="z-depth2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>

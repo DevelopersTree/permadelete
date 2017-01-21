@@ -1,11 +1,11 @@
-﻿<controls:FlatWindow x:Class="RudeFox.Views.AboutDialog"
+﻿<controls:FlatWindow x:Class="Permadelete.Views.AboutDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:RudeFox.Controls"
-        xmlns:helpers="clr-namespace:RudeFox.Helpers"
-        xmlns:local="clr-namespace:RudeFox.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
+        xmlns:controls="clr-namespace:Permadelete.Controls"
+        xmlns:helpers="clr-namespace:Permadelete.Helpers"
+        xmlns:local="clr-namespace:Permadelete.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         Title="{Binding Title, StringFormat='About {0}'}" Height="300" Width="500">
     <controls:FlatWindow.Resources>
