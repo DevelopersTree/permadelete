@@ -207,14 +207,16 @@ namespace RudeFox.ApplicationManagement
 
         private void LogUnhandledException(Exception e)
         {
+#if !DEBUG
             LoggerService.Instance.Error(e);
             DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
+#endif
         }
 
         private void OnUpdateStatusChanged()
         {
             UpdateStatusChanged?.Invoke(this, new EventArgs());
         }
-        #endregion
+#endregion
     }
 }
