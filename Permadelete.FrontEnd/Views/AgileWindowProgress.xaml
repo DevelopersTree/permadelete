@@ -32,15 +32,15 @@
 
         <ProgressBar Value="{Binding Progress, Converter={StaticResource progressConverter}}" Maximum="100" Grid.Row="1" VerticalAlignment="Top" Height="15" Margin="10, 0"/>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="#f0f0f0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="#dfdfdf" BorderThickness="0, 1, 0, 0" Background="#f0f0f0" Grid.ColumnSpan="3"/>
-
+            <Border BorderBrush="#dfdfdf" BorderThickness="0, 1, 0, 0" Background="{StaticResource WindowBackgroundThatch}" Grid.ColumnSpan="3"/>
+            
             <controls:FlatButton Content="Open Permadelete" VerticalAlignment="Center" Margin="10, 0" Command="{Binding OpenMainWindowCommand}"
                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             <controls:FlatButton Content="Stop"  Command="{Binding CloseCommand}" IsRecommended="True" IsCancel="True" Grid.Column="2" VerticalAlignment="Center" Margin="10, 0"/>
