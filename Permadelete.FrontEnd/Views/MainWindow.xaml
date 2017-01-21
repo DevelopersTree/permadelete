@@ -51,8 +51,8 @@
                                                 <RowDefinition Height="2*" />
                                             </Grid.RowDefinitions>
                                             <Image MaxHeight="128" Grid.Row="1" Source="/Images/icon_128.png"/>
-                                            <TextBlock Text="Nothing to delete" FontSize="28" Grid.Row="2"  HorizontalAlignment="Center" FontWeight="Light" Foreground="{StaticResource foreground2}" />
-                                            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource foreground2}" FontSize="18" VerticalAlignment="Center">Drop some files and folders here to be deleted.</TextBlock>
+                                            <TextBlock Text="Nothing to delete" FontSize="28" Grid.Row="2"  HorizontalAlignment="Center" FontWeight="Light" Foreground="{StaticResource ForegroundColorBrush}" />
+                                            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Foreground="{StaticResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center">Drop some files and folders here to be deleted.</TextBlock>
                                         </Grid>
                                     </Border>
                                 </ControlTemplate>
@@ -107,7 +107,7 @@
                 <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
                 <controls:ToolbarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
 
-                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="{Binding Title, StringFormat='ABOUT {0}'}" Command="{Binding ShowAboutCommand}" Grid.Column="5" Margin="10, 0, 0, 0"
+                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="{Binding Title, StringFormat='ABOUT {0}'}" Grid.Column="5" Margin="10, 0, 0, 0" Command="{Binding ShowAboutCommand}"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             </Grid>
         </Grid>
@@ -115,7 +115,7 @@
         <ListBox x:Name="lstOperations"
                  ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
-                 Style="{StaticResource listBox}" Background="{StaticResource background2}" MouseDoubleClick="ListBox_MouseDoubleClick"
+                 Style="{StaticResource listBox}" MouseDoubleClick="ListBox_MouseDoubleClick"
                  DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True" />
     </DockPanel>
 
