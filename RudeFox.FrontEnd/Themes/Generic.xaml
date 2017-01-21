@@ -239,7 +239,7 @@
                                     </Grid>
                                 </AdornerDecorator>
                             </Border>
-                            <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource bool2VisibilityConverter}}" />
+                            <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
