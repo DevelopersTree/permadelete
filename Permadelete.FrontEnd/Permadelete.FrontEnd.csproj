@@ -80,9 +80,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationManagement\App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationManagement\App.cs" />
     <Compile Include="ApplicationManagement\EntryPoint.cs" />
     <Compile Include="ApplicationManagement\SingletonManager.cs" />
     <Compile Include="Controls\FlatButton.cs" />
@@ -181,10 +179,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ApplicationManagement\App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\ProgressRing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

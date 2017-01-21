@@ -18,10 +18,6 @@
     </controls:FlatWindow.TaskbarItemInfo>
     <controls:FlatWindow.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
             <Style TargetType="{x:Type ListBox}" x:Key="listBox">
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Template">

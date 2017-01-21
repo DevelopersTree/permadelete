@@ -17,10 +17,7 @@ using Permadelete.Helpers;
 
 namespace Permadelete.ApplicationManagement
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public class App : Application
     {
         #region Constructors
         private App()
@@ -58,6 +55,9 @@ namespace Permadelete.ApplicationManagement
         #region OnStartup
         protected async override void OnStartup(StartupEventArgs e)
         {
+            var stylesDic = new Uri("pack://application:,,,/Styles.xaml");
+            Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = stylesDic });
+
             await Dispatcher.InvokeAsync(() =>
             {
                 if (e.Args.Count() == 0)
