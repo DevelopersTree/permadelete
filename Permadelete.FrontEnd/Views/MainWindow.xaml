@@ -119,6 +119,9 @@
                                             <EventTrigger RoutedEvent="FrameworkElement.DragEnter">
                                                 <BeginStoryboard Storyboard="{StaticResource DragEnterStoryboard}" />
                                             </EventTrigger>
+                                            <EventTrigger RoutedEvent="FrameworkElement.Drop">
+                                                <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
+                                            </EventTrigger>
                                             <EventTrigger RoutedEvent="FrameworkElement.DragLeave">
                                                 <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
                                             </EventTrigger>
