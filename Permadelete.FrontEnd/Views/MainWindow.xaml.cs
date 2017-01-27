@@ -61,7 +61,9 @@ namespace Permadelete.Views
             var windowHelper = new WindowInteropHelper(this);
             var dropHelper = (IDropTargetHelper)new DragDropHelper();
 
-            e.Effects = DragDropEffects.Move;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effects = DragDropEffects.Move;
+
             dropHelper.DragEnter(windowHelper.Handle, (ComIDataObject)e.Data, ref windowsPoint, (int)e.Effects);
         }
 
@@ -79,9 +81,13 @@ namespace Permadelete.Views
             var windowHelper = new WindowInteropHelper(this);
             var dropHelper = (IDropTargetHelper)new DragDropHelper();
 
-            e.Effects = DragDropEffects.Move;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Move;
+                (DataContext as MainWindowVM).HandleFileDropCommand.Execute(e.Data);
+            }
+
             dropHelper.Drop((ComIDataObject)e.Data, ref windowsPoint, (int)e.Effects);
-            (DataContext as MainWindowVM).HandleFileDropCommand.Execute(e.Data);
         }
 
         private void toolbarGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
