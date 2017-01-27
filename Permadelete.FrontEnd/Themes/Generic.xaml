@@ -135,7 +135,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="Padding" Value="10, 8" />
+        <Setter Property="Padding" Value="10, 6" />
         <Setter Property="Margin" Value="10, 0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -149,7 +149,7 @@
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="4*" />
                             </Grid.ColumnDefinitions>
-                            <Image Height="16" Source="{Binding RelativeSource={RelativeSource AncestorType=local:ToolbarButton}, Path=ImageSource}"/>
+                            <Image Height="24" Source="{Binding RelativeSource={RelativeSource AncestorType=local:ToolbarButton}, Path=ImageSource}"/>
                             <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text, Converter={StaticResource caseConverter}, ConverterParameter={x:Static xaml:TextCase.UpperCase}}" Grid.Column="2" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
