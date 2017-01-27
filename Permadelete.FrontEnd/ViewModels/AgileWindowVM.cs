@@ -33,8 +33,8 @@ namespace Permadelete.ViewModels
                 pronoun = "these ";
             }
 
-            QuestionTitle = $"Do you want to delete {pronoun}{names}?";
-            ProgressTitle = $"Deleting {names}";
+            QuestionTitle = $"Do you want to shred {pronoun}{names}?";
+            ProgressTitle = $"Shredding {names}";
 
             QuestionVisibility = Visibility.Visible;
             TimeRemaining = QuestionTitle;

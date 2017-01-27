@@ -169,9 +169,9 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <controls:ToolbarButton ImageSource="/Images/delete_file.png" Text="DELETE FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
+                <controls:ToolbarButton ImageSource="/Images/delete_file.png" Text="SHRED FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
-                <controls:ToolbarButton ImageSource="/Images/delete_folder.png" Text="DELETE FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
+                <controls:ToolbarButton ImageSource="/Images/delete_folder.png" Text="SHRED FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
                 <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
                 <controls:ToolbarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>

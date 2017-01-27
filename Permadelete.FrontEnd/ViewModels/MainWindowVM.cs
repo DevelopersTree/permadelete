@@ -92,7 +92,7 @@ namespace Permadelete.ViewModels
         private async Task DeleteFiles(Window window)
         {
             var dialog = GetOpenFileDialog();
-            dialog.Title = "Select the files you want to delete";
+            dialog.Title = "Select the files you want to shred";
 
             var result = dialog.ShowDialog(window);
             if (result != CommonFileDialogResult.Ok) return;
@@ -104,7 +104,7 @@ namespace Permadelete.ViewModels
         private async Task DeleteFolders(Window window)
         {
             var dialog = GetOpenFileDialog(true);
-            dialog.Title = "Select the folders you want to delete";
+            dialog.Title = "Select the folders you want to shred";
 
             var result = dialog.ShowDialog(window);
             if (result != CommonFileDialogResult.Ok) return;

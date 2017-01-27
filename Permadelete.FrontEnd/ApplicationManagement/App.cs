@@ -90,7 +90,7 @@ namespace Permadelete.ApplicationManagement
             paths = paths.Except(duplicates);
 
             var validPaths = paths.Where(path => System.IO.File.Exists(path) || Directory.Exists(path));
-            var tasks = validPaths.Select(item => DeleteFileOrFolder(item));
+            var tasks = validPaths.Select(item => ShredFileOrFolder(item));
 
             await Task.WhenAll(tasks);
         }
@@ -151,7 +151,7 @@ namespace Permadelete.ApplicationManagement
             TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
         }
 
-        private async Task DeleteFileOrFolder(string path)
+        private async Task ShredFileOrFolder(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException("path should not be null or empty.");
@@ -171,7 +171,7 @@ namespace Permadelete.ApplicationManagement
             catch (Exception exc)
             {
                 LoggerService.Instance.Error(exc);
-                DialogService.Instance.GetErrorDialog("Could not delete item", exc).ShowDialog();
+                DialogService.Instance.GetErrorDialog("Could not shred item", exc).ShowDialog();
             }
             finally
             {
@@ -186,21 +186,21 @@ namespace Permadelete.ApplicationManagement
         private async Task<bool?> GetUserAgreedToDeleteAsync(IEnumerable<string> paths)
         {
             string message;
-            string okText = "Delete ";
+            string okText = "Shred ";
             var itemName = System.IO.File.Exists(paths.FirstOrDefault()) ? "file" : "folder";
 
             if (paths.Count() == 1)
             {
-                message = $"Are you sure you want to delete this {itemName}?{Environment.NewLine}";
+                message = $"Are you sure you want to shred this {itemName}?{Environment.NewLine}";
                 message += Path.GetFileName(paths.FirstOrDefault());
                 okText += "it";
             }
             else
             {
-                message = $"Are you sure you want to delete these {paths.Count()} items?";
+                message = $"Are you sure you want to shred these {paths.Count()} items?";
                 okText += "them";
             }
-            var dialog = DialogService.Instance.GetMessageDialog("Deleting items", message, MessageIcon.Question, okText, "Cancel", true);
+            var dialog = DialogService.Instance.GetMessageDialog("Shredding items", message, MessageIcon.Question, okText, "Cancel", true);
             dialog.Owner = this.MainWindow;
             return await dialog.ShowDialogAsync();
         }
