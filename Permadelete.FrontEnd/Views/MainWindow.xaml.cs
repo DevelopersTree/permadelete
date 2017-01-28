@@ -62,9 +62,19 @@ namespace Permadelete.Views
             var dropHelper = (IDropTargetHelper)new DragDropHelper();
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
                 e.Effects = DragDropEffects.Move;
 
-            dropHelper.DragEnter(windowHelper.Handle, (ComIDataObject)e.Data, ref windowsPoint, (int)e.Effects);
+                try
+                {
+                    dropHelper.DragEnter(windowHelper.Handle, (ComIDataObject)e.Data, ref windowsPoint, (int)e.Effects);
+                }
+                catch (Exception)
+                {
+                    // weird exceptions are thrown if the item being dragged is not
+                    // supported by IDropTargetHelper.
+                }
+            }
         }
 
         private void lstOperations_DragLeave(object sender, DragEventArgs e)

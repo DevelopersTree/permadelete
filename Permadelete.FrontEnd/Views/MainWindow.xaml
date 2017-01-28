@@ -118,9 +118,6 @@
                                         <EventTrigger RoutedEvent="FrameworkElement.DragLeave">
                                             <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
                                         </EventTrigger>
-                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                            <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
-                                        </EventTrigger>
                                     </Border.Triggers>
                                 </Border>
                             </ControlTemplate>
