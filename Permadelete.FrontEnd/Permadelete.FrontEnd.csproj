@@ -156,7 +156,6 @@
     <Resource Include="Images\cancel_all.png" />
     <Resource Include="Images\delete_file.png" />
     <Resource Include="Images\delete_folder.png" />
-    <Resource Include="Images\circular_progress.png" />
     <Resource Include="Images\waste_accent.png" />
     <Resource Include="Images\waste_gray.png" />
     <Content Include="NLog.config">
@@ -226,10 +225,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\file.png" />
-    <Resource Include="Images\folder.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.ico" />

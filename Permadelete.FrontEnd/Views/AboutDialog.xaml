@@ -61,13 +61,19 @@
             </Grid>
 
             <TextBlock Text="Programming:" FontSize="14" Grid.Row="3"/>
-            <TextBlock Text="Encryptor (encryptor@outlook.com)"  Grid.Row="4"/>
+            <TextBlock Grid.Row="4">
+                <Hyperlink NavigateUri="https://github.com/encrypt0r" RequestNavigate="Hyperlink_RequestNavigate">Muhammad Yaseen</Hyperlink>
+            </TextBlock>
             <TextBlock Text="Icons by:" FontSize="14"  Grid.Row="5"/>
-            <TextBlock Text="Madebyoliver and Flat Icons"  Grid.Row="6"/>
+            <TextBlock Grid.Row="6">
+                <Hyperlink NavigateUri="https://icons8.com" RequestNavigate="Hyperlink_RequestNavigate">Icons8</Hyperlink>,
+                <Hyperlink NavigateUri="http://www.freepik.com/" RequestNavigate="Hyperlink_RequestNavigate">Freepik</Hyperlink>
+                and <Hyperlink NavigateUri="http://www.facebook.com/NSSHY" RequestNavigate="Hyperlink_RequestNavigate">NSSHY</Hyperlink>
+            </TextBlock>
         </Grid>
 
         <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0">
-            <Button x:Name="websiteButton" Content="Visit our website" Padding="10, 5" Command="{Binding VisitWebsiteCommand}"/>
+            <Button x:Name="websiteButton" Content="Fork on Github" Padding="10, 5" Command="{Binding VisitWebsiteCommand}"/>
             <Button x:Name="closeButton" Content="Close" Margin="10,0,0,0" Padding="10, 5" IsCancel="True" />
         </StackPanel>
     </Grid>
