@@ -106,7 +106,7 @@
                                                 </TransformGroup>
                                             </Image.RenderTransform>
                                         </Image>
-                                        <TextBlock Text="Drop some files and folders here to be deleted." HorizontalAlignment="Center" Grid.Row="2" Foreground="{StaticResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center" IsHitTestVisible="False" />
+                                        <TextBlock Text="Drop some files or folders here to be deleted." HorizontalAlignment="Center" Grid.Row="2" Foreground="{StaticResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center" IsHitTestVisible="False" />
                                     </Grid>
                                     <Border.Triggers>
                                         <EventTrigger RoutedEvent="FrameworkElement.DragEnter">

@@ -21,7 +21,7 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <Image Source="/Images/icon_128.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="96" Stretch="Uniform"/>
+        <Image Source="/Images/icon_128.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="128" Stretch="Uniform"/>
 
         <Grid Grid.Row="0" Grid.Column="1" >
             <Grid.RowDefinitions>
@@ -37,7 +37,7 @@
             
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <TextBlock Text="{Binding Title}" FontWeight="Light" FontSize="32" />
-                <TextBlock Text="{Binding Version, FallbackValue='1.0'}" VerticalAlignment="Bottom" FontSize="23" FontWeight="Light" Foreground="#555" Margin="13,0,0,2" />
+                <TextBlock Text="{Binding Version, FallbackValue='1.0'}" VerticalAlignment="Bottom" FontWeight="Light" FontSize="28" Foreground="#555" Margin="13,0,0,2" />
             </StackPanel>
             
             <Grid Margin="0, 0, 20, 10" Grid.Row="2">
