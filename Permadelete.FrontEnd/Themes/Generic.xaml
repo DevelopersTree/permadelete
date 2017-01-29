@@ -1,0 +1,288 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Permadelete.Controls"
+     xmlns:xaml="clr-namespace:Permadelete.Xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Permadelete;component/Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:FlatButton}">
+        <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="Background" Value="#e5e5e5" />
+        <Setter Property="BorderBrush" Value="#505050" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Padding" Value="15, 5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FlatButton">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" >
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsFocused}" Value="True">
+                                            <Setter Property="Effect" Value="{StaticResource z-depth1}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <ContentControl Focusable="False" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#eee" />
+            </Trigger>
+
+            <!-- IsDestructive -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsDestructive" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#dc143c"   />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsDestructive" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#ea234b"   />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsDestructive" Value="True"/>
+                    <Condition Property="IsPressed" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#dc143c" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#be1234"   />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <!-- IsRecommended -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#1e90ff" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#339aff" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsRecommended" Value="True"/>
+                    <Condition Property="IsPressed" Value="True"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="BorderBrush" Value="#1e90ff" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#1580e8" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsCancel" Value="True"/>
+                    <Condition Property="Content" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:ToolbarButton}" BasedOn="{StaticResource TitlebarButtonStyle}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Padding" Value="10, 6" />
+        <Setter Property="Margin" Value="10, 0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ToolbarButton">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                          Background="{TemplateBinding Background}">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="4*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Height="24" Source="{Binding RelativeSource={RelativeSource AncestorType=local:ToolbarButton}, Path=ImageSource}"/>
+                            <TextBlock Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text, Converter={StaticResource caseConverter}, ConverterParameter={x:Static xaml:TextCase.UpperCase}}" Grid.Column="2" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="local:FlatWindow">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FlatWindow">
+                    <Border x:Name="WindowBorder" Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}" Background="{StaticResource WindowBackgroundColorBrush}">
+                        <Grid>
+                            <Border BorderThickness="1">
+                                <AdornerDecorator>
+                                    <Grid x:Name="LayoutRoot">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="15" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--Titlebar background-->
+                                        <Rectangle x:Name="HeaderBackground" Height="30" Fill="{StaticResource TitlebarBackgroundThatch}"/>
+
+                                        <!--Client Area-->
+                                        <Rectangle Fill="{StaticResource WindowBackgroundThatch}" Grid.Row="1" Grid.RowSpan="2" />
+                                        <ContentPresenter Grid.Row="1" Grid.RowSpan="2" />
+
+                                        <!--Titlebar-->
+                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"  Margin="0 -1 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="{TemplateBinding Icon}" Height="16" Width="16"/>
+                                            <TextBlock x:Name="WindowTitleTextBlock" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextAlignment="Center" Text="{TemplateBinding Title}"  FontSize="14"  Foreground="{StaticResource WindowBackgroundColorBrush}" Grid.Column="1"/>
+
+                                            <!-- Window Handling Buttons-->
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2">
+                                                
+                                                <Button x:Name="Minimize" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{StaticResource TitlebarButtonStyle}">
+                                                    <Grid Width="30" Height="30" RenderTransform="1,0,0,1,0,1">
+                                                        <Path Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center"                                                   
+                                                              Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                              Data="M0,40 L96,40 96,48 0,48 0,40z"
+                                                              RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform" />
+                                                    </Grid>
+                                                </Button>
+                                                
+                                                <Grid Margin="1,0,1,0">
+                                                    <Button x:Name="Restore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" ToolTip="Restore" Visibility="Collapsed" Style="{StaticResource TitlebarButtonStyle}">
+                                                        <Grid Width="30" Height="30" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
+                                                            <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                                      Data="M10,9 9,9 9,3 3,3 3,2 10,2 10,9Z M8,11 1,11 1,4 8,4 8,11Z M2,1 2,3 0,3 0,12 9,12 9,10 11,10 11,1 2,1Z"
+                                                                      RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform" />
+                                                            </Canvas>
+                                                        </Grid>
+                                                    </Button>
+                                                    
+                                                    <Button x:Name="Maximize" Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" ToolTip="Maximize" Style="{StaticResource TitlebarButtonStyle}">
+                                                        <Grid Width="30" Height="30">
+                                                            <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform"
+                                                                      Data="M2,2 2,10 10,10 10,2 2,2Z M1,11 1,1 11,1 11,11 1,11Z" />
+                                                            </Canvas>
+                                                        </Grid>
+                                                    </Button>
+                                                </Grid>
+                                                
+                                                <Button Content="{StaticResource closeIconPath}" Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="Close" VerticalAlignment="Center"  Height="30" Width="30" Style="{StaticResource TitlebarButtonStyle}" />
+
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                        <!--Resize grip-->
+                                        <Grid Grid.Row="2">
+                                            <Path x:Name="ResizeGrip" Visibility="Collapsed" Width="12" Height="12" Margin="1" HorizontalAlignment="Right"
+                                        Stroke="{StaticResource AccentColorBrush}" StrokeThickness="1" Stretch="None" Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
+                                        </Grid>
+                                    </Grid>
+                                </AdornerDecorator>
+                            </Border>
+                            <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="Maximize" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Restore" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="LayoutRoot" Property="Margin" Value="7" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="Maximize" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Restore" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="Maximize" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Restore" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Minimize" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
+                                <Condition Property="WindowState" Value="Normal" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

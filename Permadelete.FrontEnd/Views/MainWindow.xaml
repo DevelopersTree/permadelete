@@ -1,0 +1,185 @@
+﻿<controls:FlatWindow x:Class="Permadelete.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Permadelete.Views"
+        xmlns:appManagment="clr-namespace:Permadelete.ApplicationManagement"
+        mc:Ignorable="d"
+        xmlns:controls="clr-namespace:Permadelete.Controls"
+        xmlns:vm="clr-namespace:Permadelete.ViewModels" WindowStartupLocation="CenterScreen"
+        Icon="/Images/icon_24.png"
+        Title="{Binding Title}" Height="600" MinHeight="300" MinWidth="400" SizeChanged="Window_SizeChanged">
+    <controls:FlatWindow.DataContext>
+        <vm:MainWindowVM />
+    </controls:FlatWindow.DataContext>
+    <controls:FlatWindow.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressValue="{Binding OverallProgress}" ProgressState="{Binding TaskbarState}"/>
+    </controls:FlatWindow.TaskbarItemInfo>
+    <controls:FlatWindow.Resources>
+        <Style TargetType="{x:Type ListBox}" x:Key="listBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!-- If the list was empty, show the user a hint ;) -->
+                <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}"  Value="0">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <ControlTemplate.Resources>
+                                    <Storyboard x:Key="DragEnterStoryboard">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="watermarkImage">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="watermarkImage">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="watermarkImage">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Key="DragLeaveStoryboard">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="watermarkImage">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="watermarkImage">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="watermarkImage">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="watermarkImageAccent">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </ControlTemplate.Resources>
+                                <Border BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Image Source="/Permadelete;component/Images/waste_gray.png" Opacity="0.5" x:Name="watermarkImage" MaxHeight="256" Grid.Row="1" RenderTransformOrigin="0.5,0.5"  IsHitTestVisible="False">
+                                            <Image.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Image.RenderTransform>
+                                        </Image>
+                                        <Image Source="/Permadelete;component/Images/waste_accent.png" Opacity="0" x:Name="watermarkImageAccent" MaxHeight="256" Grid.Row="1" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                                            <Image.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Image.RenderTransform>
+                                        </Image>
+                                        <TextBlock Text="Drop some files or folders here to be deleted." HorizontalAlignment="Center" Grid.Row="2" Foreground="{StaticResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center" IsHitTestVisible="False" />
+                                    </Grid>
+                                    <Border.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.DragEnter">
+                                            <BeginStoryboard Storyboard="{StaticResource DragEnterStoryboard}" />
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="FrameworkElement.Drop">
+                                            <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="FrameworkElement.DragLeave">
+                                            <BeginStoryboard Storyboard="{StaticResource DragLeaveStoryboard}" />
+                                        </EventTrigger>
+                                    </Border.Triggers>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </controls:FlatWindow.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Margin="0, -30, 0, 0" x:Name="toolbarGrid" MouseLeftButtonDown="toolbarGrid_MouseLeftButtonDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Rectangle Fill="{StaticResource TitlebarBackgroundThatch}" Grid.RowSpan="2"/>
+            <Rectangle Margin="0, -30, 0, 0" Grid.RowSpan="2">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Repeat" Opacity="0.5">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="254.745" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="{DynamicResource AccentColor}" Offset="0.123"/>
+                        <GradientStop Offset="0.994"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Grid Grid.Row="1" Margin="0, 5"  WindowChrome.IsHitTestVisibleInChrome="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <controls:ToolbarButton ImageSource="/Images/delete_file.png" Text="SHRED FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                <controls:ToolbarButton ImageSource="/Images/delete_folder.png" Text="SHRED FOLDERS" Command="{Binding DeleteFoldersCommand}" Grid.Column="1"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
+                <controls:ToolbarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
+
+                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="{Binding Title, StringFormat='ABOUT {0}'}" Grid.Column="5" Margin="10, 0, 0, 0" Command="{Binding ShowAboutCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+            </Grid>
+        </Grid>
+
+        <ListBox x:Name="lstOperations"
+                 ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
+                 HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
+                 Style="{StaticResource listBox}" MouseDoubleClick="ListBox_MouseDoubleClick"
+                 DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True" />
+    </DockPanel>
+
+</controls:FlatWindow>

@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{65CF9D82-1685-49F4-9834-A163C9038597}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Permadelete</RootNamespace>
+    <AssemblyName>Permadelete</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DiskDetector, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\diskdetector-net.0.3.1\lib\net\DiskDetector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.1\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpRaven, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpRaven.2.1.0\lib\net45\SharpRaven.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationManagement\App.cs" />
+    <Compile Include="ApplicationManagement\EntryPoint.cs" />
+    <Compile Include="ApplicationManagement\SingletonManager.cs" />
+    <Compile Include="Controls\FlatButton.cs" />
+    <Compile Include="Controls\FlatWindow.cs" />
+    <Compile Include="Controls\ProgressRing.xaml.cs">
+      <DependentUpon>ProgressRing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolbarButton.cs" />
+    <Compile Include="DragAndDrop\DragDropLib.cs" />
+    <Compile Include="Enums\UpdateStatus.cs" />
+    <Compile Include="ViewModels\AgileWindowVM.cs" />
+    <Compile Include="Views\AgileWindow.xaml.cs">
+      <DependentUpon>AgileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AgileWindowProgress.xaml.cs">
+      <DependentUpon>AgileWindowProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AgileWindowQuestion.xaml.cs">
+      <DependentUpon>AgileWindowQuestion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Xaml\CaseConverter.cs" />
+    <Compile Include="Xaml\ProgressDoubleToIntConverter.cs" />
+    <Compile Include="Xaml\TimespanToStringConverter.cs" />
+    <Compile Include="Enums\OperationStatus.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\Keys.cs" />
+    <Compile Include="Enums\FileSystemType.cs" />
+    <Compile Include="Enums\ItemType.cs" />
+    <Compile Include="Enums\MessageIcon.cs" />
+    <Compile Include="NLog\SentryTarget.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\LoggerService.cs" />
+    <Compile Include="Services\ShredderService.cs" />
+    <Compile Include="ViewModels\AboutDialogVM.cs" />
+    <Compile Include="ViewModels\ErrorDialogVM.cs" />
+    <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="ViewModels\MessageDialogVM.cs" />
+    <Compile Include="ViewModels\OperationVM.cs" />
+    <Compile Include="Views\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorDialog.xaml.cs">
+      <DependentUpon>ErrorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mvvm\BindableBase.cs" />
+    <Compile Include="Mvvm\DelegateCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Images\cancel_all.png" />
+    <Resource Include="Images\delete_file.png" />
+    <Resource Include="Images\delete_folder.png" />
+    <Resource Include="Images\waste_accent.png" />
+    <Resource Include="Images\waste_gray.png" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\ProgressRing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgileWindowProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgileWindowQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.ico" />
+    <Resource Include="Images\icon_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon_128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+    <Resource Include="Images\question.png" />
+    <Resource Include="Images\success.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Permadelete.Updater\Permadelete.Updater.csproj">
+      <Project>{5651c82b-95eb-4658-bf08-c00bd3dab1fd}</Project>
+      <Name>Permadelete.Updater</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

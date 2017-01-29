@@ -1,0 +1,20 @@
+﻿<controlns:FlatWindow x:Class="Permadelete.Views.AgileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Permadelete.Views"
+        xmlns:controlns="clr-namespace:Permadelete.Controls"
+        mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen"
+        Title="{Binding WindowTitle}" Height="200" Width="400" ResizeMode="NoResize" Closed="Window_Closed">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="{Binding TaskbarState}" ProgressValue="{Binding Progress}" />
+    </Window.TaskbarItemInfo>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+    </Window.InputBindings>
+    <Grid >
+        <local:AgileWindowProgress />
+        <local:AgileWindowQuestion Visibility="{Binding QuestionVisibility}" Background="White"/>
+    </Grid>
+</controlns:FlatWindow>

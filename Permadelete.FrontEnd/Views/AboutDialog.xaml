@@ -1,0 +1,80 @@
+﻿<controls:FlatWindow x:Class="Permadelete.Views.AboutDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Permadelete.Controls"
+        xmlns:helpers="clr-namespace:Permadelete.Helpers"
+        xmlns:local="clr-namespace:Permadelete.Views" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
+        mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Title="{Binding Title, StringFormat='About {0}'}" Height="300" Width="500">
+    <controls:FlatWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+    </controls:FlatWindow.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="/Images/icon_128.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="128" Stretch="Uniform"/>
+
+        <Grid Grid.Row="0" Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Text="{Binding Title}" FontWeight="Light" FontSize="32" />
+                <TextBlock Text="{Binding Version, FallbackValue='1.0'}" VerticalAlignment="Bottom" FontWeight="Light" FontSize="28" Foreground="#555" Margin="13,0,0,2" />
+            </StackPanel>
+            
+            <Grid Margin="0, 0, 20, 10" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:ProgressRing Width="24" Height="24" Visibility="{Binding ShowBusyIndicator, Converter={StaticResource boolToVis}}" Margin="0, 0, 10, 0"/>
+                <TextBlock FontSize="12" Text="{Binding StatusMessage}" Foreground="#555" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1" TextTrimming="CharacterEllipsis">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <TextBlock Text="Programming:" FontSize="14" Grid.Row="3"/>
+            <TextBlock Grid.Row="4">
+                <Hyperlink NavigateUri="https://github.com/encrypt0r" RequestNavigate="Hyperlink_RequestNavigate">Muhammad Yaseen</Hyperlink>
+            </TextBlock>
+            <TextBlock Text="Icons by:" FontSize="14"  Grid.Row="5"/>
+            <TextBlock Grid.Row="6">
+                <Hyperlink NavigateUri="https://icons8.com" RequestNavigate="Hyperlink_RequestNavigate">Icons8</Hyperlink>,
+                <Hyperlink NavigateUri="http://www.freepik.com/" RequestNavigate="Hyperlink_RequestNavigate">Freepik</Hyperlink>
+                and <Hyperlink NavigateUri="http://www.facebook.com/NSSHY" RequestNavigate="Hyperlink_RequestNavigate">NSSHY</Hyperlink>
+            </TextBlock>
+        </Grid>
+
+        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0">
+            <Button x:Name="websiteButton" Content="Fork on Github" Padding="10, 5" Command="{Binding VisitWebsiteCommand}"/>
+            <Button x:Name="closeButton" Content="Close" Margin="10,0,0,0" Padding="10, 5" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</controls:FlatWindow>

@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Permadelete.Controls.ProgressRing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Permadelete.Controls"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <DrawingImage x:Key="spinner">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <DrawingGroup>
+                            <DrawingGroup.Children>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="3" RadiusY="3" Center="16,6" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="1.75" RadiusY="1.75" Center="16,26" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="1.25" RadiusY="1.25" Center="26,16" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="2.25" RadiusY="2.25" Center="6,16" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="1" RadiusY="1" Center="23.071,8.929" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="2" RadiusY="2" Center="8.929,23.071" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="1.5" RadiusY="1.5" Center="23.071,23.071" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry RadiusX="2.5" RadiusY="2.5" Center="8.929,8.929" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup.Children>
+                            <DrawingGroup.ClipGeometry>
+                                <RectangleGeometry Rect="0,0,32,32" />
+                            </DrawingGroup.ClipGeometry>
+                        </DrawingGroup>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <Storyboard x:Key="Spin">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="image" RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="360"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Spin}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <Image x:Name="image" Source="{StaticResource spinner}" RenderTransformOrigin="0.5,0.5" >
+        <Image.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Image.RenderTransform>
+    </Image>
+</UserControl>
