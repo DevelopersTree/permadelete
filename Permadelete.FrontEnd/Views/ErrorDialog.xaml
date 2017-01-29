@@ -13,7 +13,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="48" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -26,11 +25,7 @@
             <TextBlock x:Name="txtMessage" FontSize="14" Text="{Binding Message}" TextWrapping="Wrap" />
         </ScrollViewer>
 
-        <Expander Padding="5" FontWeight="SemiBold" Margin="0, 3" Header="Details" Grid.Row="1" Grid.Column="1">
-            <Grid Background="#FFE9ECEE">
-                <TextBox Text="{Binding Details}" VerticalScrollBarVisibility="Auto" MaxHeight="100" FontWeight="Normal" BorderThickness="0" IsReadOnly="True" Background="Transparent" TextWrapping="Wrap"/>
-            </Grid>
-        </Expander>
+       
         
         <Grid Background="#efefef" Grid.ColumnSpan="2" Grid.Row="2">
             <Rectangle Fill="{StaticResource WindowBackgroundThatch}" />
