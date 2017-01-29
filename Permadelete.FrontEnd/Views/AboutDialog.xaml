@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <controls:ProgressRing Visibility="{Binding ShowBusyIndicator, Converter={StaticResource boolToVis}}" Margin="0, 0, 10, 0"/>
+                <controls:ProgressRing Width="24" Height="24" Visibility="{Binding ShowBusyIndicator, Converter={StaticResource boolToVis}}" Margin="0, 0, 10, 0"/>
                 <TextBlock FontSize="12" Text="{Binding StatusMessage}" Foreground="#555" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1" TextTrimming="CharacterEllipsis">
                     <TextBlock.Style>
                         <Style TargetType="{x:Type TextBlock}">
