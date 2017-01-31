@@ -104,7 +104,6 @@
     <Compile Include="Xaml\CaseConverter.cs" />
     <Compile Include="Xaml\ProgressDoubleToIntConverter.cs" />
     <Compile Include="Xaml\TimespanToStringConverter.cs" />
-    <Compile Include="Enums\OperationStatus.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\Keys.cs" />
