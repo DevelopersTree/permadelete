@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Permadelete.ViewModels
 {
@@ -43,7 +42,6 @@ namespace Permadelete.ViewModels
         private double _oldProgress = 0.0;
         private DateTime _lastProgressReport;
         private LinkedList<double> _progressHistory = new LinkedList<double>();
-        private ShellObject _shellObject;
         #endregion
 
         #region Properties
@@ -56,7 +54,6 @@ namespace Permadelete.ViewModels
                 if (SetProperty(ref _path, value))
                 {
                     RaisePropertyChanged(nameof(Type));
-                    RefreshShellObject();
                     RaisePropertyChanged(nameof(Image));
                     CalculateBytes();
                 }
@@ -125,7 +122,7 @@ namespace Permadelete.ViewModels
             }
         }
 
-        public BitmapSource Image { get { return GetThumbnail(); } }
+        public string Image { get { return $"/Images/{Type.ToString().ToLower()}.png"; } }
 
         public string Size
 
@@ -182,25 +179,6 @@ namespace Permadelete.ViewModels
 
             RaisePropertyChanged(nameof(Bytes));
             RaisePropertyChanged(nameof(Size));
-        }
-
-        private BitmapSource GetThumbnail()
-        {
-            // Sizes: https://github.com/aybe/Windows-API-Code-Pack-1.1/blob/master/source/WindowsAPICodePack/Shell/Common/DefaultShellImageSizes.cs
-            if (_shellObject != null)
-                return _shellObject.Thumbnail.MediumBitmapSource;
-            else
-                return new BitmapImage(new Uri(@"pack://application:,,,/Images/file.png"));
-        }
-
-        private void RefreshShellObject()
-        {
-            if (Type == ItemType.File)
-                _shellObject = ShellFile.FromFilePath(Path);
-            else if (Type == ItemType.Folder)
-                _shellObject = ShellFileSystemFolder.FromFolderPath(Path);
-            else
-                _shellObject = null;
         }
         #endregion
     }
