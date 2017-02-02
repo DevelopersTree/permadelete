@@ -10,7 +10,8 @@ namespace Permadelete.Services
 {
     public enum NotificationType
     {
-        FailedToDeleteItem
+        FailedToShredItem,
+        IncompleteFolderShred
     }
 
     public sealed class NotificationService

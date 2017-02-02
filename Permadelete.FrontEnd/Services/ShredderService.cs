@@ -119,6 +119,7 @@ namespace Permadelete.Services
         public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<int> progress)
         {
             var totalLength = await GetFolderSize(folder);
+            var everythingWasShredded = true;
 
             // if the file was a syslink then only remove the link not the contents.
             if ((folder.Attributes & FileAttributes.ReparsePoint) == 0)
@@ -136,32 +137,43 @@ namespace Permadelete.Services
 
                     var file = info as FileInfo;
                     var dir = info as DirectoryInfo;
-
-                    if (file != null)
+                    long length = 0;
+                    try
                     {
-                        var length = file.Length;
+                        if (file != null)
+                        {
+                            length = file.Length;
 
-                        itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-                        var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
-                        if (!result) return result;
+                            itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
+                            var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
+                            if (!result) return result;
+                        }
+
+                        if (dir != null)
+                        {
+                            length = await GetFolderSize(dir);
+                            itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
+
+                            var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
+                            if (!result) return result;
+                        }
                     }
-
-                    if (dir != null)
+                    catch (Exception)
                     {
-                        var length = await GetFolderSize(dir);
-                        itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-
-                        var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
-                        if (!result) return result;
+                        // if an exception was thrown, just skip this item
+                        everythingWasShredded = false;
+                        progress.Report((int)length);
+                        continue;
                     }
                 }
             }
 
             // BUG: Don't know why this causes issues.
             // await DestroyEntityMetaData(folder);
-            folder.Delete();
+            if (everythingWasShredded)
+                folder.Delete();
 
-            return true;
+            return everythingWasShredded;
         }
 
         public bool IsFileLocked(FileInfo file)

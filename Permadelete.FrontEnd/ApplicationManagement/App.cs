@@ -159,7 +159,10 @@ namespace Permadelete.ApplicationManagement
             var task = ShredderService.Instance.ShredItemAsync(operation.Path, operation.CancellationTokenSource.Token, operation.TaskProgress);
             try
             {
-                await task;
+                var everythingWasShreded = await task;
+                if (!everythingWasShreded)
+                    NotificationService.Instance.BroadcastNotification(NotificationType.IncompleteFolderShred,
+                        "Could not shred some of the items properly.");
             }
             catch (OperationCanceledException)
             {
@@ -167,13 +170,13 @@ namespace Permadelete.ApplicationManagement
             }
             catch (IOException ex)
             {
-                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToDeleteItem, ex.Message);
+                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToShredItem, ex.Message);
                 LoggerService.Instance.Warning(ex);
             }
             catch (UnauthorizedAccessException ex)
             {
                 var message = $"Permadelete needs adminstrator's privilages to delete {operation.Path}";
-                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToDeleteItem, message);
+                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToShredItem, message);
                 LoggerService.Instance.Warning(ex);
             }
             catch (Exception ex)

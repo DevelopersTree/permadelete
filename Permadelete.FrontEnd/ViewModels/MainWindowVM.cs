@@ -54,15 +54,8 @@ namespace Permadelete.ViewModels
             _progressbarTimer.Tick += ProgressbarTimer_Tick;
 
             Notifications = new ObservableCollection<NotificationVM>();
-            NotificationService.Instance.Register(NotificationType.FailedToDeleteItem, async message =>
-            {
-                var notification = new NotificationVM(message, MessageIcon.Error);
-                Notifications.Insert(0, notification);
-                await Task.Delay(10000);
-                notification.RaiseExpired();
-                await Task.Delay(500);
-                Notifications.Remove(notification);
-            });
+            NotificationService.Instance.Register(NotificationType.FailedToShredItem, m => RecieveNotification(m, MessageIcon.Error));
+            NotificationService.Instance.Register(NotificationType.IncompleteFolderShred, m => RecieveNotification(m, MessageIcon.Exclamation));
         }
         #endregion
 
@@ -180,6 +173,16 @@ namespace Permadelete.ViewModels
             dialog.IsFolderPicker = isFolderPicker;
 
             return dialog;
+        }
+
+        private async void RecieveNotification(string message, MessageIcon icon)
+        {
+            var notification = new NotificationVM(message, icon);
+            Notifications.Insert(0, notification);
+            await Task.Delay(10000);
+            notification.RaiseExpired();
+            await Task.Delay(500);
+            Notifications.Remove(notification);
         }
         #endregion
     }
