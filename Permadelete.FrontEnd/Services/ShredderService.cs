@@ -124,9 +124,6 @@ namespace Permadelete.Services
             // if the file was a syslink then only remove the link not the contents.
             if ((folder.Attributes & FileAttributes.ReparsePoint) == 0)
             {
-                folder.Attributes = FileAttributes.Normal;
-                folder.Attributes = FileAttributes.NotContentIndexed;
-
                 Progress<int> itemProgress;
                 foreach (var info in folder.EnumerateFileSystemInfos())
                 {
@@ -168,10 +165,11 @@ namespace Permadelete.Services
                 }
             }
 
-            // BUG: Don't know why this causes issues.
-            // await DestroyEntityMetaData(folder);
             if (everythingWasShredded)
+            {
+                await DestroyEntityMetaData(folder);
                 folder.Delete();
+            }
 
             return everythingWasShredded;
         }
