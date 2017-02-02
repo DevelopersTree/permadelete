@@ -53,26 +53,23 @@ namespace Permadelete.ApplicationManagement
         #endregion
 
         #region OnStartup
-        protected async override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             var stylesDic = new Uri("pack://application:,,,/Styles.xaml");
             Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = stylesDic });
 
-            await Dispatcher.InvokeAsync(() =>
+            if (e.Args.Count() == 0)
             {
-                if (e.Args.Count() == 0)
-                {
-                    this.MainWindow = new MainWindow();
-                    this.MainWindow.Show();
-                }
-                else
-                {
-                    var window = new AgileWindow();
-                    window.DataContext = new AgileWindowVM(e.Args);
-                    window.Show();
+                this.MainWindow = new MainWindow();
+                this.MainWindow.Show();
+            }
+            else
+            {
+                var window = new AgileWindow();
+                window.DataContext = new AgileWindowVM(e.Args);
+                window.Show();
+            }
 
-                }
-            });
         }
 
         #endregion
@@ -168,10 +165,21 @@ namespace Permadelete.ApplicationManagement
             {
 
             }
-            catch (Exception exc)
+            catch (IOException ex)
             {
-                LoggerService.Instance.Error(exc);
-                DialogService.Instance.GetErrorDialog("Could not shred item", exc).ShowDialog();
+                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToDeleteItem, ex.Message);
+                LoggerService.Instance.Warning(ex);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                var message = $"Permadelete needs adminstrator's privilages to delete {operation.Path}";
+                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToDeleteItem, message);
+                LoggerService.Instance.Warning(ex);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Instance.Error(ex);
+                DialogService.Instance.GetErrorDialog("Could not shred item", ex).ShowDialog();
             }
             finally
             {
@@ -217,6 +225,6 @@ namespace Permadelete.ApplicationManagement
         {
             UpdateStatusChanged?.Invoke(this, new EventArgs());
         }
-#endregion
+        #endregion
     }
 }

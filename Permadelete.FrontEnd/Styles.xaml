@@ -3,6 +3,7 @@
                     xmlns:controls="clr-namespace:Permadelete.Controls"
                     xmlns:vm="clr-namespace:Permadelete.ViewModels"
                     xmlns:xaml="clr-namespace:Permadelete.Xaml"
+                    xmlns:views="clr-namespace:Permadelete.Views"
                     xmlns:local="clr-namespace:Permadelete">
     <xaml:CaseConverter x:Key="caseConverter"/>
 
@@ -118,5 +119,9 @@
                                          Grid.Column="2" Focusable="False" Command="{Binding CancelCommand}" Content="{StaticResource closeIconPath}" />
             </Grid>
         </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="notification" DataType="vm:NotificationVM" >
+        <views:Notification />
     </DataTemplate>
 </ResourceDictionary>

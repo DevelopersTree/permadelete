@@ -175,11 +175,24 @@
             </Grid>
         </Grid>
 
-        <ListBox x:Name="lstOperations"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition MaxHeight="150" />
+            </Grid.RowDefinitions>
+           
+            <ListBox x:Name="lstOperations" Grid.RowSpan="2"
                  ItemsSource="{Binding Source={x:Static appManagment:App.Operations}}"
                  HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource operation}"
                  Style="{StaticResource listBox}" MouseDoubleClick="ListBox_MouseDoubleClick"
                  DragOver="lstOperations_DragOver" DragEnter="lstOperations_DragEnter" DragLeave="lstOperations_DragLeave" Drop="lstOperations_Drop" AllowDrop="True" />
+
+            <ScrollViewer Grid.Row="1" VerticalAlignment="Bottom" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Notifications}"
+                 HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource notification}" />
+            </ScrollViewer>
+           
+        </Grid>
     </DockPanel>
 
 </controls:FlatWindow>

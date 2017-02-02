@@ -11,6 +11,8 @@ using System.Windows.Threading;
 using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Permadelete.Helpers;
+using System.Collections.ObjectModel;
+using Permadelete.Enums;
 
 namespace Permadelete.ViewModels
 {
@@ -50,6 +52,17 @@ namespace Permadelete.ViewModels
 
             (App.Operations as INotifyCollectionChanged).CollectionChanged += Operations_Changed;
             _progressbarTimer.Tick += ProgressbarTimer_Tick;
+
+            Notifications = new ObservableCollection<NotificationVM>();
+            NotificationService.Instance.Register(NotificationType.FailedToDeleteItem, async message =>
+            {
+                var notification = new NotificationVM(message, MessageIcon.Error);
+                Notifications.Insert(0, notification);
+                await Task.Delay(10000);
+                notification.RaiseExpired();
+                await Task.Delay(500);
+                Notifications.Remove(notification);
+            });
         }
         #endregion
 
@@ -77,6 +90,12 @@ namespace Permadelete.ViewModels
             set { SetProperty(ref _taskbarState, value); }
         }
 
+        private ObservableCollection<NotificationVM> _notifications;
+        public ObservableCollection<NotificationVM> Notifications
+        {
+            get { return _notifications; }
+            set { SetProperty(ref _notifications, value); }
+        }
         #endregion
 
         #region Commands

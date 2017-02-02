@@ -31,6 +31,11 @@ namespace Permadelete.Services
         #endregion
 
         #region Methods
+        public void Warning(Exception ex)
+        {
+            _logger.Warn(ex);
+        }
+
         public void Info(string message) => Info(() => message);
         public void Info(Func<string> messageFunction)
         {
