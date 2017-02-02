@@ -69,16 +69,17 @@
     <Border x:Name="border" Margin="0, 1, 0, 0">
         <Grid VerticalAlignment="Center" Margin="10, 5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="24" />
+                <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
 
-            <Ellipse x:Name="borderEllipse" Fill="White" HorizontalAlignment="Left" VerticalAlignment="Center" Width="24" Height="24"/>
-            <Image Source="{Binding Icon}" HorizontalAlignment="Left" Width="24" Stretch="Fill"/>
-            <TextBlock FontSize="14" Foreground="White" Text="{Binding Message}" Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-            <Rectangle Fill="#3333" Grid.Column="2" />
-            <Button x:Name="closeButton" Grid.Column="2" Content="{StaticResource closeIconPath}" Click="closeButton_Click" Style="{StaticResource TitlebarButtonStyle}"/>
+            <Ellipse x:Name="borderEllipse" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ElementName=border, Path=Tag}" Height="{Binding ElementName=border, Path=Tag}"/>
+            <Image Source="{Binding Icon}" HorizontalAlignment="Center" Width="24" Stretch="Fill" VerticalAlignment="Center"/>
+            <TextBlock FontSize="14" Foreground="{StaticResource ForegroundColorBrush}" Text="{Binding Message}" Grid.Column="2" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <Rectangle Fill="#4333" Grid.Column="3" />
+            <Button x:Name="closeButton" Grid.Column="3" Content="{StaticResource closeIconPath}" Click="closeButton_Click" Style="{StaticResource TitlebarButtonStyle}"/>
         </Grid>
 
         <Border.RenderTransform>
@@ -91,21 +92,24 @@
         </Border.RenderTransform>
         <Border.Style>
             <Style TargetType="Border">
+                <Setter Property="Tag" Value="22" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding MessageIcon}" Value="{x:Static enums:MessageIcon.Success}">
-                        <Setter Property="Background" Value="#BB26C281" />
+                        <Setter Property="Background" Value="#7726C281" />
+                        <Setter Property="Tag" Value="24" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MessageIcon}" Value="{x:Static enums:MessageIcon.Error}">
-                        <Setter Property="Background" Value="#BBDB0A5B" />
+                        <Setter Property="Background" Value="#77DB0A5B" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MessageIcon}" Value="{x:Static enums:MessageIcon.Information}">
-                        <Setter Property="Background" Value="#BB19B5FE" />
+                        <Setter Property="Background" Value="#7719B5FE" />
+                        <Setter Property="Tag" Value="24" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MessageIcon}" Value="{x:Static enums:MessageIcon.Question}">
-                        <Setter Property="Background" Value="#BB19B5FE" />
+                        <Setter Property="Background" Value="#7719B5FE" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MessageIcon}" Value="{x:Static enums:MessageIcon.Exclamation}">
-                        <Setter Property="Background" Value="#BBe9d460" />
+                        <Setter Property="Background" Value="#77FFDC00" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
