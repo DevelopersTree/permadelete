@@ -200,7 +200,11 @@ namespace Permadelete.Services
         {
             using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Write, FileShare.None))
             {
-                var buffer = Enumerable.Repeat((byte)0, MAX_BUFFER_SIZE).ToArray();
+                var buffer = new byte[MAX_BUFFER_SIZE];
+                for (int i = 0; i < MAX_BUFFER_SIZE; i++)
+                {
+                    buffer[i] = (byte)_random.Next(0, 255);
+                }
 
                 for (var length = file.Length; length > 0; length -= MAX_BUFFER_SIZE)
                 {
