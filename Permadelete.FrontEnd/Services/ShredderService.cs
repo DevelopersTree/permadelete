@@ -104,7 +104,7 @@ namespace Permadelete.Services
                 if (!result) return result;
 
                 if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
-                await DestroyEntityMetaData(file);
+                DestroyFileMetadata(file);
             }
             else
             {
@@ -121,7 +121,7 @@ namespace Permadelete.Services
             var totalLength = await GetFolderSize(folder);
             var everythingWasShredded = true;
 
-            // if the file was a syslink then only remove the link not the contents.
+            // if the folder was a syslink then only remove the link not the contents.
             if ((folder.Attributes & FileAttributes.ReparsePoint) == 0)
             {
                 Progress<int> itemProgress;
@@ -135,14 +135,15 @@ namespace Permadelete.Services
                     var file = info as FileInfo;
                     var dir = info as DirectoryInfo;
                     long length = 0;
+
                     try
                     {
                         if (file != null)
                         {
                             length = file.Length;
-
                             itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
                             var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
+
                             if (!result) return result;
                         }
 
@@ -150,8 +151,8 @@ namespace Permadelete.Services
                         {
                             length = await GetFolderSize(dir);
                             itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-
                             var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
+
                             if (!result) return result;
                         }
                     }
@@ -166,10 +167,7 @@ namespace Permadelete.Services
             }
 
             if (everythingWasShredded)
-            {
-                await DestroyEntityMetaData(folder);
                 folder.Delete();
-            }
 
             return everythingWasShredded;
         }
@@ -228,36 +226,29 @@ namespace Permadelete.Services
 
             return true;
         }
-        private async Task<bool> DestroyEntityMetaData(FileSystemInfo entity, FileSystemType fileSystemType = FileSystemType.Unknown)
+
+        private bool DestroyFileMetadata(FileInfo file, FileSystemType fileSystemType = FileSystemType.Unknown)
         {
-            if (!entity.Exists)
+            if (!file.Exists)
                 return false;
 
-            await Task.Run(() =>
+            var directoryName = Path.GetDirectoryName(file.FullName);
+
+            // rename the file a few times to remove it from the file system table.
+            for (var round = 0; round < OBFUSCATE_ROUNDS; round++)
             {
-                var directoryName = Path.GetDirectoryName(entity.FullName);
-                // rename the file a few times to remove it from the file system table.
-                for (var round = 0; round < OBFUSCATE_ROUNDS; round++)
-                {
-                    var newPath = Path.Combine(directoryName, Path.GetRandomFileName());
+                var newPath = Path.Combine(directoryName, Path.GetRandomFileName());
+                file.MoveTo(newPath);
+            }
 
-                    var file = entity as FileInfo;
-                    var folder = entity as DirectoryInfo;
-
-                    if (file != null)
-                        file.MoveTo(newPath);
-                    else if (folder != null)
-                        folder.MoveTo(newPath);
-                }
-
-                var newTime = new DateTime(2000, 1, 1, 0, 0, 1);
-                entity.LastAccessTime = newTime;
-                entity.LastWriteTime = newTime;
-                entity.CreationTime = newTime;
-            });
+            var newTime = new DateTime(2000, 1, 1, 0, 0, 1);
+            file.LastWriteTime = newTime;
+            file.CreationTime = newTime;
+            file.LastAccessTime = newTime;
 
             return true;
         }
+
         private bool DiskIsSSD(string driveName)
         {
             try
