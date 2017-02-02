@@ -91,7 +91,11 @@
     <Compile Include="Controls\ToolbarButton.cs" />
     <Compile Include="DragAndDrop\DragDropLib.cs" />
     <Compile Include="Enums\UpdateStatus.cs" />
+    <Compile Include="Helpers\IExpireable.cs" />
+    <Compile Include="Helpers\MultiDictionary.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="ViewModels\AgileWindowVM.cs" />
+    <Compile Include="ViewModels\NotificationVM.cs" />
     <Compile Include="Views\AgileWindow.xaml.cs">
       <DependentUpon>AgileWindow.xaml</DependentUpon>
     </Compile>
@@ -100,6 +104,9 @@
     </Compile>
     <Compile Include="Views\AgileWindowQuestion.xaml.cs">
       <DependentUpon>AgileWindowQuestion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notification.xaml.cs">
+      <DependentUpon>Notification.xaml</DependentUpon>
     </Compile>
     <Compile Include="Xaml\CaseConverter.cs" />
     <Compile Include="Xaml\ProgressDoubleToIntConverter.cs" />
@@ -221,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
