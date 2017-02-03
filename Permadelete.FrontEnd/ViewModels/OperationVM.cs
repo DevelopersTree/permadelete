@@ -20,7 +20,7 @@ namespace Permadelete.ViewModels
         public OperationVM()
         {
             CancellationTokenSource = new CancellationTokenSource();
-            TaskProgress = new Progress<int>();
+            TaskProgress = new Progress<long>();
             _lastProgressReport = DateTime.Now;
 
             CancelCommand = new DelegateCommand(o =>
@@ -162,7 +162,7 @@ namespace Permadelete.ViewModels
 
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
-        public Progress<int> TaskProgress { get; set; }
+        public Progress<long> TaskProgress { get; set; }
         #endregion
 
         #region Commands

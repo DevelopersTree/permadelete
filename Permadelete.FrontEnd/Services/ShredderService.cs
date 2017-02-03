@@ -37,7 +37,7 @@ namespace Permadelete.Services
         #endregion
 
         #region Methods
-        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<int> progress)
+        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<long> progress)
         {
             FileInfo file = null;
             DirectoryInfo folder = null;
@@ -80,11 +80,11 @@ namespace Permadelete.Services
             return length;
         }
 
-        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<int> progress)
+        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<long> progress)
         {
             var totalBytes = file.Length;
 
-            var writeProgress = new Progress<int>();
+            var writeProgress = new Progress<long>();
             writeProgress.ProgressChanged += (sender, newBytes) =>
             {
                 if (progress == null) return;
@@ -108,7 +108,7 @@ namespace Permadelete.Services
             }
             else
             {
-                progress.Report((int)file.Length);
+                progress.Report(file.Length);
             }
 
             file.Delete();
@@ -116,7 +116,7 @@ namespace Permadelete.Services
             return true;
         }
 
-        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<int> progress)
+        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<long> progress)
         {
             var totalLength = await GetFolderSize(folder);
             var everythingWasShredded = true;
@@ -124,10 +124,10 @@ namespace Permadelete.Services
             // if the folder was a syslink then only remove the link not the contents.
             if ((folder.Attributes & FileAttributes.ReparsePoint) == 0)
             {
-                Progress<int> itemProgress;
+                Progress<long> itemProgress;
                 foreach (var info in folder.EnumerateFileSystemInfos())
                 {
-                    itemProgress = new Progress<int>();
+                    itemProgress = new Progress<long>();
 
                     if (cancellationToken != null)
                         cancellationToken.ThrowIfCancellationRequested();
@@ -160,7 +160,7 @@ namespace Permadelete.Services
                     {
                         // if an exception was thrown, just skip this item
                         everythingWasShredded = false;
-                        progress.Report((int)length);
+                        progress.Report((length));
                         continue;
                     }
                 }
@@ -194,7 +194,7 @@ namespace Permadelete.Services
         #endregion
 
         #region Private Methods
-        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<int> progress)
+        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<long> progress)
         {
             using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Write, FileShare.None))
             {
