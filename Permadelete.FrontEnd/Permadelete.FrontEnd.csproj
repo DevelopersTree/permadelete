@@ -93,7 +93,7 @@
     <Compile Include="Enums\UpdateStatus.cs" />
     <Compile Include="Helpers\IExpireable.cs" />
     <Compile Include="Helpers\MultiDictionary.cs" />
-    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Helpers\NotificationEventArgs.cs" />
     <Compile Include="ViewModels\AgileWindowVM.cs" />
     <Compile Include="ViewModels\NotificationVM.cs" />
     <Compile Include="Views\AgileWindow.xaml.cs">

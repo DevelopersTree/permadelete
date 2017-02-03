@@ -100,14 +100,14 @@ namespace Permadelete.ViewModels
             {
                 (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
                 CloseCommand = new DelegateCommand(p => { });
+                App.Current.NotificationRaised -= OnNotificationRaised;
 
                 App.Current.MainWindow = new MainWindow();
                 App.Current.MainWindow.Show();
                 (dialog as Window).Close();
             });
 
-            NotificationService.Instance.Register(NotificationType.FailedToShredItem, m => RecieveNotification(m, MessageIcon.Error));
-            NotificationService.Instance.Register(NotificationType.IncompleteFolderShred, m => RecieveNotification(m, MessageIcon.Exclamation));
+            App.Current.NotificationRaised += OnNotificationRaised;
         }
 
         #region Fields
@@ -274,6 +274,19 @@ namespace Permadelete.ViewModels
             {
                 _totalBytes += item.Bytes;
                 item.PropertyChanged -= DeferAddingToTotalBytes;
+            }
+        }
+
+        private void OnNotificationRaised(object sender, NotificationEventArgs e)
+        {
+            switch (e.NotificationType)
+            {
+                case NotificationType.FailedToShredItem:
+                    RecieveNotification(e.Message, MessageIcon.Error);
+                    break;
+                case NotificationType.IncompleteFolderShred:
+                    RecieveNotification(e.Message, MessageIcon.Exclamation);
+                    break;
             }
         }
         #endregion

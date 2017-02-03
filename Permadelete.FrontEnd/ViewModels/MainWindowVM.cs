@@ -54,8 +54,7 @@ namespace Permadelete.ViewModels
             _progressbarTimer.Tick += ProgressbarTimer_Tick;
 
             Notifications = new ObservableCollection<NotificationVM>();
-            NotificationService.Instance.Register(NotificationType.FailedToShredItem, m => RecieveNotification(m, MessageIcon.Error));
-            NotificationService.Instance.Register(NotificationType.IncompleteFolderShred, m => RecieveNotification(m, MessageIcon.Exclamation));
+            App.Current.NotificationRaised += OnNotificationRaised;
         }
         #endregion
 
@@ -183,6 +182,19 @@ namespace Permadelete.ViewModels
             notification.RaiseExpired();
             await Task.Delay(500);
             Notifications.Remove(notification);
+        }
+
+        private void OnNotificationRaised(object sender, NotificationEventArgs e)
+        {
+            switch (e.NotificationType)
+            {
+                case NotificationType.FailedToShredItem:
+                    RecieveNotification(e.Message, MessageIcon.Error);
+                    break;
+                case NotificationType.IncompleteFolderShred:
+                    RecieveNotification(e.Message, MessageIcon.Exclamation);
+                    break;
+            }
         }
         #endregion
     }

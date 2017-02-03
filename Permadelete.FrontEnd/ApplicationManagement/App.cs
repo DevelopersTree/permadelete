@@ -13,8 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Permadelete.Enums;
-using Permadelete.Helpers;
-
 namespace Permadelete.ApplicationManagement
 {
     public class App : Application
@@ -50,6 +48,10 @@ namespace Permadelete.ApplicationManagement
                 OnUpdateStatusChanged();
             }
         }
+        #endregion
+
+        #region Events
+        public event EventHandler<NotificationEventArgs> NotificationRaised;
         #endregion
 
         #region OnStartup
@@ -161,7 +163,7 @@ namespace Permadelete.ApplicationManagement
             {
                 var everythingWasShreded = await task;
                 if (!everythingWasShreded)
-                    NotificationService.Instance.BroadcastNotification(NotificationType.IncompleteFolderShred,
+                   OnNotificationRaised(NotificationType.IncompleteFolderShred,
                         "Some files were skipped because they could not be shredded.");
             }
             catch (OperationCanceledException)
@@ -170,13 +172,7 @@ namespace Permadelete.ApplicationManagement
             }
             catch (IOException ex)
             {
-                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToShredItem, ex.Message);
-                LoggerService.Instance.Warning(ex);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                var message = $"Permadelete needs adminstrator's privilages to delete {operation.Path}";
-                NotificationService.Instance.BroadcastNotification(NotificationType.FailedToShredItem, message);
+                OnNotificationRaised(NotificationType.FailedToShredItem, ex.Message);
                 LoggerService.Instance.Warning(ex);
             }
             catch (UnauthorizedAccessException ex)
@@ -233,6 +229,11 @@ namespace Permadelete.ApplicationManagement
         private void OnUpdateStatusChanged()
         {
             UpdateStatusChanged?.Invoke(this, new EventArgs());
+        }
+
+        private void OnNotificationRaised(NotificationType type, string message)
+        {
+            NotificationRaised?.Invoke(this, new NotificationEventArgs(type, message));
         }
         #endregion
     }
