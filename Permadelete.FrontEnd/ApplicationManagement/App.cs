@@ -162,7 +162,7 @@ namespace Permadelete.ApplicationManagement
                 var everythingWasShreded = await task;
                 if (!everythingWasShreded)
                     NotificationService.Instance.BroadcastNotification(NotificationType.IncompleteFolderShred,
-                        "Could not shred some of the items properly.");
+                        "Some files were skipped because they could not be shredded.");
             }
             catch (OperationCanceledException)
             {
@@ -177,6 +177,12 @@ namespace Permadelete.ApplicationManagement
             {
                 var message = $"Permadelete needs adminstrator's privilages to delete {operation.Path}";
                 NotificationService.Instance.BroadcastNotification(NotificationType.FailedToShredItem, message);
+                LoggerService.Instance.Warning(ex);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                var message = $"Permadelete needs adminstrator's privilages to delete {operation.Path}";
+               OnNotificationRaised(NotificationType.FailedToShredItem, message);
                 LoggerService.Instance.Warning(ex);
             }
             catch (Exception ex)

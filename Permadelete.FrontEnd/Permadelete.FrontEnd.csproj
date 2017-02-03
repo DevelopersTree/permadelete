@@ -99,6 +99,9 @@
     <Compile Include="Views\AgileWindow.xaml.cs">
       <DependentUpon>AgileWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AgileWindowNotification.xaml.cs">
+      <DependentUpon>AgileWindowNotification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AgileWindowProgress.xaml.cs">
       <DependentUpon>AgileWindowProgress.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AgileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgileWindowNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

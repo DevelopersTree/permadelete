@@ -14,7 +14,8 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </Window.InputBindings>
     <Grid >
-        <local:AgileWindowProgress />
+        <local:AgileWindowNotification Visibility="{Binding NotificationVisibility}"/>
+        <local:AgileWindowProgress Visibility="{Binding ProgressVisibility}"/>
         <local:AgileWindowQuestion Visibility="{Binding QuestionVisibility}" Background="White"/>
     </Grid>
 </controlns:FlatWindow>

@@ -1,9 +1,12 @@
 using Permadelete.ApplicationManagement;
+using Permadelete.Enums;
 using Permadelete.Mvvm;
+using Permadelete.Services;
 using Permadelete.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,6 +40,8 @@ namespace Permadelete.ViewModels
             ProgressTitle = $"Shredding {names}";
 
             QuestionVisibility = Visibility.Visible;
+            ProgressVisibility = Visibility.Hidden;
+            NotificationVisibility = Visibility.Hidden;
             TimeRemaining = QuestionTitle;
 
             TaskbarState = TaskbarItemProgressState.Indeterminate;
@@ -72,23 +77,37 @@ namespace Permadelete.ViewModels
             DeleteCommand = new DelegateCommand(async p =>
             {
                 QuestionVisibility = Visibility.Collapsed;
+                ProgressVisibility = Visibility.Visible;
+
                 TaskbarState = TaskbarItemProgressState.Normal;
 
                 _progressTimer.Start();
                 await App.Current.DeleteFilesOrFolders(paths, true);
 
-                CloseCommand.Execute(null);
+                if (_hasPendingNotification)
+                {
+                    ProgressVisibility = Visibility.Collapsed;
+                    NotificationVisibility = Visibility.Visible;
+                    RaisePropertyChanged(nameof(WindowTitle));
+                }
+                else
+                {
+                    CloseCommand.Execute(null);
+                }
             });
 
             OpenMainWindowCommand = new DelegateCommand(dialog =>
             {
-            (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
-            CloseCommand = new DelegateCommand(p => { });
+                (App.Operations as INotifyCollectionChanged).CollectionChanged -= Operations_Changed;
+                CloseCommand = new DelegateCommand(p => { });
 
                 App.Current.MainWindow = new MainWindow();
                 App.Current.MainWindow.Show();
                 (dialog as Window).Close();
             });
+
+            NotificationService.Instance.Register(NotificationType.FailedToShredItem, m => RecieveNotification(m, MessageIcon.Error));
+            NotificationService.Instance.Register(NotificationType.IncompleteFolderShred, m => RecieveNotification(m, MessageIcon.Exclamation));
         }
 
         #region Fields
@@ -97,6 +116,7 @@ namespace Permadelete.ViewModels
         long _totalBytes = 0;
         long _bytesOfCompletedOperations = 0;
         long _writtenBytes = 0;
+        private bool _hasPendingNotification = false;
         #endregion
 
         #region Commands
@@ -112,9 +132,18 @@ namespace Permadelete.ViewModels
             {
                 if (QuestionVisibility == Visibility.Visible)
                     return QuestionTitle;
-                else
+                else if (ProgressVisibility == Visibility.Visible)
                     return TimeRemaining;
+                else
+                    return "There was an error in shredding the items.";
             }
+        }
+
+        private NotificationVM _notification;
+        public NotificationVM Notification
+        {
+            get { return _notification; }
+            set { SetProperty(ref _notification, value); }
         }
 
         private string _progressTitle;
@@ -173,6 +202,20 @@ namespace Permadelete.ViewModels
             get { return _questionVisibility; }
             set { SetProperty(ref _questionVisibility, value); }
         }
+
+        private Visibility _progressVisibility;
+        public Visibility ProgressVisibility
+        {
+            get { return _progressVisibility; }
+            set { SetProperty(ref _progressVisibility, value); }
+        }
+
+        private Visibility _notificationVisibility;
+        public Visibility NotificationVisibility
+        {
+            get { return _notificationVisibility; }
+            set { SetProperty(ref _notificationVisibility, value); }
+        }
         #endregion
 
         #region Methods
@@ -192,11 +235,19 @@ namespace Permadelete.ViewModels
         {
             if (e.NewItems?.Count > 0)
                 foreach (OperationVM item in e.NewItems)
-                    _totalBytes += item.Bytes;
+                {
+                    if (item.Bytes != -1)
+                        _totalBytes += item.Bytes;
+                    else
+                        item.PropertyChanged += DeferAddingToTotalBytes;
+                }
 
             if (e.OldItems?.Count > 0)
                 foreach (OperationVM item in e.OldItems)
+                {
                     _bytesOfCompletedOperations += item.Bytes;
+                    item.PropertyChanged -= DeferAddingToTotalBytes;
+                }
         }
 
         private string GetShortName(string path, int maxLength = 25)
@@ -207,6 +258,24 @@ namespace Permadelete.ViewModels
             return name;
         }
 
+        private void RecieveNotification(string message, MessageIcon icon)
+        {
+            if (Notification != null)
+                return;
+
+            Notification = new NotificationVM(message, icon);
+            _hasPendingNotification = true;
+        }
+
+        private void DeferAddingToTotalBytes(object sender, PropertyChangedEventArgs e)
+        {
+            var item = (OperationVM)sender;
+            if (item != null && e.PropertyName == nameof(item.Bytes) && item.Bytes != -1)
+            {
+                _totalBytes += item.Bytes;
+                item.PropertyChanged -= DeferAddingToTotalBytes;
+            }
+        }
         #endregion
     }
 }
