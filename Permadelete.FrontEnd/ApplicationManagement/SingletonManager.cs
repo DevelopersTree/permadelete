@@ -48,9 +48,6 @@ namespace Permadelete.ApplicationManagement
                 UpdateManager.Initialize(Keys.DROPBOX_API_KEY);
                 Task.Run(() => App.Current.UpdateAfter(5));
             }
-
-            // register sentry as NLog target
-            Target.Register<Nlog.SentryTarget>("Sentry");
 #endif
         }
     }

@@ -5,12 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 using SharpRaven.Data;
+using NLog.Targets;
 
 namespace Permadelete.Services
 {
     public sealed class LoggerService
     {
         #region Constructor
+        static LoggerService()
+        {
+            Target.Register<Nlog.SentryTarget>("Sentry");
+            _logger = LogManager.GetLogger("Permadelete.Services.LoggerService");
+        }
         private LoggerService()
         {
             _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -18,7 +24,7 @@ namespace Permadelete.Services
         #endregion
 
         #region Fields
-        private static Logger _logger = LogManager.GetLogger("Permadelete.Services.LoggerService");
+        private static Logger _logger;
         private static SharpRaven.RavenClient _ravenClient = new SharpRaven.RavenClient(Keys.SENTRY_API_DSN);
         #endregion
 
