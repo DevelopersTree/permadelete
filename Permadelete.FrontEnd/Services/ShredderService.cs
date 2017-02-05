@@ -166,7 +166,9 @@ namespace Permadelete.Services
                 }
             }
 
-            if (everythingWasShredded)
+            // if the folder was actually a logical drive (e.g. D:\)
+            // don't even try to delete it
+            if (everythingWasShredded && folder.Parent != null)
                 folder.Delete();
 
             return everythingWasShredded;
