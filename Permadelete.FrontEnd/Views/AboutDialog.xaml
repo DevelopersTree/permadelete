@@ -66,8 +66,7 @@
             </TextBlock>
             <TextBlock Text="Icons by:" FontSize="14"  Grid.Row="5"/>
             <TextBlock Grid.Row="6">
-                <Hyperlink NavigateUri="https://icons8.com" RequestNavigate="Hyperlink_RequestNavigate">Icons8</Hyperlink>,
-                <Hyperlink NavigateUri="http://www.freepik.com/" RequestNavigate="Hyperlink_RequestNavigate">Freepik</Hyperlink>
+                <Hyperlink NavigateUri="https://icons8.com" RequestNavigate="Hyperlink_RequestNavigate">Icons8</Hyperlink>
                 and <Hyperlink NavigateUri="http://www.facebook.com/NSSHY" RequestNavigate="Hyperlink_RequestNavigate">NSSHY</Hyperlink>
             </TextBlock>
         </Grid>
