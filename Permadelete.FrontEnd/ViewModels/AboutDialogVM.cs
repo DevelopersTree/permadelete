@@ -21,6 +21,7 @@ namespace Permadelete.ViewModels
             VisitWebsiteCommand = new DelegateCommand(p => Process.Start(Constants.WEBSITE_URL));
 
             App.Current.UpdateStatusChanged += UpdateStatus_Changed;
+            UpdateStatus_Changed(null, new EventArgs());
         }
         #endregion
 
@@ -66,7 +67,7 @@ namespace Permadelete.ViewModels
                     StatusMessage = string.Empty;
                     break;
                 case UpdateStatus.CheckingForUpdate:
-                    StatusMessage = "Checking for update...";
+                    StatusMessage = "Checking for updates...";
                     break;
                 case UpdateStatus.DownloadingUpdate:
                     StatusMessage = "Downloading new update...";

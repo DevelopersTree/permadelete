@@ -128,7 +128,9 @@ namespace Permadelete.ApplicationManagement
             }
             catch (Exception ex)
             {
+                UpdateStatus = UpdateStatus.Idle;
                 LoggerService.Instance.Error(ex);
+                
                 return null; // error occured
             }
 
