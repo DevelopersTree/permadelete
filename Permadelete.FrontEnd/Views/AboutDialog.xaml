@@ -10,6 +10,9 @@
         Title="{Binding Title, StringFormat='About {0}'}" Height="300" Width="500">
     <controls:FlatWindow.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <Style TargetType="Hyperlink">
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=NavigateUri}" />
+        </Style>
     </controls:FlatWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -64,10 +67,10 @@
             <TextBlock Grid.Row="4">
                 <Hyperlink NavigateUri="https://github.com/encrypt0r" RequestNavigate="Hyperlink_RequestNavigate">Muhammad Yaseen</Hyperlink>
             </TextBlock>
-            <TextBlock Text="Icons by:" FontSize="14"  Grid.Row="5"/>
+            <TextBlock Text="Sponsors:" FontSize="14"  Grid.Row="5"/>
             <TextBlock Grid.Row="6">
                 <Hyperlink NavigateUri="https://icons8.com" RequestNavigate="Hyperlink_RequestNavigate">Icons8</Hyperlink>
-                and <Hyperlink NavigateUri="http://www.facebook.com/NSSHY" RequestNavigate="Hyperlink_RequestNavigate">NSSHY</Hyperlink>
+                and <Hyperlink NavigateUri="https://sentry.io" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=NavigateUri}" RequestNavigate="Hyperlink_RequestNavigate">Sentry</Hyperlink>
             </TextBlock>
         </Grid>
 
