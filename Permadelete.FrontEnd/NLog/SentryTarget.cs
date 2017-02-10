@@ -34,15 +34,9 @@ namespace Permadelete.Nlog
         protected override void Write(LogEventInfo logEvent)
         {
             if (logEvent.Exception == null)
-            {
-                var message = Layout.Render(logEvent);
-                SendRaven(message, logEvent.Level);
-            }
+                SendRaven(logEvent.FormattedMessage, logEvent.Level);
             else
-            {
                 SendRaven(logEvent.Exception);
-            }
-
         }
 
         private void SendRaven(string message, LogLevel level)

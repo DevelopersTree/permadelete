@@ -42,26 +42,14 @@ namespace Permadelete.Services
             _logger.Warn(ex);
         }
 
-        public void Info(string message) => Info(() => message);
-        public void Info(Func<string> messageFunction)
+        public void Info(string message)
         {
-            _logger.Info(messageFunction);
+            _logger.Info(message);
         }
 
-        public void Error(string message) => Error(() => message);
-        public void Error(Func<string> messageFunction)
-        {
-            _logger.Error(messageFunction);
-        }
         public void Error(Exception ex)
         {
             _logger.Error(ex);
-        }
-
-        public void Fatal(string message) => Fatal(() => message);
-        public void Fatal(Func<string> messageFunction)
-        {
-            _logger.Fatal(messageFunction);
         }
 
         public async Task SendRaven(string message) => await SendRaven(message, ErrorLevel.Info);
