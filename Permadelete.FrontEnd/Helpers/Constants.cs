@@ -13,6 +13,6 @@ namespace Permadelete.Helpers
         public const int GIGABYTE = MEGABYTE * KILOBYTE;
         public const string APPLICATION_NAME = "Permadelete";
 
-        public const string WEBSITE_URL = "https://github.com/encrypt0r/permadelete";
+        public const string WEBSITE_URL = "https://encrypt0r.github.io/permadelete/";
     }
 }
