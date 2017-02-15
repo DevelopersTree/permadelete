@@ -1,0 +1,245 @@
+<XML_DIZ_INFO>
+  <MASTER_PAD_VERSION_INFO>
+    <MASTER_PAD_VERSION>4.0</MASTER_PAD_VERSION>
+    <MASTER_PAD_EDITOR>AppVisor 1.0.43</MASTER_PAD_EDITOR>
+    <MASTER_PAD_EDITOR_URL>http://publisher.appvisor.com</MASTER_PAD_EDITOR_URL>
+    <MASTER_PAD_INFO>Portable Application Description, or PAD(TM) 2004 Association of Software Professionals (ASP)http://www.asp-shareware.org/pad is a data set standard and specification that is commercialsoftware publishers to disseminate certified information about their software application. The PAD format is copyright of the ASP and cannot be used without the formal licensing and permission of both the Association of Software Professionals and its agent AppVisor.com.</MASTER_PAD_INFO>
+    <CERTIFIED>No</CERTIFIED>
+    <CERTIFICATE_ID></CERTIFICATE_ID>
+    <CERTIFICATE_LICENSE></CERTIFICATE_LICENSE>
+  </MASTER_PAD_VERSION_INFO>
+  <RoboSoft>
+    <Company_UIN>CMP-A200B792EC82</Company_UIN>
+    <Product_UIN>APP-B2005142FC82</Product_UIN>
+    <Publish_on_CD>N</Publish_on_CD>
+    <NewsFeed_Search_String></NewsFeed_Search_String>
+    <Search_String>Permadelete</Search_String>
+    <Press_Release_Search_String></Press_Release_Search_String>
+    <Backlink></Backlink>
+    <Comments_For_Reviewer></Comments_For_Reviewer>
+    <Search_String_Unique>Permadelete</Search_String_Unique>
+    <Search_Engine_Search_String></Search_Engine_Search_String>
+    <Web_Directories_Search_String></Web_Directories_Search_String>
+    <Company_Description></Company_Description>
+  </RoboSoft>
+  <Company_Info>
+    <PublisherID>pid-8200b463dc82</PublisherID>
+    <BrandID>bid-a200b792ec82</BrandID>
+    <Company_Name>Encrypt0r</Company_Name>
+    <Country>Iraq</Country>
+    <State_Province>Erbil</State_Province>
+    <City_Town>Erbil</City_Town>
+    <Zip_Postal_Code>44000</Zip_Postal_Code>
+    <Address_1>Kurdistan, Erbil</Address_1>
+    <Address_2></Address_2>
+    <Company_WebSite_URL>https://encrypt0r.github.io/</Company_WebSite_URL>
+    <Contact_Info>
+      <Contact_First_Name>Muhammad</Contact_First_Name>
+      <Contact_Last_Name>Azeez</Contact_Last_Name>
+      <Contact_Email>encryptor@outlook.com</Contact_Email>
+      <Author_First_Name>Muhammad</Author_First_Name>
+      <Author_Last_Name>Azeez</Author_Last_Name>
+      <Author_Email>encryptor@outlook.com</Author_Email>
+      <Contact_Phone></Contact_Phone>
+    </Contact_Info>
+    <Support_Info>
+      <Sales_Email>encryptor@outlook.com</Sales_Email>
+      <Support_Email>encryptor@outlook.com</Support_Email>
+      <General_Email>encryptor@outlook.com</General_Email>
+      <Sales_Phone></Sales_Phone>
+      <Support_Phone></Support_Phone>
+      <General_Phone></General_Phone>
+      <Fax_Phone></Fax_Phone>
+    </Support_Info>
+    <GooglePlusPage></GooglePlusPage>
+    <LinkedinPage></LinkedinPage>
+    <TwitterCompanyPage></TwitterCompanyPage>
+    <FacebookCompanyPage></FacebookCompanyPage>
+  </Company_Info>
+  <Program_Info>
+    <AppID>app-b2005142fc82</AppID>
+    <Program_Name>Permadelete</Program_Name>
+    <Program_Version>0.5</Program_Version>
+    <Program_Release_Month>02</Program_Release_Month>
+    <Program_Release_Day>10</Program_Release_Day>
+    <Program_Release_Year>2017</Program_Release_Year>
+    <Program_Cost_Dollars>0</Program_Cost_Dollars>
+    <Program_Type>Freeware</Program_Type>
+    <Program_Category_Class>System Utilities::File &amp; Disk Management</Program_Category_Class>
+    <Program_Specific_Category></Program_Specific_Category>
+    <Program_Categories>File Shredder,Security Tools :: File Removers,Security and Privacy</Program_Categories>
+    <Program_Release_Status>Beta</Program_Release_Status>
+    <Program_Install_Support>Install and Uninstall</Program_Install_Support>
+    <Program_Target_Platform>Windows</Program_Target_Platform>
+    <Program_OS_Support>Win2000,WinXP,Win7 x32,Win7 x64,Windows 8,Windows 10,WinServer,WinOther,Windows2000,Windows2003,Windows Server 2000,Windows Server 2003,Windows Server 2008,Windows Server 2008r2,Windows Server 2012,Windows Tablet PC Edition 2005,Windows Media Center Edition 2005,WinVista,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,WinVista x64,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64</Program_OS_Support>
+    <Program_Language>English</Program_Language>
+    <Program_Change_Info>1. The update status is shown in the about window. See #11
+2. A preview of the files and folders being dragged is now shown beneath the mouse when dragging and dropping. See #17
+3. A Complete redesign of the app, see #21
+4. Change the name from RudeFox to Permadelete
+5. Changed the 'Delete' wor</Program_Change_Info>
+    <Program_System_Requirements>.Net framework 4.5</Program_System_Requirements>
+    <Limitations>No limitations</Limitations>
+    <Awards></Awards>
+    <File_Info>
+      <File_Size_Bytes>1170432</File_Size_Bytes>
+      <File_Size_K>1143</File_Size_K>
+      <File_Size_MB>1.12</File_Size_MB>
+    </File_Info>
+    <Expire_Info>
+      <Has_Expire_Info>N</Has_Expire_Info>
+      <Expire_Count></Expire_Count>
+      <Expire_Based_On></Expire_Based_On>
+      <Expire_Year></Expire_Year>
+      <Expire_Other_Info></Expire_Other_Info>
+      <Expire_Month></Expire_Month>
+      <Expire_Day></Expire_Day>
+    </Expire_Info>
+    <FacebookFanPage></FacebookFanPage>
+    <VideoLink1URL></VideoLink1URL>
+    <VideoLink2URL></VideoLink2URL>
+    <Includes_JAVA_VM></Includes_JAVA_VM>
+    <Includes_DirectX></Includes_DirectX>
+    <Includes_VB_Runtime></Includes_VB_Runtime>
+    <GooglePlusFanPage></GooglePlusFanPage>
+  </Program_Info>
+  <Web_Info>
+    <Application_URLs>
+      <Application_Info_URL>https://encrypt0r.github.io/permadelete</Application_Info_URL>
+      <Application_Order_URL>https://encrypt0r.github.io/permadelete</Application_Order_URL>
+      <Application_Screenshot_URL>https://github.com/encrypt0r/permadelete/raw/master/screenshots/mainwindow.png</Application_Screenshot_URL>
+      <Application_Icon_URL>https://github.com/encrypt0r/permadelete/raw/master/Permadelete.FrontEnd/images/icon_128.png</Application_Icon_URL>
+      <Application_XML_File_URL>http://repository.appvisor.com/app-b2005142fc82/site-01/Permadelete_pad.xml</Application_XML_File_URL>
+    </Application_URLs>
+    <Download_URLs>
+      <Primary_Download_URL>https://github.com/encrypt0r/permadelete/releases/download/v0.5-beta/Permadelete_Installer.exe</Primary_Download_URL>
+      <Secondary_Download_URL></Secondary_Download_URL>
+      <Additional_Download_URL_1></Additional_Download_URL_1>
+      <Additional_Download_URL_2></Additional_Download_URL_2>
+    </Download_URLs>
+  </Web_Info>
+  <Program_Descriptions>
+    <English>
+      <Keywords>file shredder, shredder, eraser, remove, remover, erase, delete, permanently, permadelete, open source, free</Keywords>
+      <Char_Desc_45>An open source and free file shredder.</Char_Desc_45>
+      <Char_Desc_80>A open source app to delete files permanently.</Char_Desc_80>
+      <Char_Desc_250>Permadelete is a free and open source file shredder, it deletes your files beyond recovery. It's made to be beautiful and easy to use and yet powerful.</Char_Desc_250>
+      <Char_Desc_450>Permadelete is a free and open source file shredder, it deletes your files beyond recovery. It's made to be beautiful and easy to use and yet powerful.</Char_Desc_450>
+      <Char_Desc_2000>Permadelete is a free and open source file shredder, it deletes your files beyond recovery. It's made to be beautiful and easy to use and yet powerful.
+
+When a file is deleted, only a reference to the location of the file is deleted. In other words, the file system just forgets about the existence of the file. But the actually data, the 0s and 1s, still remain on the disk. They will eventually be replaced by other files and data, but this can take a long long time and during this time recovery softwares can be used to recover the deleted files. But file shredding apps like Permadelete make sure the files you delete cant be recovered.</Char_Desc_2000>
+    </English>
+  </Program_Descriptions>
+  <Permissions>
+    <Distribution_Permissions>Permadelete is free an open source, so it can be freely distributed over the internet in an unchanged form.</Distribution_Permissions>
+    <EULA>MIT License
+
+Copyright (c) 2016
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</EULA>
+  </Permissions>
+  <Affiliates>
+    <Affiliates_Regsoft_Order_Page></Affiliates_Regsoft_Order_Page>
+    <Affiliates_Regnow_Order_Page></Affiliates_Regnow_Order_Page>
+    <Affiliates_Regsoft_Vendor_ID></Affiliates_Regsoft_Vendor_ID>
+    <Affiliates_Regnow_Vendor_ID></Affiliates_Regnow_Vendor_ID>
+    <Affiliates_Regsoft_Product_ID></Affiliates_Regsoft_Product_ID>
+    <Affiliates_Regnow_Product_ID></Affiliates_Regnow_Product_ID>
+    <Affiliates_FORM></Affiliates_FORM>
+    <Affiliates_FORM_VER></Affiliates_FORM_VER>
+    <Affiliates_VERSION></Affiliates_VERSION>
+    <Affiliates_URL></Affiliates_URL>
+    <Affiliates_Information_Page></Affiliates_Information_Page>
+    <Affiliates_Avangate_Order_Page></Affiliates_Avangate_Order_Page>
+    <Affiliates_Avangate_Vendor_ID></Affiliates_Avangate_Vendor_ID>
+    <Affiliates_Avangate_Product_ID></Affiliates_Avangate_Product_ID>
+    <Affiliates_Avangate_Maximum_Commission_Rate></Affiliates_Avangate_Maximum_Commission_Rate>
+    <Affiliates_BMTMicro_Order_Page></Affiliates_BMTMicro_Order_Page>
+    <Affiliates_BMTMicro_Vendor_ID></Affiliates_BMTMicro_Vendor_ID>
+    <Affiliates_BMTMicro_Product_ID></Affiliates_BMTMicro_Product_ID>
+    <Affiliates_BMTMicro_Maximum_Commission_Rate></Affiliates_BMTMicro_Maximum_Commission_Rate>
+    <Affiliates_eSellerate_Order_Page></Affiliates_eSellerate_Order_Page>
+    <Affiliates_eSellerate_Vendor_ID></Affiliates_eSellerate_Vendor_ID>
+    <Affiliates_eSellerate_Product_ID></Affiliates_eSellerate_Product_ID>
+    <Affiliates_eSellerate_Maximum_Commission_Rate></Affiliates_eSellerate_Maximum_Commission_Rate>
+    <Affiliates_Kagi_Order_Page></Affiliates_Kagi_Order_Page>
+    <Affiliates_Kagi_Vendor_ID></Affiliates_Kagi_Vendor_ID>
+    <Affiliates_Kagi_Product_ID></Affiliates_Kagi_Product_ID>
+    <Affiliates_Kagi_Maximum_Commission_Rate></Affiliates_Kagi_Maximum_Commission_Rate>
+    <Affiliates_Order1_Order_Page></Affiliates_Order1_Order_Page>
+    <Affiliates_Order1_Vendor_ID></Affiliates_Order1_Vendor_ID>
+    <Affiliates_Order1_Product_ID></Affiliates_Order1_Product_ID>
+    <Affiliates_Order1_Maximum_Commission_Rate></Affiliates_Order1_Maximum_Commission_Rate>
+    <Affiliates_Regnet_Order_Page></Affiliates_Regnet_Order_Page>
+    <Affiliates_Regnet_Vendor_ID></Affiliates_Regnet_Vendor_ID>
+    <Affiliates_Regnet_Product_ID></Affiliates_Regnet_Product_ID>
+    <Affiliates_Regnet_Maximum_Commission_Rate></Affiliates_Regnet_Maximum_Commission_Rate>
+    <Affiliates_Regnow_Maximum_Commission_Rate></Affiliates_Regnow_Maximum_Commission_Rate>
+    <Affiliates_Regsoft_Maximum_Commission_Rate></Affiliates_Regsoft_Maximum_Commission_Rate>
+    <Affiliates_ShareIt_Order_Page></Affiliates_ShareIt_Order_Page>
+    <Affiliates_ShareIt_Vendor_ID></Affiliates_ShareIt_Vendor_ID>
+    <Affiliates_ShareIt_Product_ID></Affiliates_ShareIt_Product_ID>
+    <Affiliates_ShareIt_Maximum_Commission_Rate></Affiliates_ShareIt_Maximum_Commission_Rate>
+    <Affiliates_SWReg_Order_Page></Affiliates_SWReg_Order_Page>
+    <Affiliates_SWReg_Vendor_ID></Affiliates_SWReg_Vendor_ID>
+    <Affiliates_SWReg_Product_ID></Affiliates_SWReg_Product_ID>
+    <Affiliates_SWReg_Maximum_Commission_Rate></Affiliates_SWReg_Maximum_Commission_Rate>
+  </Affiliates>
+  <NewsFeed>
+    <NewsFeed_FORM></NewsFeed_FORM>
+    <NewsFeed_VERSION></NewsFeed_VERSION>
+    <NewsFeed_URL></NewsFeed_URL>
+    <NewsFeed_DESCRIPTION></NewsFeed_DESCRIPTION>
+    <NewsFeed_Feed_URL></NewsFeed_Feed_URL>
+    <NewsFeed_Type></NewsFeed_Type>
+    <NewsFeed_Site_URL></NewsFeed_Site_URL>
+    <NewsFeed_Author_First_Name>Muhammad</NewsFeed_Author_First_Name>
+    <NewsFeed_Author_Last_Name>Azeez</NewsFeed_Author_Last_Name>
+    <NewsFeed_Author_Email>encryptor@outlook.com</NewsFeed_Author_Email>
+    <NewsFeed_Language></NewsFeed_Language>
+    <NewsFeed_Title></NewsFeed_Title>
+    <NewsFeed_Description_70></NewsFeed_Description_70>
+    <NewsFeed_Description_250></NewsFeed_Description_250>
+    <NewsFeed_Purpose></NewsFeed_Purpose>
+    <NewsFeed_Site_Name></NewsFeed_Site_Name>
+  </NewsFeed>
+  <Press_Release>
+    <Press_Release></Press_Release>
+    <Keywords>file shredder, open source, free, permanent, delete</Keywords>
+    <Headline>Permadelete : an open source file shredder for windows</Headline>
+    <Summary>Permadelete is a free and open source file shredder for Windows. It's designed to be beautiful, reliable and fast.</Summary>
+    <Press_Release_Plain></Press_Release_Plain>
+  </Press_Release>
+  <Site>
+    <Site_FORM></Site_FORM>
+    <Site_VERSION></Site_VERSION>
+    <Site_URL></Site_URL>
+    <Site_DESCRIPTION></Site_DESCRIPTION>
+    <Site_Site_Title>Permadelete</Site_Site_Title>
+    <Site_Site_URL>https://encrypt0r.github.io/permadelete</Site_Site_URL>
+    <Site_Keywords>open source, permadelete, encrypt0r, free</Site_Keywords>
+    <Site_Description_100>The official website for Permadelete</Site_Description_100>
+    <Site_Description_250>The official website for Permadelete</Site_Description_250>
+    <Site_Description_450>The official website for Permadelete</Site_Description_450>
+    <Site_Contact_First_Name>Muhammad</Site_Contact_First_Name>
+    <Site_Contact_Last_Name>Azeez</Site_Contact_Last_Name>
+    <Site_Contact_Email>encryptor@outlook.com</Site_Contact_Email>
+  </Site>
+  <Download_Link_Points_To_Non_Binary_File>TRUE</Download_Link_Points_To_Non_Binary_File>
+  <Temp_Icon>https://cdnjs.cloudflare.com/ajax/libs/fatcow-icons/20130425/FatCow_Icons32x32/flag_yellow.png</Temp_Icon>
+  <Dynamic_PAD>
+    <General>
+      <DP_Pad_Enabled>TRUE</DP_Pad_Enabled>
+      <DP_AtFormFill_Enabled>TRUE</DP_AtFormFill_Enabled>
+      <DP_Distributive_Enabled>TRUE</DP_Distributive_Enabled>
+      <DP_Script_Base_URL>http://repository.appvisor.com/</DP_Script_Base_URL>
+      <DP_Pad_Mask>Permadelete_pad.xml</DP_Pad_Mask>
+      <DP_Distributive_Primary_URL>https://github.com/encrypt0r/permadelete/releases/download/v0.5-beta/Permadelete_Installer.exe</DP_Distributive_Primary_URL>
+      <DP_Distributive_Mask>Permadelete_Installer.exe</DP_Distributive_Mask>
+    </General>
+  </Dynamic_PAD>
+</XML_DIZ_INFO>
