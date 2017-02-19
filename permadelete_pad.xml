@@ -127,7 +127,7 @@
       <Char_Desc_450>Permadelete is a free and open source file shredder, it deletes your files beyond recovery. It's made to be beautiful and easy to use and yet powerful.</Char_Desc_450>
       <Char_Desc_2000>Permadelete is a free and open source file shredder, it deletes your files beyond recovery. It's made to be beautiful and easy to use and yet powerful.
 
-When a file is deleted, only a reference to the location of the file is deleted. In other words, the file system just forgets about the existence of the file. But the actually data, the 0s and 1s, still remain on the disk. They will eventually be replaced by other files and data, but this can take a long long time and during this time recovery softwares can be used to recover the deleted files. But file shredding apps like Permadelete make sure the files you delete cant be recovered.</Char_Desc_2000>
+When a file is deleted, only a reference to the location of the file is deleted. In other words, the file system just forgets about the existence of the file. But the actual data, the 0s and 1s, still remain on the disk. They will eventually be replaced by other files and data, but this can take a long long time and during this time recovery software can be used to recover the deleted files. But file shredding apps like Permadelete make sure the files you delete cant be recovered.</Char_Desc_2000>
     </English>
   </Program_Descriptions>
   <Permissions>
