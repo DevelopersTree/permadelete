@@ -7,8 +7,8 @@
     <ProjectGuid>{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RudeFox.Updater</RootNamespace>
-    <AssemblyName>RudeFox.Updater</AssemblyName>
+    <RootNamespace>Permadelete.Updater</RootNamespace>
+    <AssemblyName>Permadelete.Updater</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

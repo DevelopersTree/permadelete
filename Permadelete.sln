@@ -7,10 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permadelete.FrontEnd", "Per
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permadelete.Updater", "Permadelete.Updater\Permadelete.Updater.csproj", "{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permadelete.UpdateFactory", "Permadelete.UpdateFactory\Permadelete.UpdateFactory.csproj", "{0649E428-72E8-4F36-B031-34F12CBF78F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Classic|Any CPU = Classic|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 		WindowsStore|Any CPU = WindowsStore|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -18,14 +21,26 @@ Global
 		{65CF9D82-1685-49F4-9834-A163C9038597}.Classic|Any CPU.Build.0 = Classic|Any CPU
 		{65CF9D82-1685-49F4-9834-A163C9038597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65CF9D82-1685-49F4-9834-A163C9038597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CF9D82-1685-49F4-9834-A163C9038597}.Release|Any CPU.ActiveCfg = WindowsStore|Any CPU
+		{65CF9D82-1685-49F4-9834-A163C9038597}.Release|Any CPU.Build.0 = WindowsStore|Any CPU
 		{65CF9D82-1685-49F4-9834-A163C9038597}.WindowsStore|Any CPU.ActiveCfg = WindowsStore|Any CPU
 		{65CF9D82-1685-49F4-9834-A163C9038597}.WindowsStore|Any CPU.Build.0 = WindowsStore|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Classic|Any CPU.ActiveCfg = Release|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Classic|Any CPU.Build.0 = Release|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.WindowsStore|Any CPU.ActiveCfg = WindowStore|Any CPU
 		{5651C82B-95EB-4658-BF08-C00BD3DAB1FD}.WindowsStore|Any CPU.Build.0 = WindowStore|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Classic|Any CPU.ActiveCfg = Release|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Classic|Any CPU.Build.0 = Release|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.WindowsStore|Any CPU.ActiveCfg = Release|Any CPU
+		{0649E428-72E8-4F36-B031-34F12CBF78F5}.WindowsStore|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

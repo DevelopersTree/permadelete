@@ -22,5 +22,6 @@ namespace Permadelete.Updater
         }
         public bool Overwrite { get; set; }
         public long Length { get; set; }
+        public bool Delete { get; set; }
     }
 }
