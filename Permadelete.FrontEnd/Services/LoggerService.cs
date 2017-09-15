@@ -14,18 +14,27 @@ namespace Permadelete.Services
         #region Constructor
         static LoggerService()
         {
+#if WINDOWS_STORE
+            _logger = LogManager.CreateNullLogger();
+#else
             Target.Register<Nlog.SentryTarget>("Sentry");
             _logger = LogManager.GetLogger("Permadelete.Services.LoggerService");
+#endif
+
+#if CLASSIC
+            _ravenClient = new SharpRaven.RavenClient(Keys.SENTRY_API_DSN);
+            _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+#endif
         }
         private LoggerService()
         {
-            _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            
         }
         #endregion
 
         #region Fields
         private static Logger _logger;
-        private static SharpRaven.RavenClient _ravenClient = new SharpRaven.RavenClient(Keys.SENTRY_API_DSN);
+        private static SharpRaven.RavenClient _ravenClient;
         #endregion
 
         #region Properties
@@ -55,6 +64,8 @@ namespace Permadelete.Services
         public async Task SendRaven(string message) => await SendRaven(message, ErrorLevel.Info);
         public async Task SendRaven(string message, ErrorLevel level)
         {
+            if (_ravenClient == null) return;
+
             var sentryEvent = new SentryEvent(message);
             sentryEvent.Level = level;
             await _ravenClient.CaptureAsync(sentryEvent);

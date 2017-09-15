@@ -26,17 +26,35 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Classic|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>bin\Classic\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowedReferenceRelatedFileExtensions>
+      <!-- Prevent default XML and PDB files copied to output in RELEASE. 
+           Only *.allowedextension files will be included, which doesn't exist in my case.
+       -->
+      .pdb;.config
+    </AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WindowsStore|AnyCPU'">
+    <OutputPath>bin\WindowsStore\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS_STORE;RELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowedReferenceRelatedFileExtensions>
+      .pdb
+    </AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DiskDetector, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -265,6 +283,19 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy $(ProjectDir)\Helpers\Keys.cs $(SolutionDir)\Publish\Keys-empty.cs /y 
+copy $(SolutionDir)\Publish\Keys.cs $(ProjectDir)\Helpers\Keys.cs /y</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)\Publish\Keys-empty.cs  $(ProjectDir)\Helpers\Keys.cs /y
+del /Q /F $(TargetDir)\SharpRaven.pdb
+
+if "$(ConfigurationName)" == "WindowsStore" (
+MakeAppx pack -d $(TargetDir) -p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx -l
+signtool.exe sign -f $(ProjectDir)\bin\WindowsStorePackage\test.pfx -p 123456 -fd SHA256 -v $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -40,7 +40,7 @@ namespace Permadelete.ApplicationManagement
 
         private void InitializeComponents()
         {
-#if !DEBUG
+#if CLASSIC
             if (string.IsNullOrWhiteSpace(Keys.DROPBOX_API_KEY))
                 DialogService.Instance.GetMessageDialog("API key not found", "Could not find Dropbox API key.", "Ok").ShowDialog();
             else

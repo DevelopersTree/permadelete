@@ -222,10 +222,10 @@ namespace Permadelete.ApplicationManagement
 
         private void LogUnhandledException(Exception e)
         {
-#if !DEBUG
+#if CLASSIC
             LoggerService.Instance.Error(e);
-            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
 #endif
+            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
         }
 
         private void OnUpdateStatusChanged()

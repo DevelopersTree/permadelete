@@ -9,6 +9,7 @@ using SharpRaven;
 using NLog;
 using SharpRaven.Data;
 using NLog.Common;
+using System.Diagnostics;
 
 namespace Permadelete.Nlog
 {
@@ -18,11 +19,13 @@ namespace Permadelete.Nlog
         #region Constructor
         public SentryTarget()
         {
+#if CLASSIC
             if (string.IsNullOrWhiteSpace(Keys.SENTRY_API_DSN))
                 throw new NullReferenceException("Bad Sentry API DSN.");
 
             _ravenClient = new RavenClient(Keys.SENTRY_API_DSN);
             _ravenClient.Release = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+#endif
         }
         #endregion
 
@@ -39,6 +42,7 @@ namespace Permadelete.Nlog
                 SendRaven(logEvent.Exception);
         }
 
+        [Conditional("CLASSIC")]
         private void SendRaven(string message, LogLevel level)
         {
             var sentryEvent = new SentryEvent(message);
@@ -46,6 +50,7 @@ namespace Permadelete.Nlog
             _ravenClient.Capture(sentryEvent);
         }
 
+        [Conditional("CLASSIC")]
         private void SendRaven(Exception ex)
         {
             var sentryEvent = new SentryEvent(ex);
