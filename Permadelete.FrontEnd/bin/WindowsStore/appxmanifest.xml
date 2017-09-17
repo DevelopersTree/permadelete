@@ -13,7 +13,7 @@
        <DisplayName>Permadelete</DisplayName>
        <PublisherDisplayName>Developers Tree</PublisherDisplayName>
              <Description>An open-source file shredder for Windows</Description>
-      <Logo>images\icon.png</Logo>
+      <Logo>images\icon_small.png</Logo>
     </Properties>
     <Resources>
       <Resource Language="en-us" />
