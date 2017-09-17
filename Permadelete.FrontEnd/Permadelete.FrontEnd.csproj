@@ -307,6 +307,11 @@ if "$(ConfigurationName)" == "Classic" (
   echo "Getting version number..."
   echo "Running: $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)"
   $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)
+
+  if exist "C:\Program files (x86)\Inno Setup 5\ISCC.exe" (
+  echo "Compiling installer..."
+  start "" "C:\Program files (x86)\Inno Setup 5\ISCC.exe" "$(SolutionDir)Publish\Installer.iss"
+  )
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
