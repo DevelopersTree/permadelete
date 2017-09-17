@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Permadelete.UpdateFactory
 {
-    class MainWindowVM : BindableBase
+    public class MainWindowVM : BindableBase
     {
         #region Constructor
         public MainWindowVM()

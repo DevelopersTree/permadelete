@@ -284,16 +284,29 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(ProjectDir)\Helpers\Keys.cs $(SolutionDir)\Publish\Keys-empty.cs /y 
+    <PreBuildEvent>echo "Swapping Key file..."
+copy $(ProjectDir)\Helpers\Keys.cs $(SolutionDir)\Publish\Keys-empty.cs /y 
 copy $(SolutionDir)\Publish\Keys.cs $(ProjectDir)\Helpers\Keys.cs /y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)\Publish\Keys-empty.cs  $(ProjectDir)\Helpers\Keys.cs /y
+    <PostBuildEvent>echo "Cleaning up..."
+copy $(SolutionDir)\Publish\Keys-empty.cs  $(ProjectDir)\Helpers\Keys.cs /y
 del /Q /F $(TargetDir)\SharpRaven.pdb
 
 if "$(ConfigurationName)" == "WindowsStore" (
-MakeAppx pack -d $(TargetDir) -p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx -l
-signtool.exe sign -f $(ProjectDir)\bin\WindowsStorePackage\test.pfx -p 123456 -fd SHA256 -v $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx
+  echo "Making Appx package..."
+  echo "Runnning: MakeAppx pack /o /d $(TargetDir) /p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx /l"
+  MakeAppx pack /o /d $(TargetDir) /p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx /l
+
+  echo "Signing package..."
+  echo "Runnning: signtool.exe sign /f $(ProjectDir)\bin\WindowsStorePackage\test.pfx /p 123456 /fd SHA256 /v $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx"
+  signtool.exe sign /f $(ProjectDir)\bin\WindowsStorePackage\test.pfx /p 123456 /fd SHA256 /v $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx
+)
+
+if "$(ConfigurationName)" == "Classic" (
+  echo "Getting version number..."
+  echo "Running: $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)"
+  $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
