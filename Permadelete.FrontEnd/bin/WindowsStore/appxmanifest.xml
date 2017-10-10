@@ -5,7 +5,7 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
   <Identity 
     Name="50203DevelopersTree.Permadelete" 
-    Version="0.5.1.0" 
+    Version="0.5.2.0" 
     Publisher="CN=0FF9EB31-D843-4AA3-A955-CA362D25D71B" 
     ProcessorArchitecture="x64" />
 
