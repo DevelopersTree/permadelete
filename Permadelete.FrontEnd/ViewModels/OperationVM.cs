@@ -172,10 +172,17 @@ namespace Permadelete.ViewModels
         #region Methods
         private async void CalculateBytes()
         {
-            if (File.Exists(Path))
-                _bytes = new FileInfo(Path).Length;
-            else if (Directory.Exists(Path))
-                _bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
+            try
+            {
+                if (File.Exists(Path))
+                    _bytes = new FileInfo(Path).Length;
+                else if (Directory.Exists(Path))
+                    _bytes = await ShredderService.Instance.GetFolderSize(new DirectoryInfo(Path));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                _bytes = -1;
+            }
 
             RaisePropertyChanged(nameof(Bytes));
             RaisePropertyChanged(nameof(Size));
