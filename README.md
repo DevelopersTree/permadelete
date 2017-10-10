@@ -27,4 +27,4 @@ I'd like to thank everyone who has helped me in developing and testing Permadele
 
 You can contact via my email: [**encryptor@outlook.com**](mailto:encryptor@outlook.com)
 
-A [DevelopersTree.com](https://developerstree.com/) project.
+A [DevelopersTree.com](http://developerstree.com/) project.
