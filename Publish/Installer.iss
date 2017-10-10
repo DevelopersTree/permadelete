@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Permadelete"
-#define MyAppVersion "0.5.1"
+#define MyAppVersion "0.5.2"
 #define MyAppPublisher "Developers Tree"
 #define MyAppURL "https://encrypt0r.github.io/permadelete/"
 #define MyAppExeName "Permadelete.exe"
@@ -38,7 +38,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "sendtoicon"; Description: "Add Permadelete to the ""Send To"" folder"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "latest\data\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+Source: "update\data\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
