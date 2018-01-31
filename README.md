@@ -1,8 +1,8 @@
 # Permadelete
 **Permadelete is an easy to use and beautiful app for shredding files and folders permanently.**
- - **[Download](https://github.com/encrypt0r/permadelete/releases)** the latest release and give it a try.
- - Read [this short tutorial](https://github.com/encrypt0r/permadelete/wiki/How-to-use-Permadelete) about 3 fun ways to shred files permanently using Permadelete.
- - And if you are the curious type, you can read about [how Permadelete works](https://github.com/encrypt0r/permadelete/wiki/How-Permadelete-works).
+ - **[Download](https://github.com/DevelopersTree/permadelete/releases)** the latest release and give it a try.
+ - Read [this short tutorial](https://github.com/DevelopersTree/permadelete/wiki/How-to-use-Permadelete) about 3 fun ways to shred files permanently using Permadelete.
+ - And if you are the curious type, you can read about [how Permadelete works](https://github.com/DevelopersTree/permadelete/wiki/How-Permadelete-works).
  - We welcome everyone who wants to help us in any way they can :grin: Please contact me if you are interested.
 
 **Note:** It needs .Net Framework 4.5 to run which you can download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653).
