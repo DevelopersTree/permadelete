@@ -1,8 +1,10 @@
 # Permadelete : a file shredding app
 
-When a file is deleted, only a reference to the location of the file is deleted. In other words, the file system just "forgets" about the existence of the file. But the actually data, the 0's and 1's, still remain on the disk. They will eventually be replaced by other files and data, but this can take a long long time and during this time recovery softwares can be used to recover the "deleted" files. But file shredding apps like Permadelete make sure the files you delete can't be recovered. If you are the curious type, you can read more about [how Permadelete works](https://github.com/encrypt0r/permadelete/wiki/How-Permadelete-works).
+When a file is deleted, only a reference to the location of the file is deleted. In other words, the file system just "forgets" about the existence of the file. But the actually data, the 0's and 1's, still remain on the disk. They will eventually be replaced by other files and data, but this can take a long long time and during this time recovery softwares can be used to recover the "deleted" files. But file shredding apps like Permadelete make sure the files you delete can't be recovered. If you are the curious type, you can read more about [how Permadelete works](https://github.com/DevelopersTree/permadelete/wiki/How-Permadelete-works).
 
-After you **[downloaded](https://github.com/encrypt0r/permadelete/releases)** the latest release and gave it a try, You might also want to read [this short tutorial](https://github.com/encrypt0r/permadelete/wiki/How-to-use-Permadelete) about 3 fun ways to shred files permanently using Permadelete. 
+After you **[downloaded](https://github.com/DevelopersTree/permadelete/releases)** the latest release and gave it a try, You might also want to read [this short tutorial](https://github.com/DevelopersTree/permadelete/wiki/How-to-use-Permadelete) about 3 fun ways to shred files permanently using Permadelete. 
+
+**[View Project On GitHub](https://github.com/DevelopersTree/permadelete)**
 
 **Note:** It needs .Net Framework 4.5 to run which you can download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653).
 
