@@ -28,6 +28,13 @@ namespace Permadelete.ViewModels
                 dialog.ShowDialog();
             });
 
+            ShowSettingsCommand = new DelegateCommand(parent =>
+            {
+                var dialog = DialogService.Instance.GetSettingsDialog();
+                dialog.Owner = (Window)parent;
+                dialog.ShowDialog();
+            });
+
             ExitCommand = new DelegateCommand(p => Application.Current.Shutdown());
 
             CancelAllCommand = new DelegateCommand(p =>
@@ -72,31 +79,32 @@ namespace Permadelete.ViewModels
         public double OverallProgress
         {
             get { return _overallProgress; }
-            set { SetProperty(ref _overallProgress, value); }
+            set { Set(ref _overallProgress, value); }
         }
 
         private TaskbarItemProgressState _taskbarState;
         public TaskbarItemProgressState TaskbarState
         {
             get { return _taskbarState; }
-            set { SetProperty(ref _taskbarState, value); }
+            set { Set(ref _taskbarState, value); }
         }
 
         private ObservableCollection<NotificationVM> _notifications;
         public ObservableCollection<NotificationVM> Notifications
         {
             get { return _notifications; }
-            set { SetProperty(ref _notifications, value); }
+            set { Set(ref _notifications, value); }
         }
         #endregion
 
         #region Commands
-        public DelegateCommand ShowAboutCommand { get; private set; }
-        public DelegateCommand ExitCommand { get; private set; }
-        public DelegateCommand CancelAllCommand { get; private set; }
-        public DelegateCommand DeleteFilesCommand { get; private set; }
-        public DelegateCommand DeleteFoldersCommand { get; private set; }
-        public DelegateCommand HandleFileDropCommand { get; set; }
+        public DelegateCommand ShowAboutCommand { get; }
+        public DelegateCommand ShowSettingsCommand { get; }
+        public DelegateCommand ExitCommand { get; }
+        public DelegateCommand CancelAllCommand { get; }
+        public DelegateCommand DeleteFilesCommand { get; }
+        public DelegateCommand DeleteFoldersCommand { get; }
+        public DelegateCommand HandleFileDropCommand { get; }
         #endregion
 
         #region Methods

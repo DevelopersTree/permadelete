@@ -106,7 +106,7 @@
                                                 </TransformGroup>
                                             </Image.RenderTransform>
                                         </Image>
-                                        <TextBlock Text="Drop some files or folders here to be deleted." HorizontalAlignment="Center" Grid.Row="2" Foreground="{StaticResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center" IsHitTestVisible="False" />
+                                        <TextBlock Text="Drop some files or folders here to be deleted." HorizontalAlignment="Center" Grid.Row="2" Foreground="{DynamicResource ForegroundColorBrush}" FontSize="18" VerticalAlignment="Center" IsHitTestVisible="False" />
                                     </Grid>
                                     <Border.Triggers>
                                         <EventTrigger RoutedEvent="FrameworkElement.DragEnter">
@@ -135,7 +135,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Rectangle Fill="{StaticResource TitlebarBackgroundThatch}" Grid.RowSpan="2"/>
+            <Rectangle Fill="{DynamicResource TitlebarBackgroundThatch}" Grid.RowSpan="2"/>
             <Rectangle Margin="0, -30, 0, 0" Grid.RowSpan="2">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Repeat" Opacity="0.5">
@@ -161,6 +161,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <controls:ToolbarButton ImageSource="/Images/delete_file.png" Text="SHRED FILES" Command="{Binding DeleteFilesCommand}" Margin="0, 0, 10, 0"
@@ -169,8 +170,11 @@
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
                 <Separator Background="#666" VerticalAlignment="Center"  Grid.Column="2"/>
                 <controls:ToolbarButton ImageSource="/Images/cancel_all.png" Text="CANCEL ALL" Command="{Binding CancelAllCommand}" Grid.Column="3"/>
-
-                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="{Binding Title, StringFormat='ABOUT {0}'}" Grid.Column="5" Margin="10, 0, 0, 0" Command="{Binding ShowAboutCommand}"
+                
+                <controls:ToolbarButton ImageSource="/Images/settings_24.png" Text="Settings" Grid.Column="5" Margin="10, 0, 0, 0" Command="{Binding ShowSettingsCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                
+                <controls:ToolbarButton ImageSource="/Images/icon_24.png" Text="{Binding Title, StringFormat='ABOUT {0}'}" Grid.Column="6" Margin="10, 0, 0, 0" Command="{Binding ShowAboutCommand}"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
             </Grid>
         </Grid>

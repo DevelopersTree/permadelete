@@ -1,0 +1,78 @@
+﻿<controls:FlatWindow x:Class="Permadelete.Views.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Permadelete.Controls"
+        xmlns:xaml="clr-namespace:Permadelete.Xaml"
+                     xmlns:system="clr-namespace:System;assembly=mscorlib" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
+        mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Title="Settings" Height="300" Width="500">
+
+    <controls:FlatWindow.Resources>
+        <xaml:ColorToBrushConverter x:Key="colorConverter" />
+
+        <Style x:Key="sectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </controls:FlatWindow.Resources>
+
+    <StackPanel>
+
+        <StackPanel Margin="5, 0">
+            <TextBlock Text="Theme" Style="{StaticResource sectionHeader}" />
+            <ListView ItemsSource="{Binding Themes}" Background="Transparent" BorderBrush="Transparent"
+                      SelectedItem="{Binding SelectedTheme}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="2" BorderBrush="{Binding Data.AccentLightColor, Converter={StaticResource colorConverter}}"
+                                BorderThickness="1" Background="{Binding Data.AccentColor, Converter={StaticResource colorConverter}}"
+                                Padding="2" Width="80" Height="80">
+                            <Grid>
+                                <TextBlock Text="{Binding Data.Name}" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="{Binding Data.BackgroundColor, Converter={StaticResource colorConverter}}"
+                                       TextWrapping="Wrap"
+                                       TextTrimming="CharacterEllipsis" />
+
+                                <Image Source="/Images/success.png" Width="24" Height="24"
+                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                       Visibility="{Binding IsSelected, Converter={StaticResource bool2VisibilityConverter}}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock />
+
+            <TextBlock Style="{StaticResource sectionHeader}">
+                <Run>
+                    Paranoid Settings
+                </Run>
+                <Hyperlink FontSize="12" Command="{Binding OpenMoreInfoCommand}">
+                    More Info
+                </Hyperlink>
+            </TextBlock>
+
+            <TextBlock Text="Default number of overwrite passes: (1 is recommended)" />
+
+            <ComboBox Margin="0, 5" SelectedItem="{Binding DefaultOverwritePasses}">
+                <system:Int32>1</system:Int32>
+                <system:Int32>3</system:Int32>
+                <system:Int32>5</system:Int32>
+                <system:Int32>7</system:Int32>
+                <system:Int32>10</system:Int32>
+            </ComboBox>
+        </StackPanel>
+
+    </StackPanel>
+
+</controls:FlatWindow>

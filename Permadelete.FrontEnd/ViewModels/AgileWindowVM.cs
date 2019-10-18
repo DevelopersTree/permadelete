@@ -143,14 +143,14 @@ namespace Permadelete.ViewModels
         public NotificationVM Notification
         {
             get { return _notification; }
-            set { SetProperty(ref _notification, value); }
+            set { Set(ref _notification, value); }
         }
 
         private string _progressTitle;
         public string ProgressTitle
         {
             get { return _progressTitle; }
-            set { SetProperty(ref _progressTitle, value); }
+            set { Set(ref _progressTitle, value); }
         }
 
         private string _timeRemaining;
@@ -159,7 +159,7 @@ namespace Permadelete.ViewModels
             get { return _timeRemaining; }
             set
             {
-                if (SetProperty(ref _timeRemaining, value))
+                if (Set(ref _timeRemaining, value))
                     RaisePropertyChanged(nameof(WindowTitle));
             }
         }
@@ -168,7 +168,7 @@ namespace Permadelete.ViewModels
         public TaskbarItemProgressState TaskbarState
         {
             get { return _taskbarState; }
-            set { SetProperty(ref _taskbarState, value); }
+            set { Set(ref _taskbarState, value); }
         }
 
         private string _questionTitle;
@@ -177,7 +177,7 @@ namespace Permadelete.ViewModels
             get { return _questionTitle; }
             set
             {
-                if (SetProperty(ref _questionTitle, value))
+                if (Set(ref _questionTitle, value))
                     RaisePropertyChanged(nameof(WindowTitle));
             }
         }
@@ -186,35 +186,35 @@ namespace Permadelete.ViewModels
         public string Icon
         {
             get { return _icon; }
-            set { SetProperty(ref _icon, value); }
+            set { Set(ref _icon, value); }
         }
 
         private double _progress;
         public double Progress
         {
             get { return _progress; }
-            set { SetProperty(ref _progress, value); }
+            set { Set(ref _progress, value); }
         }
 
         private Visibility _questionVisibility;
         public Visibility QuestionVisibility
         {
             get { return _questionVisibility; }
-            set { SetProperty(ref _questionVisibility, value); }
+            set { Set(ref _questionVisibility, value); }
         }
 
         private Visibility _progressVisibility;
         public Visibility ProgressVisibility
         {
             get { return _progressVisibility; }
-            set { SetProperty(ref _progressVisibility, value); }
+            set { Set(ref _progressVisibility, value); }
         }
 
         private Visibility _notificationVisibility;
         public Visibility NotificationVisibility
         {
             get { return _notificationVisibility; }
-            set { SetProperty(ref _notificationVisibility, value); }
+            set { Set(ref _notificationVisibility, value); }
         }
         #endregion
 

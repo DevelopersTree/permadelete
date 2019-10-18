@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Permadelete.Enums;
+using Permadelete.Helpers;
+
 namespace Permadelete.ApplicationManagement
 {
     public class App : Application
@@ -25,7 +27,7 @@ namespace Permadelete.ApplicationManagement
         #endregion
 
         #region Properties
-        private static ObservableCollection<OperationVM> _operationsSource = new ObservableCollection<OperationVM>();
+        private static readonly ObservableCollection<OperationVM> _operationsSource = new ObservableCollection<OperationVM>();
         public static ReadOnlyObservableCollection<OperationVM> Operations { get; private set; }
 
         private static readonly Lazy<App> _current = new Lazy<App>(() => new App());
@@ -59,6 +61,9 @@ namespace Permadelete.ApplicationManagement
         {
             var stylesDic = new Uri("pack://application:,,,/Styles.xaml");
             Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = stylesDic });
+
+            var settings = SettingsHelper.GetSettings();
+            ThemeHelper.ApplyTheme(settings.GetTheme());
 
             if (e.Args.Count() == 0)
             {
@@ -130,7 +135,7 @@ namespace Permadelete.ApplicationManagement
             {
                 UpdateStatus = UpdateStatus.Idle;
                 LoggerService.Instance.Error(ex);
-                
+
                 return null; // error occured
             }
 
@@ -219,7 +224,6 @@ namespace Permadelete.ApplicationManagement
             dialog.Owner = this.MainWindow;
             return await dialog.ShowDialogAsync();
         }
-
         private void LogUnhandledException(Exception e)
         {
 #if CLASSIC

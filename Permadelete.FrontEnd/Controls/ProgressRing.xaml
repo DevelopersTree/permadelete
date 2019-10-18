@@ -12,42 +12,42 @@
                     <DrawingGroup.Children>
                         <DrawingGroup>
                             <DrawingGroup.Children>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="3" RadiusY="3" Center="16,6" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="1.75" RadiusY="1.75" Center="16,26" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="1.25" RadiusY="1.25" Center="26,16" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="2.25" RadiusY="2.25" Center="6,16" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="1" RadiusY="1" Center="23.071,8.929" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="2" RadiusY="2" Center="8.929,23.071" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="1.5" RadiusY="1.5" Center="23.071,23.071" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
-                                <GeometryDrawing Brush="{StaticResource AccentColorBrush}" Pen="{x:Null}">
+                                <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Pen="{x:Null}">
                                     <GeometryDrawing.Geometry>
                                         <EllipseGeometry RadiusX="2.5" RadiusY="2.5" Center="8.929,8.929" />
                                     </GeometryDrawing.Geometry>

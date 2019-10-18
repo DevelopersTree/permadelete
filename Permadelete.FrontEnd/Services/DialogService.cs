@@ -37,6 +37,11 @@ namespace Permadelete.Services
             return window;
         }
 
+        public SettingsDialog GetSettingsDialog()
+        {
+            return new SettingsDialog();
+        }
+
         public AboutDialog GetAboutDialog()
         {
             var window = new AboutDialog();

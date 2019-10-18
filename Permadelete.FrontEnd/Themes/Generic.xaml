@@ -166,15 +166,15 @@
     </Style>
 
     <Style TargetType="local:FlatWindow">
-        <Setter Property="Foreground" Value="{StaticResource ForegroundColorBrush}" />
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:FlatWindow">
-                    <Border x:Name="WindowBorder" Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}" Background="{StaticResource WindowBackgroundColorBrush}">
+                    <Border x:Name="WindowBorder" Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}" Background="{DynamicResource WindowBackgroundColorBrush}">
                         <Grid>
                             <Border BorderThickness="1">
                                 <AdornerDecorator>
@@ -186,10 +186,10 @@
                                         </Grid.RowDefinitions>
 
                                         <!--Titlebar background-->
-                                        <Rectangle x:Name="HeaderBackground" Height="30" Fill="{StaticResource TitlebarBackgroundThatch}"/>
+                                        <Rectangle x:Name="HeaderBackground" Height="30" Fill="{DynamicResource TitlebarBackgroundThatch}"/>
 
                                         <!--Client Area-->
-                                        <Rectangle Fill="{StaticResource WindowBackgroundThatch}" Grid.Row="1" Grid.RowSpan="2" />
+                                        <Rectangle Fill="{DynamicResource WindowBackgroundThatch}" Grid.Row="1" Grid.RowSpan="2" />
                                         <ContentPresenter Grid.Row="1" Grid.RowSpan="2" />
 
                                         <!--Titlebar-->
@@ -201,12 +201,12 @@
                                             </Grid.ColumnDefinitions>
 
                                             <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="{TemplateBinding Icon}" Height="16" Width="16"/>
-                                            <TextBlock x:Name="WindowTitleTextBlock" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextAlignment="Center" Text="{TemplateBinding Title}"  FontSize="14"  Foreground="{StaticResource WindowBackgroundColorBrush}" Grid.Column="1"/>
+                                            <TextBlock x:Name="WindowTitleTextBlock" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextAlignment="Center" Text="{TemplateBinding Title}"  FontSize="14"  Foreground="{DynamicResource WindowBackgroundColorBrush}" Grid.Column="1"/>
 
                                             <!-- Window Handling Buttons-->
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2">
                                                 
-                                                <Button x:Name="Minimize" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{StaticResource TitlebarButtonStyle}">
+                                                <Button x:Name="Minimize" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{DynamicResource TitlebarButtonStyle}">
                                                     <Grid Width="30" Height="30" RenderTransform="1,0,0,1,0,1">
                                                         <Path Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center"                                                   
                                                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
@@ -216,7 +216,7 @@
                                                 </Button>
                                                 
                                                 <Grid Margin="1,0,1,0">
-                                                    <Button x:Name="Restore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" ToolTip="Restore" Visibility="Collapsed" Style="{StaticResource TitlebarButtonStyle}">
+                                                    <Button x:Name="Restore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" ToolTip="Restore" Visibility="Collapsed" Style="{DynamicResource TitlebarButtonStyle}">
                                                         <Grid Width="30" Height="30" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
                                                             <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                 <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
@@ -225,8 +225,8 @@
                                                             </Canvas>
                                                         </Grid>
                                                     </Button>
-                                                    
-                                                    <Button x:Name="Maximize" Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" ToolTip="Maximize" Style="{StaticResource TitlebarButtonStyle}">
+
+                                                    <Button x:Name="Maximize" Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" ToolTip="Maximize" Style="{DynamicResource TitlebarButtonStyle}">
                                                         <Grid Width="30" Height="30">
                                                             <Canvas Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                 <Path Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True" Stretch="Uniform"
@@ -235,8 +235,8 @@
                                                         </Grid>
                                                     </Button>
                                                 </Grid>
-                                                
-                                                <Button Content="{StaticResource closeIconPath}" Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="Close" VerticalAlignment="Center"  Height="30" Width="30" Style="{StaticResource TitlebarButtonStyle}" />
+
+                                                <Button Content="{StaticResource closeIconPath}" Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="Close" VerticalAlignment="Center"  Height="30" Width="30" Style="{DynamicResource TitlebarButtonStyle}" />
 
                                             </StackPanel>
 
@@ -245,12 +245,12 @@
                                         <!--Resize grip-->
                                         <Grid Grid.Row="2">
                                             <Path x:Name="ResizeGrip" Visibility="Collapsed" Width="12" Height="12" Margin="1" HorizontalAlignment="Right"
-                                        Stroke="{StaticResource AccentColorBrush}" StrokeThickness="1" Stretch="None" Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
+                                        Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1" Stretch="None" Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
                                         </Grid>
                                     </Grid>
                                 </AdornerDecorator>
                             </Border>
-                            <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1"/>
+                            <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
