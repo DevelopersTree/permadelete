@@ -38,14 +38,14 @@ namespace Permadelete.ViewModels
         public bool ShowBusyIndicator
         {
             get { return _showBusyIndicator; }
-            set { SetProperty(ref _showBusyIndicator, value); }
+            set { Set(ref _showBusyIndicator, value); }
         }
 
         private string _statusMessage;
         public string StatusMessage
         {
             get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
+            set { Set(ref _statusMessage, value); }
         }
 
         public string Title { get { return Constants.APPLICATION_NAME; } }

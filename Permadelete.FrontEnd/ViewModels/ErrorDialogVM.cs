@@ -26,28 +26,28 @@ namespace Permadelete.ViewModels
         public string Title
         {
             get { return _title; }
-            set { SetProperty(ref _title, value); }
+            set { Set(ref _title, value); }
         }
 
         private string _details;
         public string Details
         {
             get { return _details; }
-            set { SetProperty(ref _details, value); }
+            set { Set(ref _details, value); }
         }
 
         private string _message;
         public string Message
         {
             get { return _message; }
-            set { SetProperty(ref _message, value); }
+            set { Set(ref _message, value); }
         }
 
         private string _okButton;
         public string OkButton
         {
             get { return _okButton; }
-            set { SetProperty(ref _okButton, value); }
+            set { Set(ref _okButton, value); }
         }
 
         private MessageIcon _messageIcon;
@@ -56,7 +56,7 @@ namespace Permadelete.ViewModels
             get { return _messageIcon; }
             set
             {
-                if (SetProperty(ref _messageIcon, value))
+                if (Set(ref _messageIcon, value))
                     RaisePropertyChanged(nameof(Icon));
             }
         }

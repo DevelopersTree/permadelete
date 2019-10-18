@@ -77,7 +77,7 @@
 
             <Ellipse x:Name="borderEllipse" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ElementName=border, Path=Tag}" Height="{Binding ElementName=border, Path=Tag}"/>
             <Image Source="{Binding Icon}" HorizontalAlignment="Center" Width="24" Stretch="Fill" VerticalAlignment="Center"/>
-            <TextBlock FontSize="14" Foreground="{StaticResource ForegroundColorBrush}" Text="{Binding Message}" Grid.Column="2" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColorBrush}" Text="{Binding Message}" Grid.Column="2" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
             <Rectangle Fill="#4333" Grid.Column="3" />
             <Button x:Name="closeButton" Grid.Column="3" Content="{StaticResource closeIconPath}" Click="closeButton_Click" Style="{StaticResource TitlebarButtonStyle}"/>
         </Grid>

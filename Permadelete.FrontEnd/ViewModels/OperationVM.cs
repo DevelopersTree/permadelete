@@ -51,7 +51,7 @@ namespace Permadelete.ViewModels
             get { return _path; }
             set
             {
-                if (SetProperty(ref _path, value))
+                if (Set(ref _path, value))
                 {
                     RaisePropertyChanged(nameof(Type));
                     RaisePropertyChanged(nameof(Image));
@@ -80,7 +80,7 @@ namespace Permadelete.ViewModels
             private set
             {
                 _oldProgress = _progress;
-                if (SetProperty(ref _progress, value))
+                if (Set(ref _progress, value))
                 {
                     var change = _progress - _oldProgress;
                     var interval = (DateTime.Now - _lastProgressReport).TotalSeconds;
@@ -101,14 +101,14 @@ namespace Permadelete.ViewModels
         public TimeSpan TimeRemaining
         {
             get { return _timeRemaining; }
-            private set { SetProperty(ref _timeRemaining, value); }
+            private set { Set(ref _timeRemaining, value); }
         }
 
         private long _bytesComplete;
         public long BytesComplete
         {
             get { return _bytesComplete; }
-            set { SetProperty(ref _bytesComplete, value); }
+            set { Set(ref _bytesComplete, value); }
         }
 
         private long _bytes = -1;
@@ -117,7 +117,7 @@ namespace Permadelete.ViewModels
             get { return _bytes; }
             set
             {
-                if (SetProperty(ref _bytes, value))
+                if (Set(ref _bytes, value))
                     RaisePropertyChanged(nameof(Size));
             }
         }

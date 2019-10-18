@@ -107,8 +107,15 @@
     <Compile Include="Enums\UpdateStatus.cs" />
     <Compile Include="Helpers\IExpireable.cs" />
     <Compile Include="Helpers\NotificationEventArgs.cs" />
+    <Compile Include="Helpers\SettingsHelper.cs" />
+    <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="ViewModels\AgileWindowVM.cs" />
     <Compile Include="ViewModels\NotificationVM.cs" />
+    <Compile Include="ViewModels\SelectableVM.cs" />
+    <Compile Include="ViewModels\SettingsVM.cs" />
+    <Compile Include="Views\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AgileWindow.xaml.cs">
       <DependentUpon>AgileWindow.xaml</DependentUpon>
     </Compile>
@@ -125,6 +132,7 @@
       <DependentUpon>Notification.xaml</DependentUpon>
     </Compile>
     <Compile Include="Xaml\CaseConverter.cs" />
+    <Compile Include="Xaml\ColorToBrushConverter.cs" />
     <Compile Include="Xaml\ProgressDoubleToIntConverter.cs" />
     <Compile Include="Xaml\TimespanToStringConverter.cs" />
     <Compile Include="Helpers\Constants.cs" />
@@ -182,6 +190,7 @@
     <Resource Include="Images\waste_gray.png" />
     <Resource Include="Images\file.png" />
     <Resource Include="Images\folder.png" />
+    <Resource Include="Images\settings_24.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -218,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
