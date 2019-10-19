@@ -34,6 +34,8 @@ namespace Permadelete.ApplicationManagement
             // subsequent launches
             App.Current.Activate();
 
+            var settings = SettingsHelper.GetSettings();
+
             if (eventArgs.CommandLine.Count() > 0)
                 await App.Current.DeleteFilesOrFolders(eventArgs.CommandLine);
         }
@@ -42,7 +44,7 @@ namespace Permadelete.ApplicationManagement
         {
 #if CLASSIC
             if (string.IsNullOrWhiteSpace(Keys.DROPBOX_API_KEY))
-                DialogService.Instance.GetMessageDialog("API key not found", "Could not find Dropbox API key.", "Ok").ShowDialog();
+                DialogService.GetMessageDialog("API key not found", "Could not find Dropbox API key.", "Ok").ShowDialog();
             else
             {
                 UpdateManager.Initialize(Keys.DROPBOX_API_KEY);

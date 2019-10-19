@@ -33,7 +33,7 @@ namespace Permadelete.ViewModels
                 BytesComplete += newBytes;
 
                 if (Bytes != -1)
-                    Progress = ((double)BytesComplete / Bytes) * 100;
+                    Progress = ((double)BytesComplete / (Bytes * Passes)) * 100;
             };
         }
         #endregion
@@ -163,6 +163,13 @@ namespace Permadelete.ViewModels
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
         public Progress<long> TaskProgress { get; set; }
+
+        private int _passes;
+        public int Passes
+        {
+            get { return _passes; }
+            set { Set(ref _passes, value); }
+        }
         #endregion
 
         #region Commands

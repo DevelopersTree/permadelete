@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Permadelete.ApplicationManagement;
-using Permadelete.Services;
 using System;
 using System.IO;
-using System.Windows.Media;
 
 namespace Permadelete.Helpers
 {
@@ -37,6 +34,18 @@ namespace Permadelete.Helpers
     {
         public string Theme { get; set; }
         public Theme GetTheme() => ThemeHelper.GetThemeOrDefault(Theme);
-        public int DefaultOverwritePasses { get; set; } = 1;
+
+        private int _defaultOverwritePasses = 1;
+        public int DefaultOverwritePasses
+        {
+            get { return _defaultOverwritePasses; }
+            set
+            {
+                if (value < 1 || value > 10)
+                    return;
+                _defaultOverwritePasses = value;
+            }
+        }
+
     }
 }

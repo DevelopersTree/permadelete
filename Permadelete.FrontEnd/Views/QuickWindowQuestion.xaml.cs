@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Permadelete.Views
 {
     /// <summary>
-    /// Interaction logic for AgileWindowProgress.xaml
+    /// Interaction logic for QuickWindowQuestion.xaml
     /// </summary>
-    public partial class AgileWindowProgress : UserControl
+    public partial class QuickWindowQuestion : UserControl
     {
-        public AgileWindowProgress()
+        public QuickWindowQuestion()
         {
             InitializeComponent();
         }

@@ -10,50 +10,39 @@ using System.Windows;
 
 namespace Permadelete.Services
 {
-    public sealed class DialogService
+    public static class DialogService
     {
-        #region Constructor
-        private DialogService()
-        {
-
-        }
-        #endregion
-
-        #region Properties
-        // using Lazy<T> here makes the the field both lazily loaded and thread safe
-        // more info: http://csharpindepth.com/Articles/General/Singleton.aspx
-        private static readonly Lazy<DialogService> _instance = new Lazy<DialogService>(() => new DialogService());
-        public static DialogService Instance
-        {
-            get { return _instance.Value; }
-        }
-        #endregion
 
         #region Methods
-        public ErrorDialog GetErrorDialog(string title, Exception exception)
+        public static ErrorDialog GetErrorDialog(string title, Exception exception)
         {
             var window = new ErrorDialog();
             window.DataContext = new ErrorDialogVM(title, exception.Message, exception);
             return window;
         }
 
-        public SettingsDialog GetSettingsDialog()
+        public static SettingsDialog GetSettingsDialog()
         {
             return new SettingsDialog();
         }
 
-        public AboutDialog GetAboutDialog()
+        public static AboutDialog GetAboutDialog()
         {
             var window = new AboutDialog();
             return window;
         }
 
-        public MessageDialog GetMessageDialog(string title, string message, string okButton)
+        public static ConfirmDialog GetConfirmDialog(string message)
+        {
+            return new ConfirmDialog(message);
+        }
+
+        public static MessageDialog GetMessageDialog(string title, string message, string okButton)
         {
             return GetMessageDialog(title, message, MessageIcon.Information, okButton, null, false);
         }
 
-        public MessageDialog GetMessageDialog(string title, string message, MessageIcon icon, string okButton, string cancelButton, bool isDestructive)
+        public static MessageDialog GetMessageDialog(string title, string message, MessageIcon icon, string okButton, string cancelButton, bool isDestructive)
         {
             var dataContext = new MessageDialogVM(title, message, icon, okButton, cancelButton, isDestructive);
             var window = new MessageDialog();

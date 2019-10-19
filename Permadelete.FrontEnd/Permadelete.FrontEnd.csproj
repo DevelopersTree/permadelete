@@ -109,24 +109,29 @@
     <Compile Include="Helpers\NotificationEventArgs.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="ViewModels\AgileWindowVM.cs" />
+    <Compile Include="Models\ConfirmResult.cs" />
+    <Compile Include="Models\OperationProgress.cs" />
+    <Compile Include="ViewModels\QuickWindowVM.cs" />
     <Compile Include="ViewModels\NotificationVM.cs" />
     <Compile Include="ViewModels\SelectableVM.cs" />
     <Compile Include="ViewModels\SettingsVM.cs" />
+    <Compile Include="Views\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuickWindowQuestion.xaml.cs">
+      <DependentUpon>QuickWindowQuestion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AgileWindow.xaml.cs">
-      <DependentUpon>AgileWindow.xaml</DependentUpon>
+    <Compile Include="Views\QuickWindow.xaml.cs">
+      <DependentUpon>QuickWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AgileWindowNotification.xaml.cs">
-      <DependentUpon>AgileWindowNotification.xaml</DependentUpon>
+    <Compile Include="Views\QuickWindowNotification.xaml.cs">
+      <DependentUpon>QuickWindowNotification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AgileWindowProgress.xaml.cs">
-      <DependentUpon>AgileWindowProgress.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AgileWindowQuestion.xaml.cs">
-      <DependentUpon>AgileWindowQuestion.xaml</DependentUpon>
+    <Compile Include="Views\QuickWindowProgress.xaml.cs">
+      <DependentUpon>QuickWindowProgress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Notification.xaml.cs">
       <DependentUpon>Notification.xaml</DependentUpon>
@@ -230,6 +235,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuickWindowQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -238,19 +251,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AgileWindow.xaml">
+    <Page Include="Views\QuickWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AgileWindowNotification.xaml">
+    <Page Include="Views\QuickWindowNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AgileWindowProgress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AgileWindowQuestion.xaml">
+    <Page Include="Views\QuickWindowProgress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
