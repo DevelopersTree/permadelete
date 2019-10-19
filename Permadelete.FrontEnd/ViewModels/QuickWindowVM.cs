@@ -1,5 +1,6 @@
 using Permadelete.ApplicationManagement;
 using Permadelete.Enums;
+using Permadelete.Helpers;
 using Permadelete.Mvvm;
 using Permadelete.Services;
 using Permadelete.Views;
@@ -19,9 +20,9 @@ using System.Windows.Threading;
 
 namespace Permadelete.ViewModels
 {
-    public class AgileWindowVM : BindableBase
+    public class QuickWindowVM : BindableBase
     {
-        public AgileWindowVM(IEnumerable<string> paths)
+        public QuickWindowVM(IEnumerable<string> paths)
         {
             string names;
             string pronoun;
@@ -82,7 +83,7 @@ namespace Permadelete.ViewModels
                 TaskbarState = TaskbarItemProgressState.Normal;
 
                 _progressTimer.Start();
-                await App.Current.DeleteFilesOrFolders(paths, true);
+                await App.Current.DeleteFilesOrFolders(paths, NumberOfPasses);
 
                 if (_hasPendingNotification)
                 {
@@ -108,6 +109,9 @@ namespace Permadelete.ViewModels
             });
 
             App.Current.NotificationRaised += OnNotificationRaised;
+
+            var settings = SettingsHelper.GetSettings();
+            NumberOfPasses = settings.DefaultOverwritePasses;
         }
 
         #region Fields
@@ -216,6 +220,14 @@ namespace Permadelete.ViewModels
             get { return _notificationVisibility; }
             set { Set(ref _notificationVisibility, value); }
         }
+
+        private int _numberOfPasses;
+        public int NumberOfPasses
+        {
+            get { return _numberOfPasses; }
+            set { Set(ref _numberOfPasses, value); }
+        }
+
         #endregion
 
         #region Methods

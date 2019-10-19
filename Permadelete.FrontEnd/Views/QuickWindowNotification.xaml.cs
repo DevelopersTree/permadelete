@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Permadelete.Views
 {
     /// <summary>
-    /// Interaction logic for AgileWindowAlert.xaml
+    /// Interaction logic for QuickWindowNotification.xaml
     /// </summary>
-    public partial class AgileWindowNotification : UserControl
+    public partial class QuickWindowNotification : UserControl
     {
-        public AgileWindowNotification()
+        public QuickWindowNotification()
         {
             InitializeComponent();
         }

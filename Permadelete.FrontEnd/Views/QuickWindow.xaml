@@ -1,4 +1,4 @@
-﻿<controlns:FlatWindow x:Class="Permadelete.Views.AgileWindow"
+﻿<controlns:FlatWindow x:Class="Permadelete.Views.QuickWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Permadelete.Views"
         xmlns:controlns="clr-namespace:Permadelete.Controls"
         mc:Ignorable="d" Icon="/Images/icon_24.png" WindowStartupLocation="CenterScreen"
-        Title="{Binding WindowTitle}" Height="200" Width="400" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="{Binding WindowTitle}" Height="250" Width="400" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo ProgressState="{Binding TaskbarState}" ProgressValue="{Binding Progress}" />
     </Window.TaskbarItemInfo>
@@ -14,8 +14,8 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </Window.InputBindings>
     <Grid >
-        <local:AgileWindowNotification Visibility="{Binding NotificationVisibility}"/>
-        <local:AgileWindowProgress Visibility="{Binding ProgressVisibility}"/>
-        <local:AgileWindowQuestion Visibility="{Binding QuestionVisibility}" Background="White"/>
+        <local:QuickWindowNotification Visibility="{Binding NotificationVisibility}"/>
+        <local:QuickWindowProgress Visibility="{Binding ProgressVisibility}"/>
+        <local:QuickWindowQuestion Visibility="{Binding QuestionVisibility}" Background="White"/>
     </Grid>
 </controlns:FlatWindow>

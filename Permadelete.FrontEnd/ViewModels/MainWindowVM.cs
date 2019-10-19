@@ -23,14 +23,14 @@ namespace Permadelete.ViewModels
         {
             ShowAboutCommand = new DelegateCommand(parent =>
             {
-                var dialog = DialogService.Instance.GetAboutDialog();
+                var dialog = DialogService.GetAboutDialog();
                 dialog.Owner = (Window)parent;
                 dialog.ShowDialog();
             });
 
             ShowSettingsCommand = new DelegateCommand(parent =>
             {
-                var dialog = DialogService.Instance.GetSettingsDialog();
+                var dialog = DialogService.GetSettingsDialog();
                 dialog.Owner = (Window)parent;
                 dialog.ShowDialog();
             });

@@ -14,6 +14,7 @@ using System.Linq;
 using System.IO;
 using Permadelete.Enums;
 using Permadelete.Helpers;
+using Permadelete.Models;
 
 namespace Permadelete.ApplicationManagement
 {
@@ -72,8 +73,8 @@ namespace Permadelete.ApplicationManagement
             }
             else
             {
-                var window = new AgileWindow();
-                window.DataContext = new AgileWindowVM(e.Args);
+                var window = new QuickWindow();
+                window.DataContext = new QuickWindowVM(e.Args);
                 window.Show();
             }
 
@@ -82,19 +83,22 @@ namespace Permadelete.ApplicationManagement
         #endregion
 
         #region Methods
-        public async Task DeleteFilesOrFolders(IEnumerable<string> paths, bool silent = false)
-        {
-            if (!silent)
-            {
-                var userAgreed = await GetUserAgreedToDeleteAsync(paths);
-                if (userAgreed != true) return;
-            }
 
+        public async Task DeleteFilesOrFolders(IEnumerable<string> paths)
+        {
+            var result = await ConfirmShreddingAsync(paths);
+            if (result.GoAhead != true) return;
+
+            await DeleteFilesOrFolders(paths, result.Passes);
+        }
+
+        public async Task DeleteFilesOrFolders(IEnumerable<string> paths, int passes)
+        {
             var duplicates = Operations.Select(item => item.Path).Intersect(paths);
             paths = paths.Except(duplicates);
 
             var validPaths = paths.Where(path => System.IO.File.Exists(path) || Directory.Exists(path));
-            var tasks = validPaths.Select(item => ShredFileOrFolder(item));
+            var tasks = validPaths.Select(item => ShredFileOrFolder(item, passes));
 
             await Task.WhenAll(tasks);
         }
@@ -157,15 +161,15 @@ namespace Permadelete.ApplicationManagement
             TaskScheduler.UnobservedTaskException += (s, args) => LogUnhandledException(args.Exception);
         }
 
-        private async Task ShredFileOrFolder(string path)
+        private async Task ShredFileOrFolder(string path, int passes)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException("path should not be null or empty.");
 
-            var operation = new OperationVM { Path = path };
+            var operation = new OperationVM { Path = path, Passes = passes };
             AddOperation(operation);
 
-            var task = ShredderService.Instance.ShredItemAsync(operation.Path, operation.CancellationTokenSource.Token, operation.TaskProgress);
+            var task = ShredderService.Instance.ShredItemAsync(operation.Path, passes, operation.CancellationTokenSource.Token, operation.TaskProgress);
             try
             {
                 var everythingWasShreded = await task;
@@ -191,7 +195,7 @@ namespace Permadelete.ApplicationManagement
             catch (Exception ex)
             {
                 LoggerService.Instance.Error(ex);
-                DialogService.Instance.GetErrorDialog("Could not shred item", ex).ShowDialog();
+                DialogService.GetErrorDialog("Could not shred item", ex).ShowDialog();
             }
             finally
             {
@@ -203,7 +207,7 @@ namespace Permadelete.ApplicationManagement
 
         public void RemoveOperation(OperationVM operation) => _operationsSource.Remove(operation);
 
-        private async Task<bool?> GetUserAgreedToDeleteAsync(IEnumerable<string> paths)
+        private async Task<ConfirmResult> ConfirmShreddingAsync(IEnumerable<string> paths)
         {
             string message;
             string okText = "Shred ";
@@ -220,16 +224,18 @@ namespace Permadelete.ApplicationManagement
                 message = $"Are you sure you want to shred these {paths.Count()} items?";
                 okText += "them";
             }
-            var dialog = DialogService.Instance.GetMessageDialog("Shredding items", message, MessageIcon.Question, okText, "Cancel", true);
+            var dialog = DialogService.GetConfirmDialog(message);
             dialog.Owner = this.MainWindow;
-            return await dialog.ShowDialogAsync();
+            var result = await dialog.ShowDialogAsync();
+
+            return new ConfirmResult(result, dialog.Passes);
         }
         private void LogUnhandledException(Exception e)
         {
 #if CLASSIC
             LoggerService.Instance.Error(e);
 #endif
-            DialogService.Instance.GetErrorDialog("An unxpected error occured", e).ShowDialog();
+            DialogService.GetErrorDialog("An unxpected error occured", e).ShowDialog();
         }
 
         private void OnUpdateStatusChanged()

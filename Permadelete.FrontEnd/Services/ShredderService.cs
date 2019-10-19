@@ -37,7 +37,7 @@ namespace Permadelete.Services
         #endregion
 
         #region Methods
-        public async Task<bool> ShredItemAsync(string path, CancellationToken cancellationToken, IProgress<long> progress)
+        public async Task<bool> ShredItemAsync(string path, int passes, CancellationToken cancellationToken, IProgress<long> progress)
         {
             FileInfo file = null;
             DirectoryInfo folder = null;
@@ -50,13 +50,13 @@ namespace Permadelete.Services
                 throw new ArgumentException($"This path does not exist: {path}");
 
             if (file != null)
-                return await ShredFileAsync(file, cancellationToken, progress).ConfigureAwait(false);
+                return await ShredFileAsync(file, passes, cancellationToken, progress).ConfigureAwait(false);
 
             if (cancellationToken != null)
                 cancellationToken.ThrowIfCancellationRequested();
 
             if (folder != null)
-                return await ShredFolderAsync(folder, cancellationToken, progress).ConfigureAwait(false);
+                return await ShredFolderAsync(folder, passes, cancellationToken, progress).ConfigureAwait(false);
 
             return false;
         }
@@ -80,9 +80,9 @@ namespace Permadelete.Services
             return length;
         }
 
-        public async Task<bool> ShredFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<long> progress)
+        public async Task<bool> ShredFileAsync(FileInfo file, int passes, CancellationToken cancellationToken, IProgress<long> progress)
         {
-            var totalBytes = file.Length;
+            var totalBytes = file.Length * passes;
 
             var writeProgress = new Progress<long>();
             writeProgress.ProgressChanged += (sender, newBytes) =>
@@ -100,15 +100,24 @@ namespace Permadelete.Services
                 file.Attributes = FileAttributes.Normal;
                 file.Attributes = FileAttributes.NotContentIndexed;
 
-                var result = await OverWriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
-                if (!result) return result;
+                for (int i = 0; i < passes; i++)
+                {
+                    var result = await OverwriteFileAsync(file, cancellationToken, writeProgress).ConfigureAwait(false);
+                    if (!result) return result;
 
-                if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
-                DestroyFileMetadata(file);
+                    if (cancellationToken != null) cancellationToken.ThrowIfCancellationRequested();
+                }
+
+                using (var stream = File.OpenWrite(file.FullName))
+                {
+                    stream.SetLength(0);
+                }
+
+                DestroyFileMetadata(file);              
             }
             else
             {
-                progress.Report(file.Length);
+                progress.Report(file.Length * passes);
             }
 
             file.Delete();
@@ -116,7 +125,7 @@ namespace Permadelete.Services
             return true;
         }
 
-        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, CancellationToken cancellationToken, IProgress<long> progress)
+        public async Task<bool> ShredFolderAsync(DirectoryInfo folder, int passes, CancellationToken cancellationToken, IProgress<long> progress)
         {
             var totalLength = await GetFolderSize(folder);
             var everythingWasShredded = true;
@@ -142,7 +151,7 @@ namespace Permadelete.Services
                         {
                             length = file.Length;
                             itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-                            var result = await ShredFileAsync(file, cancellationToken, itemProgress).ConfigureAwait(false);
+                            var result = await ShredFileAsync(file, passes, cancellationToken, itemProgress).ConfigureAwait(false);
 
                             if (!result) return result;
                         }
@@ -151,7 +160,7 @@ namespace Permadelete.Services
                         {
                             length = await GetFolderSize(dir);
                             itemProgress.ProgressChanged += (sender, newBytes) => progress.Report(newBytes);
-                            var result = await ShredFolderAsync(dir, cancellationToken, itemProgress).ConfigureAwait(false);
+                            var result = await ShredFolderAsync(dir, passes, cancellationToken, itemProgress).ConfigureAwait(false);
 
                             if (!result) return result;
                         }
@@ -196,7 +205,7 @@ namespace Permadelete.Services
         #endregion
 
         #region Private Methods
-        private async Task<bool> OverWriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<long> progress)
+        private async Task<bool> OverwriteFileAsync(FileInfo file, CancellationToken cancellationToken, IProgress<long> progress)
         {
             using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Write, FileShare.None))
             {
@@ -219,11 +228,6 @@ namespace Permadelete.Services
                     if (cancellationToken != null)
                         cancellationToken.ThrowIfCancellationRequested();
                 }
-
-                await Task.Run(() =>
-                {
-                    stream.SetLength(0);
-                }).ConfigureAwait(false);
             }
 
             return true;
