@@ -10,7 +10,7 @@ namespace Permadelete.Helpers
 {
     public class ThemeHelper
     {
-        public const string DEFAULT_THEME_NAME = "Blue Dark";
+        public const string DEFAULT_THEME_NAME = "Blue";
 
         private const string LIGHT_THEME_BACKGROUND = "#FFFEFEFE";
         private const string LIGHT_THEME_TEXT_COLOR = "#F333";
@@ -44,41 +44,67 @@ namespace Permadelete.Helpers
             {
                 new SerializedTheme
                 {
-                    Name = "Magenta Light",
-                    AccentColor= "#FF8E44AD",
-                    AccentLightColor = "#FF9B59B6",
+                    Name = "Magenta",
+                    AccentColor= "#8E44AD",
+                    AccentLightColor = "#9B59B6",
                     BackgroundColor = LIGHT_THEME_BACKGROUND,
                     TextColor = LIGHT_THEME_TEXT_COLOR,
                 },
                 new SerializedTheme
                 {
-                    Name = "Magenta Dark",
-                    AccentColor= "#FF8E44AD",
-                    AccentLightColor = "#FF9B59B6",
-                    BackgroundColor = DARK_THEME_BACKGROUND,
-                    TextColor = DARK_THEME_TEXT_COLOR,
-                },
-                new SerializedTheme
-                {
-                    Name = "Blue Light",
-                    AccentColor= "#1E90FF",
-                    AccentLightColor = "#00BFFF",
+                    Name = "Blue",
+                    AccentColor= "#2196F3",
+                    AccentLightColor = "#42A5F5",
                     BackgroundColor = LIGHT_THEME_BACKGROUND,
                     TextColor = LIGHT_THEME_TEXT_COLOR,
                 },
                 new SerializedTheme
                 {
-                    Name = "Blue Dark",
-                    AccentColor= "#1E90FF",
-                    AccentLightColor = "#00BFFF",
-                    BackgroundColor = DARK_THEME_BACKGROUND,
-                    TextColor = DARK_THEME_TEXT_COLOR,
+                    Name = "Indigo",
+                    AccentColor= "#3F51B5",
+                    AccentLightColor = "#5C6BC0",
+                    BackgroundColor = LIGHT_THEME_BACKGROUND,
+                    TextColor = LIGHT_THEME_TEXT_COLOR,
+                },
+                new SerializedTheme
+                {
+                    Name = "Pink",
+                    AccentColor= "#E91E63",
+                    AccentLightColor = "#EC407A",
+                    BackgroundColor = LIGHT_THEME_BACKGROUND,
+                    TextColor = LIGHT_THEME_TEXT_COLOR,
+                },
+                new SerializedTheme
+                {
+                    Name = "Green",
+                    AccentColor= "#009688",
+                    AccentLightColor = "#26A69A",
+                    BackgroundColor = LIGHT_THEME_BACKGROUND,
+                    TextColor = LIGHT_THEME_TEXT_COLOR,
+                },
+                new SerializedTheme
+                {
+                    Name = "Orange",
+                    AccentColor= "#FF9800",
+                    AccentLightColor = "#FFA726",
+                    BackgroundColor = LIGHT_THEME_BACKGROUND,
+                    TextColor = LIGHT_THEME_TEXT_COLOR,
+                },
+                new SerializedTheme
+                {
+                    Name = "Gray",
+                    AccentColor= "#212121",
+                    AccentLightColor = "#424242",
+                    BackgroundColor = LIGHT_THEME_BACKGROUND,
+                    TextColor = LIGHT_THEME_TEXT_COLOR,
                 },
             };
         }
 
         public static void ApplyTheme(Theme theme)
         {
+            if (theme is null) return;
+
             UpdateSolidColorBrush("AccentColor", theme.AccentColor);
             UpdateSolidColorBrush("AccentLightColor", theme.AccentLightColor);
             UpdateSolidColorBrush("WindowBackgroundColor", theme.BackgroundColor);
