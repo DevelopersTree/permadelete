@@ -26,7 +26,7 @@
                       SelectedItem="{Binding SelectedTheme}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
+                        <WrapPanel Margin="5, 0, 5, 10" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
 
