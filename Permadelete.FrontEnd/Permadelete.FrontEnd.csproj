@@ -310,11 +310,14 @@ copy $(ProjectDir)\Helpers\Keys.cs $(SolutionDir)\Publish\Keys-empty.cs /y
 copy $(SolutionDir)\Publish\Keys.cs $(ProjectDir)\Helpers\Keys.cs /y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>echo "Cleaning up..."
+    <PostBuildEvent>CALL "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+
+echo "Cleaning up..."
 copy $(SolutionDir)\Publish\Keys-empty.cs  $(ProjectDir)\Helpers\Keys.cs /y
 del /Q /F $(TargetDir)\SharpRaven.pdb
 
 if "$(ConfigurationName)" == "WindowsStore" (
+  %25comspec%25 /k "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
   echo "Making Appx package..."
   echo "Runnning: MakeAppx pack /o /d $(TargetDir) /p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx /l"
   MakeAppx pack /o /d $(TargetDir) /p $(ProjectDir)\bin\WindowsStorePackage\Permadelete.appx /l
@@ -329,9 +332,9 @@ if "$(ConfigurationName)" == "Classic" (
   echo "Running: $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)"
   $(SolutionDir)Publish\ufactory\ufactory.exe -source $(TargetDir) -output $(SolutionDir)Publish\Update -target $(TargetName)$(TargetExt)
 
-  if exist "C:\Program files (x86)\Inno Setup 5\ISCC.exe" (
+  if exist "C:\Program files (x86)\Inno Setup 6\ISCC.exe" (
   echo "Compiling installer..."
-  start "" "C:\Program files (x86)\Inno Setup 5\ISCC.exe" "$(SolutionDir)Publish\Installer.iss"
+  start "" "C:\Program files (x86)\Inno Setup 6\ISCC.exe" "$(SolutionDir)Publish\Installer.iss"
   )
 )</PostBuildEvent>
   </PropertyGroup>
