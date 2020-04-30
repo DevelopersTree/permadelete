@@ -6,11 +6,22 @@ namespace Permadelete.Helpers
 {
     public class SettingsHelper
     {
+        private static string GetSettingsPath()
+        {
+#if WINDOWS_STORE
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var localState = "Packages\\50203DevelopersTree.Permadelete_65cpy1vfn42n6\\LocalState";
+            return Path.Combine(appData, localState, Constants.SETTINGS_PATH);
+#else
+            return Constants.SETTINGS_PATH;
+#endif
+        }
+
         public static Settings GetSettings()
         {
-            if (File.Exists(Constants.SETTINGS_PATH))
+            if (File.Exists(GetSettingsPath()))
             {
-                var json = File.ReadAllText(Constants.SETTINGS_PATH);
+                var json = File.ReadAllText(GetSettingsPath());
 
                 try
                 {
@@ -26,7 +37,7 @@ namespace Permadelete.Helpers
         public static void SaveSettings(Settings settings)
         {
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
-            File.WriteAllText(Constants.SETTINGS_PATH, json);
+            File.WriteAllText(GetSettingsPath(), json);
         }
     }
 
