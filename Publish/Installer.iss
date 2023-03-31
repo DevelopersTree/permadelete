@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Permadelete"
-#define MyAppVersion "0.6.0"
+#define MyAppVersion "0.6.2"
 #define MyAppPublisher "Developers Tree"
-#define MyAppURL "https://encrypt0r.github.io/permadelete/"
+#define MyAppURL "https://developerstree.github.io/permadelete/"
 #define MyAppExeName "Permadelete.exe"
 
 [Setup]
